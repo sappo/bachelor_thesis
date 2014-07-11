@@ -20,18 +20,7 @@
 
 \begin{comment}
 \begin{abstract} 
-\LaTeX\ bietet Buchdruckqualität für jedermann.
-Wir zeigen anhand dieses durch persönliche Präferenzen geprägtes Template, 
-wie man Buchdruckqualität für eine Abschlussarbeit einfach erreichen kann.
-Dazu sind beispielhaft Lösungen zu üblichen Fragestellungen im Dokument 
-demonstriert.
-Neben den grundlegenden For\-ma\-tie\-rungs\-möglich\-keiten mit \LaTeX\ wird 
-insbesondere das Erstellen und Einbinden von Grafiken und Listings gezeigt.
-Des Weiteren werden Literatur- und andere Verzeichnisse eingebunden.
-Nicht zuletzt finden sich auch sachdienliche Hinweise zum
-Schreiben.
 \end{abstract}
-
 \epigraphhead[70]{\epigraph{The user's going to pick dancing pigs over security every time.}{\textit{Bruce Schneier}}}
 \epigraphhead[70]{\epigraph{Companies spend millions of dollars on firewalls, encryption and secure access devices, and it’s money wasted, because none of these measures address the weakest link in the security chain.}{\textit{Kevin Mitnick}}}
 \epigraphhead[70]{\epigraph{Wisdom consists in being able to distinguish among dangers and make a choice of the least harmful.}{\textit{Niccolo Machiavelli, The Prince}}}
@@ -54,12 +43,24 @@ Schreiben.
 \item Evaluation
 \item prototypische Implementierung
 \end{itemize}
-
-\chapter{Problemfeld} \label{chap:problem}
  
-Im Bereich Kältetechnik wird Regelungstechnik zur Vernetzung und Überwachung von Kälteanlagen entwickelt. Hierzu gehören die Produkte aus der E*LDS Reihe. Diese beinhalten Verbundsteuerungen zur Kälteerzeugung, Kühlstellenregler zur temperaturgenauen Reglung aller Arten von Kühlmöbeln und Kühlräumen, Funk-Temperatursensoren und der Marktrechner als zentrale Intelligenz einer Kälteanlage. Das Team Datentechnik entwickelt die Software für den Marktrechner und stellt das zu behandelnde Problemfeld. 
+Im Bereich Kältetechnik wird Regelungstechnik zur Vernetzung und Überwachung von Kälteanlagen entwickelt. Hierzu gehören die Produkte aus der E*LDS Reihe. Diese beinhalten Verbundsteuerungen zur Kälteerzeugung, Kühlstellenregler zur temperaturgenauen Reglung aller Arten von Kühlmöbeln und Kühlräumen, Funk-Temperatursensoren und der Marktrechner als zentrale Intelligenz einer Kälteanlage.
 
-\section{Aktuelle Situation}
+\chapter{Bedrohungsmodell} \label{chap:threat}
+\epigraphhead[70]{\epigraph{The only truly secure system is one that is powered off, cast in a block of concrete and sealed in a lead-lined room with armed guards.}{\textit{Gene Spafford}}}
+
+%\begin{figure}[h]
+\begin{wrapfigure}{r}{6cm}
+\centering
+\includegraphics[width=6cm]{ssm.pdf}
+\caption{Soft Systems Methodologie}
+\label{fig:ssm}
+\end{wrapfigure}
+%\end{figure}
+
+Das Bedrohungsmodell soll auf mögliche Gefahren des aktuellen Systems hinweisen und diese schrittweise, durch geeignete Maßnahmen, eindämmen. Eine geeignete Analyse- und Designmethodik dazu bietet die Soft Systems Methodology (SSM) in Abbildung~\ref{fig:ssm}. Besonderes Augenmerk findet die Trennung von Realer Welt und Systemmodell der Realen Welt. In der ersten Phase soll die gesamte Problemsituation aus Sicht aller Beteiligten erörtert und unstrukturiert beschrieben werden. Anschließend werden diese Informationen, der relevante Problembereich im Systemmodell der Realen Welt, aus Sicht eines Verteidigers und eines Angreifers beschrieben in jeweils einem konzeptionelles Modell beschrieben. Die Modelle werden zum Schluss gegeneinander und gegen die reale Welt verglichen. Die Vorgänge können wiederholt werden bis ein zufriedenstellendes Ergebnis erzielt wurde. Aus diesem wird dann eine Menge an Änderungen festgemacht, welche vorgenommen werden sollen.
+
+\section{Problemsituation}
 
 Der Marktrechner ist das Herzstück einer Kälteanlage. Über einen CAN-Bus ist er mit allen Komponenten der Anlage verbunden. Er ist in der Lage, Komponenten zentral zu parametrieren und zu überwachen. Auf dem internen Speicher werden sämtliche Betriebsdaten und Betriebszustände, Meldungen und Alarme archiviert. Die 24-Stunden Überwachung vor Ort durch einen Mitarbeiter ist bei der Menge an Anlagen nicht wirtschaftlich. Deshalb werden heutzutage Fernservice-Zentralen eingesetzt. Aktuell sind Fernservice-Zentralen über VPN mit einem oder mehreren Unternehmensnetzwerken, ihrer Kunden, verbunden. Über dieses können die Marktrechner erreicht werden. Auf diese Weise kann eine einzige Fernservice-Zentrale Tausende Marktrechner überwachen. Tritt ein Fehler auf, kann die Fernservice-Zentrale entweder direkt eingreifen oder einen Monteur zum betreffenden Kunden schicken, der die Anlage instand setzt.
 
@@ -103,28 +104,23 @@ UA - [Marktrechner 1]
 
 Über VPN ist die Kommunikation von der Fernservice-Zentrale bis zum Unternehmensnetzwerk abgesichert. Im Netzwerk des Unternehmens ist der gesamte Datenverkehr zu und von den Marktrechnern allerdings unverschlüsselt. Daten könnten somit von jedem Teilnehmer im Netzwerk mitgelesen werden. Darüber hinaus wäre der Zugriff auf die Daten bei bekannter IP-Adresse möglich, denn es gibt keine geeignete Authentifizierung und Autorisierung. Insbesondere bei Aufrufen zur Systemveränderung kann dies zu Problemen führen. Der aktuelle Zugriff auf die Daten wird über Webservices, auf Basis von einfachen XML-RPCs, realisiert. Im Rahmen des absolvierten Praktikums wurde eine neue Webservice-Schnittstelle geschrieben, welcher das weit verbreitete REST-Konzept für Webanwendungen zu Grunde liegt. Das RestGateway führt zur Zeit keine Authentifizierung und Autorisierung durch. Es wurde aber mit dem Hintergrund entwickelt, diese Funktionen zu integrieren.
 
-\chapter{Bedrohungsmodell} \label{chap:threat}
-\epigraphhead[70]{\epigraph{The only truly secure system is one that is powered off, cast in a block of concrete and sealed in a lead-lined room with armed guards.}{\textit{Gene Spafford}}}
+\section{Sichtweise der Verteidiger} 
 
-Das Bedrohungsmodell soll auf mögliche Gefahren des aktuellen Systems hinweisen und diese schrittweise, durch geeignete Maßnahmen, eindämmen. Eine geeignete Analyse- und Designmethodik dazu bietet die Soft Systems Methodology (SSM). Besonderes Augenmerk findet die Trennung von realer und theoretischer Problemsituation. In der ersten Phase soll das gesamte Problemfeld aus Sicher aller beteiligten herausgefunden werden. Anschließend werden diese Informationen, der relevante Problembereich, theoretisch aus Sicht eines Verteidiger und eines Angreifers beschrieben und jeweils ein konzeptionelles Modell erstellt. Die Modelle werden zum Schluss gegeneinander und gegen die reale Welt verglichen. Dadurch soll eine möglichst große Abdeckung im Gefahrenpotential erreicht werden.
+\subsection{Wurzeldefinitionen}
 
-\section{Finding out}
+\subsection{Konzeptionelles Modell}
 
-\section{Defender} 
+\subsection{Vergleich mit der Realen Welt}
 
-\subsection{Formulation of Root Definitions}
+\section{Sichtweise der Angreifer}
 
-\subsection{Building Conceptual Model}
+\subsection{Wurzeldefinitionen}
 
-\subsection{Compare Model with Real World}
+\subsection{Konzeptionelles Modell}
 
-\section{Attacker}
+\subsection{Vergleich mit der Realen Welt}
 
-\subsection{Formulation of Root Definitions}
 
-\subsection{Building Conceptual Model}
-
-\subsection{Compare Model with Real World}
 
 \chapter{Entwurf oder Design} \label{chap:design}
 
