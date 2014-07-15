@@ -8,7 +8,7 @@
 \newcommand{\titel}{Entwurf, prototypische Implementierung und Evaluation eines Sicherheitskonzepts für die Authentifizierung und Autorisierung von Fernzugriffen auf eine Automatisierungsanlage}
 \newcommand{\kurztitel}{Template Abschlussarbeit}
 \newcommand{\autor}{Kevin Sapper}
-\newcommand{\datum}{09. Oktober 2014} % Abgabedatum
+\newcommand{\datum}{10. Oktober 2014} % Abgabedatum
 \newcommand{\ort}{Wiesbaden}
 \newcommand{\referent}{Prof.\ Dr.\ Reinhold Kröger}
 \newcommand{\korreferent}{Prof.\ Dr.\ Martin Gergeleit}
@@ -21,9 +21,6 @@
 \begin{comment}
 \begin{abstract} 
 \end{abstract}
-\epigraphhead[70]{\epigraph{The user's going to pick dancing pigs over security every time.}{\textit{Bruce Schneier}}}
-\epigraphhead[70]{\epigraph{Companies spend millions of dollars on firewalls, encryption and secure access devices, and it’s money wasted, because none of these measures address the weakest link in the security chain.}{\textit{Kevin Mitnick}}}
-\epigraphhead[70]{\epigraph{Wisdom consists in being able to distinguish among dangers and make a choice of the least harmful.}{\textit{Niccolo Machiavelli, The Prince}}}
 \epigraphhead[70]{\epigraph{Using encryption on the Internet is the equivalent of arranging an armored car to deliver credit card information from someone living in a cardboard box to someone living on a park bench.}{\textit{Gene Spafford}}}
 \end{comment}
 
@@ -33,6 +30,7 @@
 \pagenumbering{arabic}
 
 \chapter{Einführung} \label{chap:intro}
+\epigraphhead[70]{\epigraph{Companies spend millions of dollars on firewalls, encryption and secure access devices, and it’s money wasted, because none of these measures address the weakest link in the security chain.}{\textit{Kevin Mitnick}}}
 
 \begin{itemize}
 \item Entwurf -- CATWOE soft systems methodology (SSM)
@@ -45,6 +43,15 @@
 \end{itemize}
  
 Im Bereich Kältetechnik wird Regelungstechnik zur Vernetzung und Überwachung von Kälteanlagen entwickelt. Hierzu gehören die Produkte aus der E*LDS Reihe. Diese beinhalten Verbundsteuerungen zur Kälteerzeugung, Kühlstellenregler zur temperaturgenauen Reglung aller Arten von Kühlmöbeln und Kühlräumen, Funk-Temperatursensoren und der Marktrechner als zentrale Intelligenz einer Kälteanlage.
+
+\chapter{Grundlagen} \label{chap:basics}
+
+\section{Marktrechner}
+\section{Fernservice-Zentrale}
+\section{WIBU Systems}
+\section{Radius}
+\section{freeRadius}
+
 
 \chapter{Bedrohungsmodell} \label{chap:threat}
 \epigraphhead[70]{\epigraph{The only truly secure system is one that is powered off, cast in a block of concrete and sealed in a lead-lined room with armed guards.}{\textit{Gene Spafford}}}
@@ -114,30 +121,15 @@ Neben diesen offensichtlichen Mängeln gibt es weitere. Sinnvolle, aussagekräft
 Das in Abschnitt~\ref{sec:problemfeld} geschilderte Problemfeld zeigt einige Mängel des aktuellen Systems auf. Im Folgenden werden die Probleme aufgezeigt, die gelöst werden sollen. Der Fokus dieser Arbeit liegt auf dem Fernzugriff, dennoch werden auch die Probleme des lokalen Zugriffes erfasst. Dadurch soll verhindert werden, dass der Fernzugriff unnötige Hindernisse für die lokale Umgebung schafft. 
 Zunächst klären wir die Rollen im System, die Zugriffe auf Funktionen bekommen sollen. 
 
-Die erste Rolle ist der Inbetriebnehmer. Er muss lokal, vor Ort die Anlage in Betrieb nehmen und soll dazu eine Offline-Konfiguration einspielen können, wodurch externe Systeme Zugriff auf die Anlage bekommen. Je nach Umgebung des Systems darf beziehungsweise muss der Inbetriebnehmer eine manuelle Konfigurationen vornehmen. Im Falle der Netzwerkkonnektivität muss dies ebenfalls vor Ort geschehen. Andere manuelle Konfigurationen, sowie die Kontrolle und Anpassung der Parameter und Einstellungen, zur Inbetriebnahme, ist durchaus aus der Ferne denkbar. Der Zugriff aus der Ferne würde ein Fernservice-Mitarbeiter vornehmen. Diese Rolle darf neben der bereits erwähnten Kontrolle und Anpassung von Parametern und Einstellungen das Alarm-Management durchführen. Dazu gehört sowohl die Konfiguration der Alarme, als auch deren Überwachung. Auch aus der Ferne arbeitet der System-Analyst. Dieser will relevante, vergleichbare Daten, wie etwa Temperatur-Daten oder Energie-Daten, auswerten, um mehrere Anlagen gegenüber zustellen. Das Marktpersonal ist daran interessiert eine Kontrolle der Parameter zur Warensicherheit durchzuführen und eine Dokumentationen der Waren-Temperaturen zu erhalten. Auch sollte dieses über Alarme informiert werden, um zum Beispiel Warenschaden zu verhindern. Die Rolle des Marktpersonal kann Zugriff vor Ort benötigen, aber auch der Zugriff aus der Firmenzentrale wäre denkbar.
-
-
-
-::Rollen::
+Die erste Rolle ist der Inbetriebnehmer. Er muss lokal, vor Ort die Anlage in Betrieb nehmen und soll dazu eine Offline-Konfiguration einspielen können, wodurch externe Systeme Zugriff auf die Anlage bekommen. Je nach Umgebung des Systems darf beziehungsweise muss der Inbetriebnehmer eine manuelle Konfigurationen vornehmen. Im Falle der Netzwerkkonnektivität muss dies ebenfalls vor Ort geschehen. Andere manuelle Konfigurationen, sowie die Kontrolle und Anpassung der Parameter und Einstellungen, zur Inbetriebnahme, ist durchaus aus der Ferne denkbar. Der Zugriff aus der Ferne würde ein Fernservice-Mitarbeiter vornehmen. Diese Rolle darf neben der bereits erwähnten Kontrolle und Anpassung von Parametern und Einstellungen das Alarm-Management durchführen. Dazu gehört sowohl die Konfiguration der Alarme, als auch deren Überwachung. Auch aus der Ferne arbeitet der System-Analyst. Dieser will relevante, vergleichbare Daten, wie etwa Temperatur-Daten oder Energie-Daten, auswerten, um mehrere Anlagen gegenüber zustellen. Das Marktpersonal ist daran interessiert eine Kontrolle der Parameter zur Warensicherheit durchzuführen und eine Dokumentationen der Waren-Temperaturen zu erhalten. Auch sollte dieses über Alarme informiert werden, um zum Beispiel Warenschaden zu verhindern. Die Rolle des Marktpersonal kann Zugriff vor Ort benötigen, aber auch der Zugriff aus der Firmenzentrale wäre denkbar. Der Hersteller ist ebenfalls eine Rolle die nur aus der Ferne agiert. Die Rolle soll komplette Kontrolle über die Anlage aufrufen können. Dies wird benötigt, um Unterstützung bei den verschiedensten Support-Aufgaben, der Anlagenüberwachung und der Inbetriebnahme leisten zu können. Zudem soll im Fehlerfall eine schnelle und genau Fehlerdiagnose ermöglicht werden. 
 
 * Service-Mitarbeiter (Remote? -> Matthias)
 * Inbetriebnehmer (Remote? -> Matthias)
-* Fernservice-Mitarbeiter 
-* System-Analyst
-* Marktleiter/Marktpersonal
-* Mitarbeiter des Herstellers
 * Fremdsysteme
 
-::Soziale Umgebung::
+Die genannten Rollen müssen nun in die Systemumgebung eingeordnet werden. Der Marktrechner wird als Teil einer Kälteanlage beim Kunden installiert. Dort wird er an das Netzwerk des Unternehmens angeschlossen. Die lokale Bedienung ist auf geeignete Weise abgesichert, um herumspielen mit der Anlage zu unterbinden. Das hacken des lokalen Zugriffs ist sehr unwahrscheinlich, da jemand mit Zugriff auf den Marktrechner ebenfalls Zugriff auf die Kälteanlage hat und dort physikalisch deutlich leichter Schaden anrichten kann. Aus der Ferne muss der Marktrechner für die Fernservice-Zentrale und für den Hersteller erreichbar sein. Beide befinden sich an unterschiedlichen geographischen Standorten. Optional kann der Zugriff anderer Fernzugriffe, an anderen Standorten, erlaubt werden. Alle weiteren Zugriff soll unterbunden werden. Jegliche Zugriffsversuche, einschließlich fehlgeschlagener, müssen aussagekräftig protokolliert werden. Des Weiteren muss der gesamte Datenverkehr geeignet verschlüsselt werden, um mitlauschen von dritten zu unterbinden.
 
-Remote (Fokus)
-* Fernservice-Mitarbeiter will Zugriff auf die Anlage über LDSWin, REST, etc.
-* Hersteller will Zugriff auf die Anlage SSH, LDSWin, etc.
-* System-Analyst will Funktion zum Auslesen und Auswerten der Daten.
-
-Locale (Für komplettes Bild)
-* 
-
+Datenschutzrecht ???
 
 \section{Sichtweise der Verteidiger} 
 
@@ -158,12 +150,15 @@ Locale (Für komplettes Bild)
 
 
 \chapter{Entwurf oder Design} \label{chap:design}
+\epigraphhead[70]{\epigraph{The user's going to pick dancing pigs over security every time.}{\textit{Bruce Schneier}}}
+
 
 \begin{comment}
 Im Rahmen des absolvierten Praktikums wurde eine neue Webservice-Schnittstelle geschrieben, welcher das weit verbreitete REST-Konzept für Webanwendungen zu Grunde liegt. Das RestGateway führt zur Zeit keine Authentifizierung und Autorisierung durch. Es wurde aber mit dem Hintergrund entwickelt, diese Funktionen zu integrieren.
 \end{comment}
 
 \chapter{Evaluation} \label{chap:evaluation}
+\epigraphhead[70]{\epigraph{Wisdom consists in being able to distinguish among dangers and make a choice of the least harmful.}{\textit{Niccolo Machiavelli, The Prince}}}
 
 
 %%%%%%%%%
@@ -183,12 +178,10 @@ Jochanaan Leuchtentrager & Hochstraße zu & 666 Hell & 1-800-33845\\\hline
 \caption{Adressliste}
 \label{tab:meinetab}
 \end{table}
-\end{commit}
 
 %%%%%%%%%
 % ITEMS %
 %%%%%%%%%
-\begin{comment}
 \begin{itemize}
 \item Jede Tabelle, jedes Bild und jedes Listing ist ein Fließobjekt.
 \item Zentrieren Sie Bilder und Tabellen.
@@ -201,23 +194,19 @@ Jochanaan Leuchtentrager & Hochstraße zu & 666 Hell & 1-800-33845\\\hline
 % IMAGES %
 %%%%%%%%%%
 
-\begin{comment}
 \begin{wrapfigure}{r}{6cm}
   \centering
   \includegraphics[width=4cm]{gnu}
   \caption{GNU-Logo~\cite{gnulogo,fal}}
   \label{fig:gnu}
 \end{wrapfigure}
-\end{comment}
 
-\begin{comment}
 \begin{figure}[htb]
 \centering
 \includegraphics[width=.6\textwidth]{zeichnung} % pdflatex ohne Endung
 \caption{Die tolle Konzeptzeichnung}
 \label{fig:tk}
 \end{figure}
-\end{comment}
 
 \begin{comment}
 \begin{figure}[htb]
@@ -231,22 +220,19 @@ Jochanaan Leuchtentrager & Hochstraße zu & 666 Hell & 1-800-33845\\\hline
 \caption{Die tolle Konzeptzeichnung in unterschiedlichen Formaten}
 \label{fig:tk2}
 \end{figure}
-\end{comment}
 
-\begin{comment}
 \begin{figure}[htb]
 \centering
 \includegraphics[width=.4\textwidth]{zeichnungdraft} 
 \caption{Die tolle Konzeptzeichnung als Draft}
 \label{fig:tkdraft}
 \end{figure}
-\end{comment}
 
 %%%%%%%%%%%
 % LISTING %
 %%%%%%%%%%%
 
-\begin{comment}
+
 \begin{listing}[htbp]
 \lstset{basicstyle=\rmfamily, columns=[l]flexible, mathescape=true, showstringspaces=true, numbers=none, language=java}
 \begin{lstlisting}
