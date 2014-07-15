@@ -31,11 +31,14 @@ LaTeXThesis.zip: $(TOPACK)
 
 $(MAIN).pdf: $(TEXFILES) $(STYLES) $(INCLUDE_DRAWINGS) $(INCLUDE_BIB)
 
-# für das convert braucht man ImageMagick
-zeichnungjpg.jpg: zeichnung.pdf
-	convert zeichnung.pdf zeichnungjpg.jpg
-zeichnungpng.png: zeichnung.pdf
-	convert zeichnung.pdf zeichnungpng.png
+plantToSvg:
+	java -jar tools/plantuml.jar -tsvg thesis.tex
+
+svgToPdf: images/*.svg
+	rsvg-convert -d 150 -p 150 -f pdf -o $(basename $<).pdf $<
+
+images: plantToSvg svgToPdf
+
 
 bib: $(MAIN)1.bbl $(MAIN)2.bbl
 # Bibliography geht nur manuell wegen bibtopic
