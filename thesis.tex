@@ -1,6 +1,6 @@
 \documentclass[11pt,a4paper]{report} 
 % Alternativ für doppelseitigen Ausdruck (nur bei > 60 Seiten sinnvoll)
-%\documentclass[11pt,a4paper,twoside,openright]{report} 
+%\documentclass[11pt,a4paper,twoside,openright]{report}
 
 \include{preamble} % alle Pakete und Einstellungen	
 \usepackage{hyperref}
@@ -14,6 +14,7 @@
 \newcommand{\korreferent}{Prof.\ Dr.\ Martin Gergeleit}
 
 \begin{document}
+\shorthandoff{"}
 \pagenumbering{Roman}
 
 \include{vorspann} % Titelseite, Erklärungen, etc.
@@ -73,7 +74,7 @@ Als Teil des Sicherheitskonzeptes dieser Arbeit wird es sein dieses Authentifizi
 \end{wrapfigure}
 %\end{figure}
 
-Das Bedrohungsmodell soll auf mögliche Gefahren des aktuellen Systems hinweisen und diese schrittweise, durch geeignete Maßnahmen, eindämmen. Eine geeignete Analyse- und Designmethodik hierfür, bietet die Soft Systems Methodology (SSM), Abbildung~\ref{fig:ssm}. Diese legt besonderes Augenmerk auf die Trennung von Realer Welt und Systemmodell der Realen Welt. In der ersten Phase soll die gesamte Problemsituation, aus Sicht aller Beteiligten, erörtert und unstrukturiert beschrieben werden. Anhand dieser Informationen werden, für das Systemmodell der Realen Welt, Problem- und Zieldefinition festgelegt. Um ein möglichst komplettes Bild der Bedrohung zu bekommen, werden die Definitionen aus der Sicht eines Verteidigers und der Sicht eines Angreifers beleuchtet. Dadurch entstehen zwei konzeptionelles Modelle. Diese werden anschließend gegen die reale Welt und gegeneinander verglichen. Da eine Lösung in erster Iteration meist nicht erzielt wird, können die Vorgänge beliebig wiederholt werden. Wenn der Prozess abgeschlossen ist muss zum Schluss eine Menge an Änderungen festgelegt werden, welche vorgenommen werden sollen.
+Das Bedrohungsmodell soll auf mögliche Gefahren des aktuellen Systems hinweisen und diese schrittweise, durch geeignete Maßnahmen, eindämmen. Eine geeignete Analyse- und Designmethodik hierfür, bietet die Soft Systems Methodology (SSM), Abbildung~\ref{fig:ssm}. Diese legt besonderes Augenmerk auf die Trennung von Realer Welt und Systemmodell der Realen Welt. In der ersten Phase soll die gesamte Problemsituation, aus Sicht aller Beteiligten, erörtert und unstrukturiert beschrieben werden. Anhand dieser Informationen werden, für das Systemmodell der Realen Welt, Problem- und Zieldefinition festgelegt. Um ein möglichst komplettes Bild der Bedrohung zu bekommen, werden die Definitionen aus der Sicht eines Beschützers und der Sicht eines Angreifers beleuchtet. Dadurch entstehen zwei konzeptionelles Modelle. Diese werden anschließend gegen die reale Welt und gegeneinander verglichen. Da eine Lösung in erster Iteration meist nicht erzielt wird, können die Vorgänge beliebig wiederholt werden. Wenn der Prozess abgeschlossen ist muss zum Schluss eine Menge an Änderungen festgelegt werden, welche vorgenommen werden sollen.
 
 \section{Problemfeld} \label{sec:problemfeld}
 
@@ -124,9 +125,9 @@ UA - [Marktrechner 1]
 Neben diesen offensichtlichen Mängeln gibt es weitere. Sinnvolle, aussagekräftige Logs sind Hauptbestandteil eines guten Systems. Sinnvoll ist zum Beispiel das protokollieren des Systemzugriffs. Durch die ungeeigneten Sicherheitsmaßnahmen verliert das Zugriffslog jedoch komplett an Aussagekraft und ist damit wertlos. Ein weiterer Mangel ist, dass der Hersteller durch die existierende End-to-Site VPN-Verbindung keinen Zugriff auf seine Systeme erlangen kann. 
 
 
-\section{Beschreibung der Problemsituation}
+\section{Beschreibung der Problemsituation} \label{sec:problem_situation}
 
-Das in Abschnitt~\ref{sec:problemfeld} geschilderte Problemfeld zeigt einige Mängel des aktuellen Systems auf. In Abbildung~\ref{fig:current_setup} wird die Problemsituation ganzheitlich gezeigt. Der Fokus dieser Arbeit liegt auf dem Fernzugriff, dennoch werden auch die Probleme des lokalen Zugriffes erfasst. Dadurch soll verhindert werden, dass der Fernzugriff unnötige Hindernisse für die lokale Umgebung schafft. 
+Das in Abschnitt~\ref{sec:problemfeld} geschilderte Problemfeld zeigt einige Mängel des aktuellen Systems auf. Die Abbildung~\ref{fig:current_setup} zeigt ein unstrukturierte Bild, in SSM Terminologie Rich-Picture. Es ist wichtiges Hilfsmittel zur Beschreibung der Problemsituation, welches möglichst viele Informationen in einem Bild erfassen soll. Besonders Grenzen, Struktur, Informationsflüsse, Kommunikationskanäle und das menschliche Aktivitätssystem sollen aufzeigt werden\cite{ssmger}. Der Fokus dieser Arbeit liegt auf dem Fernzugriff, dennoch werden auch die Probleme des lokalen Zugriffes erfasst. Dadurch soll verhindert werden, dass der Fernzugriff unnötige Hindernisse für die lokale Zugriffskontrolle schafft. 
 
 \begin{figure}[h]
 \centering
@@ -135,13 +136,13 @@ Das in Abschnitt~\ref{sec:problemfeld} geschilderte Problemfeld zeigt einige Mä
 \label{fig:current_setup}
 \end{figure}
 
-\subsection{Identifizieren der Rollen}
+\subsection{Identifizieren der Rollen} \label{sec:roles}
 
-Zunächst wird ein Überblick über alle Zugriffsberechtigten geschafft. Diese werden anhand von Rollen zusammengefasst, welche Funktion und Zugriffsart beschreiben. Es ist durchaus möglich, dass ein Zugriffsberechtigter mehrere Rollen annehmen kann. Alle Rollen nehmen Bezug Abbildung~\ref{fig:current_setup}. Die Beschreibungen nehmen keinen Bezug auf die Umsetzung.
+Zunächst wird ein Überblick über alle Zugriffsberechtigten geschafft. Diese werden anhand von Rollen zusammengefasst, welche Funktion und Zugriffsart beschreiben. Es ist durchaus möglich, dass ein Zugriffsberechtigter mehrere Rollen annehmen kann. Alle Rollen nehmen Bezug auf Abbildung~\ref{fig:current_setup}. Die Beschreibungen nehmen keinen Bezug aktuelle oder zukünftige Umsetzungen.
 
 \paragraph{Der Inbetriebnehmer} ist die Rolle, welche das System initial zum Laufen bringt. Der Inbetriebnehmer muss lokal, vor Ort die Anlage in Betrieb nehmen. Dazu kann er bereits im Voraus eine Offline-Konfiguration, welche an den Kunden angepasst ist anlegen. Die Konfiguration wird auf die Anlage eingespielt, sobald die Anlage installiert ist. Bevor die Anlage produktiv eingesetzt wird ein Testlauf durchgeführt. Während des Testlaufs muss der Inbetriebnehmer die Anlage überwachen, um bei Problemen die Konfiguration, die Parameter und die Einstellungen anzupassen. Im Falle der Netzwerkkonnektivität muss dies vor Ort geschehen. Andere  Anpassungen sind auch aus der Ferne möglich, damit der Inbetriebnehmer nicht etliche Stunden neben dem Marktrechner auf das Auftreten von Fehlern warten muss.
 \paragraph{Der Projektierer} soll dem Inbetriebnehmer arbeit abnehmen. Seine Hauptaufgabe ist die Planung von Anlagen und damit verbunden erstellen der initialen Konfigurationen. Die erstellte Konfiguration kann direkt von Werk aus aufgespielt werden. Den vorkonfigurieren Marktrechner muss der Inbetriebnehmer dann lediglich noch installieren und testen.
-\paragraph{Der Service-Monteur} führt Wartungen und Störungsbehebungen durch. Für den Service-Monteur gibt es zwei denkbare Ausprägungen. Als Selbständiger wird er im Fall einer Störung, durch den Eigentümer der Anlage, benachrichtigt. Nun hat er die Möglichkeit aus der Ferne eine Fehlerdiagnose durchzuführen und Veränderungen an der Konfiguration und dem Alarmmanagement durchzuführen. Sollte er nicht in der Lage sein die Störung aus der Ferne zu Lösen muss er die selben Tätigkeiten vor Ort durchführen können. Als Angestellter einer Fernservice-Zentrale entfällt die Diagnose und die Fehlerbehebung aus der Ferne. Wenn in der Fernservice-Zentrale eine Störung vorliegt, die nicht von dort gelöst werden kann, wird der Service-Monteur zur Anlage geschickt.
+\paragraph{Der Service-Monteur} führt Wartungen und Störungsbehebungen durch. Für den Service-Monteur gibt es zwei denkbare Ausprägungen. Als Selbständiger wird er im Fall einer Störung, durch den Eigentümer der Anlage, benachrichtigt. Nun hat er die Möglichkeit aus der Ferne eine Fehlerdiagnose durchzuführen und Veränderungen an der Konfiguration und dem Alarmmanagement durchz den Mediator (Aktuführen. Sollte er nicht in der Lage sein die Störung aus der Ferne zu Lösen muss er die selben Tätigkeiten vor Ort durchführen können. Als Angestellter einer Fernservice-Zentrale entfällt die Diagnose und die Fehlerbehebung aus der Ferne. Wenn in der Fernservice-Zentrale eine Störung vorliegt, die nicht von dort gelöst werden kann, wird der Service-Monteur zur Anlage geschickt.
 \paragraph{Der Fernservice-Mitarbeiter} überwacht mehrere Anlagen aus der Ferne. Diese Rolle führt die selben Tätigkeiten wie ein Service-Monteur durch. Allerdings erfolgt bereits erwähnte Fehlerdiagnose, Kontrolle und Anpassung von Parametern und Einstellungen, sowie das Alarm-Management ausschließlich aus der Ferne. Einige Störungen können durch anpassen der Konfiguration hinausgezögert werden bis ein Service-Monteur vor Ort ist. Dadurch kann zum Beispiel Warenschaden auf Kosten von Energieeffizienz verhindern werden.
 \paragraph{Der System-Analyst} wertet relevante und vergleichbare Daten aus. Auch er arbeitet ausschließlich aus der Ferne. Auswertbare Daten sind etwa Temperaturwerte oder Energieverbrauch, damit können mehrere Anlagen gegenüber gestellt werden. 
 \paragraph{Das Marktpersonal/Eigentümer} ist daran interessiert eine Kontrolle der Parameter zur Warensicherheit durchzuführen und eine Dokumentationen der Waren-Temperaturen zu erhalten. Auch soll das Marktpersonal über Alarme informiert werden, um einen Service-Monteur zu benachrichtigen und Warenschaden zu verhindern. Die Rolle des Marktpersonal kann Zugriff vor Ort benötigen, aber auch der Zugriff aus der Firmenzentrale wäre denkbar.
@@ -151,29 +152,69 @@ Zunächst wird ein Überblick über alle Zugriffsberechtigten geschafft. Diese w
 
 \subsection{Systemumgebung}
 
-Der Fernzugriff auf einen Marktrechner ist prinzipielle immer möglich. Zwei Arten des Fernzugriffs sind etabliert, über VPN oder Modem. Verbindungen über VPN kommen nur in Fernwarten zum Einsatz. Etwa die Hälfte der Marktrechner können auf diese Weise erreicht werden. Der Einsatz von VPN hat den Nachteil, dass er extrem aufwendig zu warten ist. Außerdem haben ausschließlich Fernservice-Mitarbeiter Zugriff auf den Marktrechner. Der Hersteller hat dadurch keinerlei Möglichkeiten, aus der Ferne, Unterstützung zu leisten. Alle anderen Verbindungen werden über Modems ermöglicht. Deren Einsatz ist veraltet und bietet nur sehr geringe Übertragungsgeschwindigkeiten. Zugriffsschutz ist bei einem Modem nicht gegeben. Jeder mit Kenntnis der Telefonnummer kann sich einwählen. Auch kann maximal eine Verbindung gleichzeitig aufgebaut werden. Für einen Angreifer ergeben sich bei den Verbindungen drei Angriffsvektoren. Über VPN ist die Verbindung bis zum Unternehmensnetz gesichert. Innerhalb des LAN hat ein Angreifer freies Spiel. Auch die Modem-Verbindung stellt für einen Angreifer kein Hindernis Problem dar. Zusätzlich kann er die Modem-Leitung dauerhaft blockieren und dadurch den anderen Zugriff unterbinden.
+Der Fernzugriff auf einen Marktrechner ist prinzipielle immer möglich. Zwei Arten des Fernzugriffs sind etabliert, über VPN oder Modem. Verbindungen über VPN kommen nur in Fernwarten zum Einsatz. Etwa die Hälfte der Marktrechner können auf diese Weise erreicht werden. Der Einsatz von VPN hat den Nachteil, dass er extrem aufwendig zu warten ist. Außerdem haben ausschließlich Fernservice-Mitarbeiter Zugriff auf den Marktrechner. Der Hersteller hat dadurch keinerlei Möglichkeiten, aus der Ferne, Unterstützung zu leisten. Alle anderen Verbindungen werden über Modems ermöglicht. Deren Einsatz ist veraltet und bietet nur sehr geringe Übertragungsgeschwindigkeiten. Zugriffsschutz ist bei einem Modem nicht gegeben. Jeder mit Kenntnis der Telefonnummer kann sich einwählen. Auch kann maximal eine Verbindung gleichzeitig aufgebaut werden. Für einen Angreifer ergeben sich bei den Verbindungen drei Angriffsvektoren. Über VPN ist die Verbindung bis zum Unternehmensnetz gesichert. Innerhalb des LAN hat ein Angreifer freies Spiel. Auch die Modem-Verbindung stellt für einen Angreifer kein Hindernis dar, da er lediglich die Telefonnummer kennen muss. Zusätzlich kann er die Modem-Leitung dauerhaft blockieren und dadurch den anderen Zugriff unterbinden.
 
-\subsection{Politisches Umfeld}
-
-The third step involves examining the political environment in which the system has
-to operate, identifying ‘commodities’ in SSM terminology, authority, political, and
-legal constraints and how they’re applied and transmitted.
-
-
-\section{Sichtweise der Verteidiger} 
-
----> in CATWOE bringen
+\begin{comment}
 Die genannten Rollen müssen nun in die Systemumgebung eingeordnet werden. Der Marktrechner wird als Teil einer Kälteanlage beim Kunden installiert. Dort wird er an das Netzwerk des Unternehmens angeschlossen. Die lokale Bedienung ist auf geeignete Weise abgesichert, um herumspielen mit der Anlage zu unterbinden. Das hacken des lokalen Zugriffs ist sehr unwahrscheinlich, da jemand mit Zugriff auf den Marktrechner ebenfalls Zugriff auf die Kälteanlage hat und dort physikalisch deutlich leichter Schaden anrichten kann. Aus der Ferne muss der Marktrechner für die Fernservice-Zentrale und für den Hersteller erreichbar sein. Beide befinden sich an unterschiedlichen geographischen Standorten. Optional kann der Zugriff anderer Fernzugriffe, an anderen Standorten, erlaubt werden. Alle weiteren Zugriff soll unterbunden werden. Jegliche Zugriffsversuche, einschließlich fehlgeschlagener, müssen aussagekräftig protokolliert werden. Des Weiteren muss der gesamte Datenverkehr geeignet verschlüsselt werden, um mitlauschen von dritten zu unterbinden.
+\end{comment}
 
-\subsection{Wurzeldefinitionen}
+\section{Sichtweise der Beschützer} 
+
+Anhand der in Abschnitt~\ref{sec:problem_situation} beschriebenen Problemsituation wird hier die Sichtweise der Beschützer des Systems betrachtet. Zunächst legen die Ursachendefinitionen das Grundgerüst fest, in welchem sich die Beschützer bewegen. Anhand derer wird dann das Konzeptionelle Modell aufgebaut, das klare Anforderungen stellt, die die Beschützer für sinnvoll halten. Dieses Systemmodell wird abschließend mit der Realen Welt verglichen.
+
+\subsection{Ursachendefinitionen}
+
+Die Ursachendefinitionen werden anhand der Gedächtnisstütze CATWOE\footnote{Übersetzungen wurden aus dem Artikel \cite{ssmger} übernommen.} gebildet \cite{bobwill}:
+
+\begin{description}
+\item \textbf{Client (Kunde)}, Wer oder Was profitiert von dem Umwandlungsprozess.
+\item \textbf{Actor (Akteur)}, Wer ermöglicht den Umwandlungsprozess den Kunden.
+\item \textbf{Transformation process (Umwandlungsprozess)}, von einem Startzustand in eine Endzustand.
+\item \textbf{Weltanschauung}, gibt dem Umwandlungsprozess Bedeutung.
+\item \textbf{Owner (Inhaber)}, vor Wem muss sich das System verantworten und/oder Wer kann veranlassen, dass es nicht existiert.
+\item \textbf{Environmental constraints (Ökologische Einschränkungen)}, Was beeinflusst das System, ohne es zu kontrollieren.
+\end{description}
+
+Kunde, Akteur und Inhaber können in bestimmten Fällen überlappen. CATWOE ist keine willkürlich Ansammlung an Eigenschaften, sondern resultiert aus Beobachtungen der Realen Welt. Bei der Ausübung von SSM ist aufgefallen, dass insbesondere Akteur und Inhaber bei der Betrachtung ausgelassen werden, da diese "zu offensichtlich" erscheinen\cite{gutmann7}. Die Reihenfolge, in welche die Eigenschaften abgearbeitet werden, ist beliebig, je nach Problemsituation sind einige Eigenschaften offensichtlicher als andere. Bei den Ursachendefinitionen der Beschützer sind die Eigenschaften für Kunden, Inhaber und Umwandlungsprozess offensichtlich. Für den Akteur, die Weltanschauung und die Ökologische Einschränkungen bedarf es hingegen einer genaueren Analyse:
+
+\begin{table}[h] % htbp ~ here, top, bottom, page
+\begin{tabular}{ll}
+\textbf{Kunden} & Alle Rollen aus Abschnitt~\ref{sec:roles} und der Marktrechner\\
+\textbf{Inhaber} & Angreifer\\
+\textbf{Umwandlungsprozess} & 
+Von einem nicht vertrauenswürdigen Zustand \\
+& in einen vertrauenswürdigen Zustand wechseln.\\
+\end{tabular}
+\end{table}
+
+\paragraph{Akteur} Die Verwaltung der Vertrauenswürdigkeit von mehreren Kunden ist sehr zeit und kostenintensiv. Deshalb werden als Akteure ein kleine Zahl von vertrauenswürdigen Mediatoren eingesetzt. Der Mediator ist die Schnittstelle zwischen Marktrechner und Kunde.
+
+\paragraph{Weltanschauung} Hersteller und Fernservice-Zentralen sind daran interessiert unerwünschte Zugriffe zu verhindern und ihr jeweiligen vertraulichen Daten zu schützen. Im Falle des Hersteller könnten Mitbewerber, aus den Kommunikationsinhalten, Kenntnisse über die Routinen und Protokolle erlangen. Ein Angreifer könnte durch Manipulation der Anlage Warenschaden anrichten, wofür der Hersteller und Fernservice-Zentrale haftbar sein können. Darüber hinaus kann eine Imageschaden verursacht werden, um Endkunden abzuwerben. Die Benutzer hingegen wollen ein funktionierendes System, sie haben einen Kältehintergrund und keine Ahnung von IT, Vertraulichkeit ist von sekundärer Natur. Wenn der Prozess Vertrauen zu schaffen Dinge kompliziert, wird der Benutzer versuchen ihn zu umgehen. Sollte das System nicht funktioniert, weil der Benutzer die Authentifizierung falsch bedient, ist trotzdem das System schuld, denn es ist seine Aufgabe den Benutzer darauf hinzuweisen.
+
+\paragraph{Ökologische Einschränkungen} Marktrechner sind im Unternehmensnetz des Endkunden installiert und haben einen Internetzugang. Die Rollen aus \ref{sec:roles} haben keine direkten Fernzugriffsrechte auf den Marktrechner, ein Mediator hat direkten Zugriff auf den Marktrechner,  die Kommunikation findet über einen unzuverlässigen Kanal (im Bezug auf Verfügbarkeit und Attackierbarkeit) statt, HTTP Kommunikation bzw. Port (80|443) muss eingesetzt werden, wegen restriktiver Firewallregeln. Die Zutrittskontrolle zum Marktrechner, obliegt dem Endkunden.
 
 \subsection{Konzeptionelles Modell}
+
+Die folgende Beschreibung des Konzeptionelles Modells nimmt direkten Bezug auf die Ursachendefinitionen. Das Modell darf nichts hinzufügen, das nicht in den Ursachendefinitionen aufgeführt wurde. Durch diese Einschränkung soll verhindern, dass Instanzen aus der Realen Welt hinzugefügt werden, und damit das Modell unbrauchbar komplex wird \cite{gutmann6}. Aus den Ursachendefinitionen ergibt sich das folgende Konzeptionelle Modell:
+
+\begin{itemize}[leftmargin=*]
+\item[] Kunden müssen Verbindungen zum Marktrechner über den Mediator (Akteur) aufbauen.
+\item[] Der Marktrechner darf Verbindungen nur aufbauen, wenn er dem Mediator (Akteur) vertraut.
+\item[] Der Mediator (Akteur) muss den Kunden authentifizieren.
+\item[] Der Mediator (Akteur) muss den Kunden autorisieren.
+\item[] Der Mediator (Akteur) muss dem Marktrechner die Rolle des Kunden mitteilen.
+\item[] Der Marktrechner soll die Zugriffsrechte anhand der Rolleninformation einschränken.
+\item[] Verbindungen müssen über HTTP/S, respektive Port 80/443, initialisiert werden.
+\item[] Angreifer (Inhaber) dürfen keine Ahnung über Kommunikationsinhalte haben.
+\item[] Angreifer (Inhaber) dürfen nicht vorgeben Benutzer (Kunden) zu sein.
+\item[] Angreifer (Inhaber) können sich Zugang zum Unternehmensnetzwerk verschaffen.
+\end{itemize}
 
 \subsection{Vergleich mit der Realen Welt}
 
 \section{Sichtweise der Angreifer}
 
-\subsection{Wurzeldefinitionen}
+\subsection{Ursachendefinitionen}
 
 \subsection{Konzeptionelles Modell}
 
