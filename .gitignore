@@ -90,3 +90,6 @@ sympy-plots-for-*.tex/
 
 # xindy
 *.xdy
+
+#
+.upd_key
