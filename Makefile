@@ -34,8 +34,11 @@ $(MAIN).pdf: $(TEXFILES) $(STYLES) $(INCLUDE_DRAWINGS) $(INCLUDE_BIB)
 plantToSvg:
 	java -jar tools/plantuml.jar -tsvg thesis.tex
 
-svgToPdf: images/*.svg
-	rsvg-convert -d 150 -p 150 -f pdf -o $(basename $<).pdf $<
+SVGS= $(shell find images/ -type f -name '*.svg')
+.PHONY: svgToPdf $(SVGS)
+svgToPdf: $(SVGS)
+$(SVGS):
+	rsvg-convert -d 150 -p 150 -f pdf -o $(basename $@).pdf $@
 
 images: plantToSvg svgToPdf
 
