@@ -1,6 +1,6 @@
-%\documentclass[11pt,a4paper]{report} 
+\documentclass[11pt,a4paper]{report} 
 % Alternativ für doppelseitigen Ausdruck (nur bei > 60 Seiten sinnvoll)
-\documentclass[11pt,a4paper,twoside,openright]{report}
+%\documentclass[11pt,a4paper,twoside,openright]{report}
 
 \include{preamble} % alle Pakete und Einstellungen	
 \usepackage{hyperref}
@@ -45,43 +45,37 @@
 
 \chapter{Grundlagen} \label{chap:basics}
 
+Platzhalter ... bis mir etwas einfällt
+
 \section{Kälteanlage}
 
-Die genau Funktionsweise einer Kälteanlage ist für diese Arbeit uninteressant. Dennoch gibt es einige Aspekte die ein Sicherheitskonzept beeinflussen können. Ein Aspekt ist die Trägheit. Beim Einsatz von Kälte geschieht nichts in Bruchteilen von Sekunden. Das Kühlen von Waren ist ein langsamer Prozess, ebenso verhält es sich beim Erwärmen. Im Folgenden befindet sich eine Auflistung von Komponenten einer Kälteanlage, welche für das Sicherheitskonzept Relevanz haben.
-
-\paragraph{E*LDS} ist die Produktreihe, die von der Eckelmann AG, zur Steuerung und Verwaltung von Kälteanlagen angeboten wird. Diese beinhaltet Verbundsteuerungen zur Kälteerzeugung, Kühlstellenregler zur temperaturgenauen Reglung aller Arten von Kühlmöbeln und Kühlräumen, Funk-Temperatursensoren und der Marktrechner als zentrale Intelligenz einer Kälteanlage \cite{elds}.
-\paragraph{Marktrechner} Betrachtet man eine Kälteanlage, dann ist der Marktrechner ihr Herzstück. Über das Bussystem Controller Area Network (CAN) ist er mit sämtlichen Komponenten der Anlage verbunden. Darüber ist in der Lage, Komponenten zentral zu parametrieren und zu überwachen. Sämtliche Betriebsdaten und Betriebszustände, Meldungen und Alarme aus der Überwachung werden, auf seinem internen Speicher, archiviert \cite{elds}.
-\paragraph{Alarmmanagement} beschreibt Tätigkeiten, um die Alaramierung einer Kälteanlage. Dazu gehört in ersten Schritt das Anlegen und das Konfigurieren und  der Alarme. Als nächstes sieht es die aktive, durch Polling am System, oder passive, durch Pushen des Systems, Versand der Alarme vor. Außerdem beinhaltet es das Auswerten archivierter Alarme. Ein Alarm trifft eine Aussagen über den Betriebszustand der Kälteanlage. Beispielsweise, wird ein Alarm ausgelöst, wenn die Temperatur in einen Kühlgerät für die darin gelagerte Waren einen bestimmten Grenzwert übersteigt.
-\paragraph{Offline-Konfiguration} Eine an den Markt angepasste Konfiguration der Kälteanlage, welche vor Inbetriebnahme erstellt wurde. Ein Teil ist die genaue Parametrierung der Kühlgeräte und Kühlmöbel, unter Berücksichtigung der darin zu lagernden Ware.
-
-\section{Sicherheitskonzept}
-
-Viele Sicherheitssysteme heutzutage sind 'sicher', da niemand sich die Mühe gemacht hat, diese anzugreifen \cite{gutmann0}. Ein Großteil an Problemen von Sicherheitskonzepten entsteht, weil Sicherheit im Nachhinein angeheftet wird, ohne sich die Mühe zu machen das Gesamtsystem zu betrachten. Bevor man über potentielle Eigenschaften eines Sicherheitssystems nachdenkt muss man zunächst die Umgebung betrachten, in welcher das System eingesetzt werden soll \cite{gutmann4}. Wenn heutzutage über Sicherheit diskutiert wird, wird meistens ausschließlich über Kryptographie gesprochenen. Auch wenn Kryptographie Hauptbestandteil jedes Sicherheitssystems ist, ignorieren praktisch alle Angriffe auf ein Sicherheitssystem die Kryptographie und attackieren den Weg wie es genutzt wird \cite{gutmann1}. Ein bekanntes Beispiel hierfür ist der Heartbleed-Bug\footnote{http://heartbleed.com/}, der eine Lücke in der Heartbeat-Implementierung, der OpenSSL Bibliothek, ausnutzt, um sich Zugriff auf den Privaten Kommunikationsschlüssel zu verschaffen. Es macht also wenig Sinn utopisch lange Schlüssel zu nutzen, wenn kein Angreifer sich darum schert. Zudem wird durch Verschlüsselung das Hauptproblem eines Sicherheitssystems 'Vertrauen' unzureichend betrachtet. Vertrauen wird geschaffen durch Authentifizieren. Drei beliebte Konzepte für die Authentifizieren sind Passwörter, Pre-Shared-Keys (PSK) und Public-Key-Verfahren. Passwörter haben das Problem, dass sie einen Teil der Sicherheit auf den Benutzer abgehen, indem angenommen wird, dass Benutzer immer sichere Passwörter wählen. Da dies in der Realität nicht so ist wird versucht mit absurden Passwortregeln Benutzer zu zwingen Passwörter zu wählen, die Sie sich nicht merken können. Hierbei sollte beachtet werden das Benutzer Sicherheit lieber ausschalten oder umgehen als sich damit auseinanderzusetzen \cite{gutmann5}. Darüber hinaus können Passwörter lediglich einseitige Authentifizieren schaffen, wie etwa eine Anmeldung bei einem E-Mail Provider. Durch Angabe des Passwort weiß der Server, welchem Client er vor sich hat und kann diesem bestimmte Mails anvertrauen. Der Client kann nur die Domain überprüfen und hoffen, dass diese korrekt aufgelöst wird. Zwar versucht man über Zertifikate und Zertifikat-Autoritäten Vertrauen aufzubauen, aber das einzige was ein Zertifikat bescheinigt ist der Geldaustausch zwischen dem Zertifikat-Halter und der Zertifikat-Autorität, keinesfalls aber das dessen Identität geprüft wurde, was Vertrauen schaffen könnte. Vertrauen kann nur durch eine Identitätsprüfung geschaffen werden \cite{gutmann8}. Beim Austausch von PSKs geschieht dies Implizit. Bei PSKs wird eine Austauschkanal benötigt, der nicht der unsichere Kommunikationskanal ist, zum Beispiel über den traditionellen Postweg. Dadurch das man darauf vertraut, dass die Post den Schlüssel nur dem Empfänger übergibt, kann man hier Vertrauen aufbauen. Bei Public-Key Verfahren hat man den Austauschkanal eliminiert, da die Schlüssel ohne Probleme über einen unsicheren Kanal getauscht werden können. Allerdings hat man dadurch das Verlangen nach einen Authentifizierungskanal geschaffen. Das Authentifizierungsproblem besteht bis heute ohne das es eine einschlägige Lösung dafür gibt. 
-
-Als Teil des Sicherheitskonzeptes dieser Arbeit wird es sein dieses Authentifizierungsproblem auf geeignete Weise zu berücksichtigen, ohne das durch den Einsatz einer bestimmten Technologie im Extremfall enorme Kosten entstehen können. 
-
-
-\chapter{Bedrohungsmodell} \label{chap:threat}
-\epigraphhead[70]{\epigraph{The only truly secure system is one that is powered off, cast in a block of concrete and sealed in a lead-lined room with armed guards.}{\textit{Gene Spafford}}}
-
-%\begin{figure}[h]
-\begin{wrapfigure}{r}{6cm}
-\centering
-\includegraphics[width=6cm]{images/ssm.pdf}
-\caption{Soft Systems Methodologie}
-\label{fig:ssm}
-\end{wrapfigure}
-%\end{figure}
-
-Das Bedrohungsmodell soll auf mögliche Gefährdungen des aktuellen Systems hinweisen. Diese werden analysiert und schrittweise, durch geeignete Maßnahmen, versucht einzudämmen. Eine geeignete Analyse- und Designmethodik hierfür, bietet die Soft Systems Methodology (SSM), Abbildung~\ref{fig:ssm}. Diese legt besonderes Augenmerk auf die Trennung von Realer Welt und Systemmodell der Realen Welt. In der ersten SSM-Phase soll die gesamte Problemsituation, aus Sicht aller Beteiligten, erörtert und unstrukturiert beschrieben werden. Anhand dieser Informationen werden in der zweiten Phase, für das Systemmodell der Realen Welt, Problem- und Zieldefinition festgelegt. Um ein möglichst komplettes Bild der Bedrohung zu bekommen, werden die Definitionen aus der Sicht eines Beschützers und der Sicht eines Angreifers beleuchtet. Dadurch entstehen zwei konzeptionelle Modelle. Diese werden anschließend gegen die reale Welt und gegeneinander verglichen. Da eine Lösung in erster Iteration meist nicht erzielt wird, können die Vorgänge beliebig wiederholt werden. Wenn der Prozess abgeschlossen ist werden in der letzten Phase, die Menge an Änderungen festgelegt werden, welche vorgenommen werden sollen.
-
-\section{Problemfeld} \label{sec:problemfeld}
-
-Alle Daten und Meldungen, die der Marktrechner sammelt und aufbereitet, müssen zu einem Zeitpunkt von einem Menschen ausgewertet werden. Die 24-Stunden Überwachung vor Ort, durch einen Mitarbeiter, ist nicht wirtschaftlich. Deshalb übernehmen heutzutage großteils Fernservice-Zentralen (FSZs) die Überwachung von Kälteanlagen. Der Marktrechner kann aus der Ferne über eine Ethernet- oder Modem-Verbindung erreicht werden. Letztere wird, aufgrund ihres aussterbendes Charakters, an dieser Stelle nicht weiter erläutert. Für den Zugriff auf die Ethernet-Schnittstelle sind Fernservice-Zentralen, über VPN, mit einem oder mehreren Unternehmensnetzwerken, ihrer Kunden, verbunden (Abbildung~\ref{fig:current_setup}). Über dieses können die Marktrechner erreicht werden. Auf diese Weise kann eine einzige Fernservice-Zentrale Tausende Marktrechner überwachen. Der Marktrechner fungiert als Server, das heißt Daten und Meldungen müssen aktiv von einer Fernservice-Zentrale abgeholt werden. Ist aus den abgeholten Daten ersichtlich, dass ein Fehler in der Anlage aufgetreten ist, kann die Fernservice-Zentrale entweder direkt eingreifen oder einen Monteur zum betreffenden Kunden schicken, der die Anlage instand setzt.
+Die genaue Funktionsweise einer Kälteanlage ist für diese Arbeit uninteressant. Dennoch gibt es einige Aspekte die ein Sicherheitskonzept beeinflussen können. Ein Aspekt ist die Trägheit. Beim Einsatz von Kälte geschieht nichts in Bruchteilen von Sekunden. Das Kühlen von Waren ist ein langsamer Prozess, ebenso verhält es sich beim Erwärmen. Im Folgenden befindet sich eine Auflistung von Komponenten einer Kälteanlage, welche für das Sicherheitskonzept Relevanz haben.
 
 \begin{comment}
 Viele Kälteanlagen benötigen viele Meter Leitungen, um die Leitungslänge zu optimieren werden die Meisten in Lowspeed betrieben. Dies erhöht zwar die mögliche Leitungslänge, senkt allerdings die Datenrate auf 125 kbit/s. Bei dieser Datenrate ist die maximale Teilnehmeranzahl auf ca. 100 begrenzt.
 \end{comment}
+
+\section{E*LDS} ist die Produktreihe, die von der Eckelmann AG zur Steuerung und Verwaltung von Kälteanlagen entwickelt wird. Diese beinhaltet Verbundsteuerungen zur Kälteerzeugung, Kühlstellenregler zur temperaturgenauen Reglung aller Arten von Kühlmöbeln und Kühlräumen, Funk-Temperatursensoren und der Marktrechner als zentrale Intelligenz einer Kälteanlage \cite{elds}.
+
+
+
+\section{Marktrechner} \label{sec:marktrechner} 
+Betrachtet man eine Kälteanlage, dann ist der Marktrechner ihr Herzstück. Über das Bussystem Controller Area Network (CAN) ist er mit sämtlichen Komponenten der Anlage verbunden. Über den CAN-Bus ist er in der Lage, Komponenten zentral zu parametrieren und zu überwachen. Sämtliche Betriebsdaten und Betriebszustände, Meldungen und Alarme aus der Überwachung werden auf seinem internen Speicher archiviert \cite{elds}.
+
+\paragraph{Hardware \& Software} Der Marktrechner verfügt über einen 32-Bit Prozessor mit ARM-Architektur. Als Datenspeicher ist eine SD-Karte fest verbaut. Zur Kommunikation notwendige Schnittstellen sind in Abbildung~\ref{fig:marktrechner_interfaces} zu sehen. Der Ethernet-Port wird zur Fernwartung eingesetzt. Über die drei RS232 COM-Schnittstellen kann ein PC vor Ort angeschlossen werden, die Fernwartung via Modem erfolgen, das M-Bus-Gateway zur Verbrauchsdatenerfassung verbunden werden oder Sonderfunktionen zum Beispiel Gebäudeleittechnik, sonstige Fremdsysteme oder Kompaktregler bedient werden. Über die RS485 COM-Schnittstelle können Modbus-Regler hinzugefügt werden. Die USB-Host und USB-Slave Anschlüsse sind für zukünftig Benutzung vorgesehen. Einer der beiden CAN-Bus Anschlüsse wird benutzt, um mit den E*LDS zu kommunizieren. Der zweite ist für zukünftige Benutzung vorgesehen. Und über die zwei Digitaleingänge können entweder Alarme entgegengenommen oder Energiezähler gelesen werden. Die Benutzerinteraktion wird über ein 5-Zoll Touch-Display realisiert.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{images/CI4000_Hardware.pdf}
+\caption{Schittstellen Marktrechner}
+\label{fig:marktrechner_interfaces}
+\end{figure}
+
+Das Betriebssystem auf dem Marktrechner ist eine eigene Linux-Distribution, welche mit der Software ptxdist, der  Pengutronix e.K., erstellt wird. Mit ptxdist lassen sich vorgegeben und eigene Module zu einer sehr schlanken Distribution zusammenbauen. Die eigenen Softwaremodule sind in C++ und dem Qt-Framework geschrieben. Als Fremdmodul ist zum Beispiel der lighttpd Webserver installiert.
+
+\paragraph{Konnektivität}
+
+Alle Daten und Meldungen, die der Marktrechner sammelt und aufbereitet, müssen zu einem Zeitpunkt von einem Menschen ausgewertet werden. Die 24-Stunden Überwachung vor Ort, durch einen Mitarbeiter, ist nicht wirtschaftlich. Deshalb übernehmen heutzutage großteils Fernservice-Zentralen (FSZs) die Überwachung von Kälteanlagen. Der Marktrechner kann aus der Ferne über eine Ethernet- oder Modem-Verbindung erreicht werden. Letztere wird, aufgrund ihres aussterbendes Charakters, an dieser Stelle nicht weiter erläutert. Für den Zugriff auf die Ethernet-Schnittstelle sind Fernservice-Zentralen, über VPN, mit einem oder mehreren Unternehmensnetzwerken, ihrer Kunden, verbunden (Abbildung~\ref{fig:current_setup}). Über dieses können die Marktrechner erreicht werden. Auf diese Weise kann eine einzige Fernservice-Zentrale Tausende Marktrechner überwachen. Der Marktrechner fungiert als Server, das heißt Daten und Meldungen müssen aktiv von einer Fernservice-Zentrale abgeholt werden. Ist aus den abgeholten Daten ersichtlich, dass ein Fehler in der Anlage aufgetreten ist, kann die Fernservice-Zentrale entweder direkt eingreifen oder einen Monteur zum betreffenden Kunden schicken, der die Anlage instand setzt.
 
 \begin{comment}
 @startuml images/problemfeld.svg
@@ -127,10 +121,55 @@ Beim Einsatz von VPN ist die Kommunikation von der Fernservice-Zentrale bis zum 
 
 Neben diesen offensichtlichen gibt es weitere Mängeln. Zum Beispiel sind aussagekräftige Logs Hauptbestandteil eines guten Systems. Sinnvoll ist das protokollieren des Systemzugriffs. Durch die ungeeigneten Sicherheitsmaßnahmen verliert das Zugriffslog jedoch komplett an Aussagekraft und ist damit wertlos. Ein weiterer Mangel ist, dass der Hersteller durch die existierende End-to-Site VPN-Verbindung keinen Zugriff auf die Systeme erlangen kann, um Unterstützung bei Problemen zu leisten. 
 
+\section{Alarmmanagement} beschreibt Tätigkeiten, um die Alarmierung einer Kälteanlage. Dazu gehört in ersten Schritt das Anlegen und das Konfigurieren der Alarme. Als nächstes sieht es die aktive, durch Polling am System, oder passive, durch Pushen des Systems, Versand der Alarme vor. Außerdem beinhaltet es das Auswerten archivierter Alarme. Ein Alarm trifft eine Aussage über den Betriebszustand der Kälteanlage. Beispielsweise, wird ein Alarm ausgelöst, wenn die Temperatur in einen Kühlgerät für die darin gelagerte Waren einen bestimmten Grenzwert übersteigt.
+
+\section{Offline-Konfiguration} Eine an den Markt angepasste Konfiguration der Kälteanlage, welche vor Inbetriebnahme erstellt wurde. Ein Teil ist die genaue Parametrierung der Kühlgeräte und Kühlmöbel, unter Berücksichtigung der darin zu lagernden Ware.
+
+\section{Sicherheitskonzept}
+
+Viele Sicherheitssysteme heutzutage sind 'sicher', da niemand sich die Mühe gemacht hat, diese anzugreifen \cite{gutmann0}. Ein Großteil an Problemen von Sicherheitskonzepten entsteht, weil Sicherheit im Nachhinein angeheftet wird, ohne sich die Mühe zu machen das Gesamtsystem zu betrachten. Bevor man über potentielle Eigenschaften eines Sicherheitssystems nachdenkt muss man zunächst die Umgebung betrachten, in welcher das System eingesetzt werden soll \cite{gutmann4}. Wenn heutzutage über Sicherheit diskutiert wird, wird meistens ausschließlich über Kryptographie gesprochenen. Auch wenn Kryptographie Hauptbestandteil jedes Sicherheitssystems ist, ignorieren praktisch alle Angriffe auf ein Sicherheitssystem die Kryptographie und attackieren den Weg wie es genutzt wird \cite{gutmann1}. Ein bekanntes Beispiel hierfür ist der Heartbleed-Bug\footnote{http://heartbleed.com/}, der eine Lücke in der Heartbeat-Implementierung, der OpenSSL Bibliothek, ausnutzt, um sich Zugriff auf den Privaten Kommunikationsschlüssel zu verschaffen. Es macht also wenig Sinn utopisch lange Schlüssel zu nutzen, wenn kein Angreifer sich darum schert. Zudem wird durch Verschlüsselung das Hauptproblem eines Sicherheitssystems 'Vertrauen' unzureichend betrachtet. Vertrauen wird geschaffen durch Authentifizieren. Drei beliebte Konzepte für die Authentifizieren sind Passwörter, Pre-Shared-Keys (PSK) und Public-Key-Verfahren. Passwörter haben das Problem, dass sie einen Teil der Sicherheit auf den Benutzer abgehen, indem angenommen wird, dass Benutzer immer sichere Passwörter wählen. Da dies in der Realität nicht so ist wird versucht mit absurden Passwortregeln Benutzer zu zwingen Passwörter zu wählen, die Sie sich nicht merken können. Hierbei sollte beachtet werden das Benutzer Sicherheit lieber ausschalten oder umgehen als sich damit auseinanderzusetzen \cite{gutmann5}. Darüber hinaus können Passwörter lediglich einseitige Authentifizieren schaffen, wie etwa eine Anmeldung bei einem E-Mail Provider. Durch Angabe des Passwort weiß der Server, welchem Client er vor sich hat und kann diesem bestimmte Mails anvertrauen. Der Client kann nur die Domain überprüfen und hoffen, dass diese korrekt aufgelöst wird. Zwar versucht man über Zertifikate und Zertifikat-Autoritäten Vertrauen aufzubauen, aber das einzige was ein Zertifikat bescheinigt ist der Geldaustausch zwischen dem Zertifikat-Halter und der Zertifikat-Autorität, keinesfalls aber das dessen Identität geprüft wurde, was Vertrauen schaffen könnte. Vertrauen kann nur durch eine Identitätsprüfung geschaffen werden \cite{gutmann8}. Beim Austausch von PSKs geschieht dies Implizit. Bei PSKs wird eine Austauschkanal benötigt, der nicht der unsichere Kommunikationskanal ist, zum Beispiel über den traditionellen Postweg. Dadurch das man darauf vertraut, dass die Post den Schlüssel nur dem Empfänger übergibt, kann man hier Vertrauen aufbauen. Bei Public-Key Verfahren hat man den Austauschkanal eliminiert, da die Schlüssel ohne Probleme über einen unsicheren Kanal getauscht werden können. Allerdings hat man dadurch das Verlangen nach einen Authentifizierungskanal geschaffen. Das Problem, dass für die Authentifizierung zwingen ein zweiter Kommunikationskanal benötigt wird, besteht bis heute ohne das es eine geeignete Lösung dafür gibt. 
+
+Als Teil des Sicherheitskonzeptes dieser Arbeit wird es sein dieses Authentifizierungsproblem auf geeignete Weise zu berücksichtigen, ohne das durch den Einsatz einer bestimmten Technologie im Extremfall enorme Kosten entstehen können. 
+
+
+\chapter{Bedrohungsmodell} \label{chap:threat}
+\epigraphhead[70]{\epigraph{The only truly secure system is one that is powered off, cast in a block of concrete and sealed in a lead-lined room with armed guards.}{\textit{Gene Spafford}}}
+
+Das Bedrohungsmodell soll auf mögliche Gefährdungen des aktuellen Systems hinweisen. Diese werden analysiert und schrittweise, durch geeignete Maßnahmen, versucht einzudämmen. 
+
+\section{Modellauswahl}
+
+\subsection{BSI Sicherheitskonzept}
+
+Der Bundesamt für Sicherheit in der Informationstechnik stellt im Rahmen seiner IT-Grundschutz Empfehlungen auch eine Modell zur Entwicklung von Sicherheitskonzepten dar. In Abbildung~\ref{fig:bsi_sicherheit} sind die empfohlenen Schritte gezeigt. 
+
+Das Modell des BSI betrachtet ein Sicherheitskonzept rein aus technischer Seite ohne sich explizit mit der Systemlandschaft, den Benutzern oder geeigneten Abstraktionsmethodiken zu befassen. Die einzelnen Schritte können jedoch im SSM berücksichtigt werden, auch wenn die Reihenfolge dabei durcheinander geworfen wird.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.3]{images/bsi_sicherheitskonzept.pdf}
+\caption{BSI Sicherheitskonzept}
+\label{fig:bsi_sicherheit}
+\end{figure}
+
+\subsection{Soft Systems Methodology}
+
+%\begin{figure}[h]
+\begin{wrapfigure}{r}{6cm}
+\centering
+\includegraphics[width=6cm]{images/ssm.pdf}
+\caption{Soft Systems Methodologie}
+\label{fig:ssm}
+\end{wrapfigure}
+%\end{figure}
+
+Eine geeignete Analyse- und Designmethodik für ein Bedrohungsmodell, bietet die Soft Systems Methodology (SSM), Abbildung~\ref{fig:ssm}. SSM wurde in den 1960er Jahren, an Universität von Lancaster, von Peter Checkland, begonnen zu entwickeln. SSM kann prinzipielle immer dann eingesetzt werden, wenn jemand versucht zielgerichtet zu handeln \cite{checkland1}. Ein wichtiger Teil von SSM ist die Weltansicht, welche einem Vorgehen Sinn und Zweck verleiht. Beispielsweise ist des Einen Terrorist, in den Augen eines Anderen ein Freiheitskämpfer. Beide betrachten jedoch das Selbe. Durch mehrere zielgerichtete Vorgehen, unterschiedlicher Weltansichten, wird in SSM versucht die Reale Welt zu beschrieben. Diese ist jedoch viel zu komplex ist, um in irgendeiner Modellsprache erfasst zu werden. Daher werden bewusst bestimmte Teile des zielgerichteten Vorgehens, in einem rein konzeptionellen Modell beschrieben. Diese Trennung findet im Modell zwischen Phase 1 und 2 statt. In der ersten Phase wird die gesamte Problemsituation in der Realen Welt, aus Sicht aller Beteiligten, erörtert und unstrukturiert beschrieben. Anhand dieser Informationen werden in der zweiten Phase, die bereits genannten, konzeptuellen Modelle erstellt. Die Modelle dienen dazu Debatten über die Thematik zu strukturieren, indem Sie mit der Realen Welt verglichen werden. In einem iterativen Prozess werden die ersten beiden Phasen wiederholt, bis die Thematik klar genug ist Ergebnisse zu treffen. Die Ergebnisse werden anschließend in konkrete Schritte formuliert, die ausgeführt werden sollen.
+
+Im Kontext des Bedrohungsmodell wird SSM eingesetzt, um das zielgerichtete Vorgehen ein Sicherheitskonzept zu erstellen zu analysieren. Die unterschiedlichen Weltansichten entstammen der Betrachtung eines Beschützers und Angreifers des Systems. Anhand deren konzeptionellen Modelle soll möglichst ganzheitliches Bedrohungsbild entstehen, aus welchem konkrete Schritte abgeleitet werden können.
 
 \section{Beschreibung der Problemsituation} \label{sec:problem_situation}
 
-Das in Abschnitt~\ref{sec:problemfeld} geschilderte Problemfeld zeigt einige Mängel des aktuellen Systems auf. Die Abbildung~\ref{fig:current_setup} zeigt ein unstrukturiertes Bild, in SSM Terminologie Rich-Picture. Es ist wichtiges Hilfsmittel zur Beschreibung der Problemsituation, welches möglichst viele Informationen in einem Bild erfassen soll. Besonders Grenzen, Struktur, Informationsflüsse, Kommunikationskanäle und das menschliche Aktivitätssystem sollen aufzeigt werden \cite{ssmger}. Der Fokus dieser Arbeit liegt auf dem Fernzugriff, dennoch werden auch die Probleme des lokalen Zugriffes erfasst. Dadurch soll verhindert werden, dass der Fernzugriff unnötige Hindernisse für die lokale Zugriffskontrolle schafft. 
+Die in Abschnitt~\ref{sec:marktrechner} geschilderte Architektur des Marktrechnerumfeldes, zeigt einige Mängel des aktuellen Systems auf. Die Abbildung~\ref{fig:current_setup} zeigt ein unstrukturiertes Bild, in SSM Terminologie Rich-Picture. Es ist wichtiges Hilfsmittel zur Beschreibung der Problemsituation, welches möglichst viele Informationen in einem Bild erfassen soll. Besonders Grenzen, Struktur, Informationsflüsse, Kommunikationskanäle und das menschliche Aktivitätssystem sollen aufzeigt werden \cite{ssmger}. Der Fokus dieser Arbeit liegt auf dem Fernzugriff, dennoch werden auch die Probleme des lokalen Zugriffes erfasst. Dadurch soll verhindert werden, dass der Fernzugriff unnötige Hindernisse für die lokale Zugriffskontrolle schafft. 
 
 \begin{figure}[h]
 \centering
