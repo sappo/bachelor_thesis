@@ -15,13 +15,12 @@
   <graph edgedefault="directed" id="G">
     <data key="d7"/>
     <node id="n0">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="400.0" x="41.0" y="75.0"/>
           <y:Fill color="#808080" color2="#808080" transparent="false"/>
           <y:BorderStyle color="#808080" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#FFFFFF" visible="true" width="122.0537109375" x="138.97314453125" y="5.43359375">Strukturanalyse<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#FFFFFF" visible="true" width="140.5634765625" x="129.71826171875" y="5.43359375">1. Strukturanalyse<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -33,7 +32,6 @@
       </data>
     </node>
     <node id="n1">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="400.0" x="41.0" y="105.0"/>
@@ -51,13 +49,12 @@
       </data>
     </node>
     <node id="n2">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="400.0" x="40.0" y="147.0"/>
           <y:Fill color="#808080" color2="#808080" transparent="false"/>
           <y:BorderStyle color="#808080" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#FFFFFF" visible="true" width="197.2861328125" x="101.35693359375" y="5.43359375">Schutzbedarfsfeststellung<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#FFFFFF" visible="true" width="215.7958984375" x="92.10205078125" y="5.43359375">2. Schutzbedarfsfeststellung<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -69,7 +66,6 @@
       </data>
     </node>
     <node id="n3">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="400.0" x="40.0" y="177.0"/>
@@ -87,13 +83,12 @@
       </data>
     </node>
     <node id="n4">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="400.0" x="40.0" y="219.0408704"/>
           <y:Fill color="#808080" color2="#808080" transparent="false"/>
           <y:BorderStyle color="#808080" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#FFFFFF" visible="true" width="307.61474609375" x="46.192626953125" y="5.43359375">Auswahl von Anpassung von Maßnahmen<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#FFFFFF" visible="true" width="326.12451171875" x="36.937744140625" y="5.43359375">3. Auswahl von Anpassung von Maßnahmen<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -105,10 +100,9 @@
       </data>
     </node>
     <node id="n5">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="46.0" width="400.0" x="40.0" y="244.0"/>
+          <y:Geometry height="46.0" width="400.0" x="40.0" y="249.04087040000002"/>
           <y:Fill color="#FFFFFF" color2="#FFFFFF" transparent="false"/>
           <y:BorderStyle color="#808080" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="31.9375" modelName="custom" textColor="#000000" visible="true" width="378.419921875" x="10.7900390625" y="7.03125">Modellierung: passende IT-Grundschutz-Bausteine auswählen,
@@ -124,13 +118,12 @@ Basis-Sicherheitscheck I: Soll-Ist-Vergleich<y:LabelModel>
       </data>
     </node>
     <node id="n6">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="30.0" width="400.0" x="40.00000000000003" y="301.902848"/>
+          <y:Geometry height="30.0" width="400.0" x="40.00000000000003" y="306.9437184"/>
           <y:Fill color="#808080" color2="#808080" transparent="false"/>
           <y:BorderStyle color="#808080" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#FFFFFF" visible="true" width="233.68359375" x="83.158203125" y="5.43359375">Ergänzende Sicherheitsanalyse<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#FFFFFF" visible="true" width="252.193359375" x="73.9033203125" y="5.43359375">4. Ergänzende Sicherheitsanalyse<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -142,10 +135,9 @@ Basis-Sicherheitscheck I: Soll-Ist-Vergleich<y:LabelModel>
       </data>
     </node>
     <node id="n7">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="30.0" width="400.0" x="40.00000000000003" y="331.902848"/>
+          <y:Geometry height="30.0" width="400.0" x="40.00000000000003" y="336.9437184"/>
           <y:Fill color="#FFFFFF" color2="#FFFFFF" transparent="false"/>
           <y:BorderStyle color="#808080" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" modelName="custom" textColor="#000000" visible="true" width="280.73828125" x="59.630859375" y="6.015625">Prüfen, ob zusätzlicher Anaylsebedarf besteht<y:LabelModel>
@@ -160,13 +152,12 @@ Basis-Sicherheitscheck I: Soll-Ist-Vergleich<y:LabelModel>
       </data>
     </node>
     <node id="n8">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="30.0" width="310.0" x="130.0" y="373.79740915712"/>
+          <y:Geometry height="30.0" width="310.0" x="130.0" y="378.83827955712"/>
           <y:Fill color="#808080" color2="#808080" transparent="false"/>
           <y:BorderStyle color="#808080" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#FFFFFF" visible="true" width="104.521484375" x="102.7392578125" y="5.43359375">Risikoanalyse<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#FFFFFF" visible="true" width="123.03125" x="93.484375" y="5.43359375">5. Risikoanalyse<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -178,10 +169,9 @@ Basis-Sicherheitscheck I: Soll-Ist-Vergleich<y:LabelModel>
       </data>
     </node>
     <node id="n9">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="30.0" width="310.0" x="130.0" y="403.79740915712"/>
+          <y:Geometry height="30.0" width="310.0" x="130.0" y="408.83827955712"/>
           <y:Fill color="#FFFFFF" color2="#FFFFFF" transparent="false"/>
           <y:BorderStyle color="#808080" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" modelName="custom" textColor="#000000" visible="true" width="287.8984375" x="11.05078125" y="6.015625">Risiken identifizieren, bewerten und behandeln<y:LabelModel>
@@ -196,13 +186,12 @@ Basis-Sicherheitscheck I: Soll-Ist-Vergleich<y:LabelModel>
       </data>
     </node>
     <node id="n10">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="30.0" width="400.0" x="40.0" y="445.86080319488"/>
+          <y:Geometry height="30.0" width="400.0" x="40.0" y="450.90167359488004"/>
           <y:Fill color="#808080" color2="#808080" transparent="false"/>
           <y:BorderStyle color="#808080" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#FFFFFF" visible="true" width="238.1904296875" x="80.90478515625" y="5.43359375">Konsilodierung der Maßnahmen<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#FFFFFF" visible="true" width="256.7001953125" x="71.64990234375" y="5.43359375">6. Konsilodierung der Maßnahmen<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -214,10 +203,9 @@ Basis-Sicherheitscheck I: Soll-Ist-Vergleich<y:LabelModel>
       </data>
     </node>
     <node id="n11">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="30.0" width="400.0" x="40.0" y="476.805696"/>
+          <y:Geometry height="30.0" width="400.0" x="40.0" y="481.84656640000003"/>
           <y:Fill color="#FFFFFF" color2="#FFFFFF" transparent="false"/>
           <y:BorderStyle color="#808080" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" modelName="custom" textColor="#000000" visible="true" width="343.80859375" x="28.095703125" y="6.015625">Fehlende und zusätzliche Maßnahmen zusammenführen<y:LabelModel>
@@ -232,13 +220,12 @@ Basis-Sicherheitscheck I: Soll-Ist-Vergleich<y:LabelModel>
       </data>
     </node>
     <node id="n12">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="30.0" width="400.0" x="40.0" y="518.7722974208001"/>
+          <y:Geometry height="30.0" width="400.0" x="40.0" y="523.8131678208001"/>
           <y:Fill color="#808080" color2="#808080" transparent="false"/>
           <y:BorderStyle color="#808080" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#FFFFFF" visible="true" width="186.8251953125" x="106.58740234375" y="5.43359375">Basis-Sicherheitscheck II<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#FFFFFF" visible="true" width="205.3349609375" x="97.33251953125" y="5.43359375">7. Basis-Sicherheitscheck II<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -250,10 +237,9 @@ Basis-Sicherheitscheck I: Soll-Ist-Vergleich<y:LabelModel>
       </data>
     </node>
     <node id="n13">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="30.0" width="400.0" x="40.0" y="549.71719022592"/>
+          <y:Geometry height="30.0" width="400.0" x="40.0" y="554.75806062592"/>
           <y:Fill color="#FFFFFF" color2="#FFFFFF" transparent="false"/>
           <y:BorderStyle color="#808080" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" modelName="custom" textColor="#000000" visible="true" width="329.541015625" x="35.2294921875" y="6.015625">Umsetzung neuer und geänderter Maßnahmen prüfen<y:LabelModel>
@@ -268,13 +254,12 @@ Basis-Sicherheitscheck I: Soll-Ist-Vergleich<y:LabelModel>
       </data>
     </node>
     <node id="n14">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="30.0" width="400.0" x="40.0" y="591.703326736384"/>
+          <y:Geometry height="30.0" width="400.0" x="40.0" y="596.7441971363841"/>
           <y:Fill color="#808080" color2="#808080" transparent="false"/>
           <y:BorderStyle color="#808080" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#FFFFFF" visible="true" width="219.29345703125" x="90.353271484375" y="5.43359375">Realisierung der Maßnahmen<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#FFFFFF" visible="true" width="237.80322265625" x="81.098388671875" y="5.43359375">8. Realisierung der Maßnahmen<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -286,10 +271,9 @@ Basis-Sicherheitscheck I: Soll-Ist-Vergleich<y:LabelModel>
       </data>
     </node>
     <node id="n15">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="30.0" width="400.0" x="40.0" y="621.703326736384"/>
+          <y:Geometry height="30.0" width="400.0" x="40.0" y="626.7441971363841"/>
           <y:Fill color="#FFFFFF" color2="#FFFFFF" transparent="false"/>
           <y:BorderStyle color="#808080" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" modelName="custom" textColor="#000000" visible="true" width="341.388671875" x="29.3056640625" y="6.015625">Organisatorische und technische Maßnahmen einführen<y:LabelModel>
@@ -304,7 +288,6 @@ Basis-Sicherheitscheck I: Soll-Ist-Vergleich<y:LabelModel>
       </data>
     </node>
     <edge id="e0" source="n1" target="n2">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -315,7 +298,6 @@ Basis-Sicherheitscheck I: Soll-Ist-Vergleich<y:LabelModel>
       </data>
     </edge>
     <edge id="e1" source="n3" target="n4">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -326,7 +308,6 @@ Basis-Sicherheitscheck I: Soll-Ist-Vergleich<y:LabelModel>
       </data>
     </edge>
     <edge id="e2" source="n5" target="n6">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -337,7 +318,6 @@ Basis-Sicherheitscheck I: Soll-Ist-Vergleich<y:LabelModel>
       </data>
     </edge>
     <edge id="e3" source="n7" target="n8">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-44.99999999999997" ty="-15.0078125"/>
@@ -348,7 +328,6 @@ Basis-Sicherheitscheck I: Soll-Ist-Vergleich<y:LabelModel>
       </data>
     </edge>
     <edge id="e4" source="n9" target="n10">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="-45.0" sy="15.0078125" tx="0.0" ty="0.0"/>
@@ -359,7 +338,6 @@ Basis-Sicherheitscheck I: Soll-Ist-Vergleich<y:LabelModel>
       </data>
     </edge>
     <edge id="e5" source="n7" target="n10">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="-163.73048777728008" sy="0.5351221350399555" tx="-163.73048777728005" ty="-15.00408305984007"/>
@@ -370,7 +348,6 @@ Basis-Sicherheitscheck I: Soll-Ist-Vergleich<y:LabelModel>
       </data>
     </edge>
     <edge id="e6" source="n11" target="n12">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -381,7 +358,6 @@ Basis-Sicherheitscheck I: Soll-Ist-Vergleich<y:LabelModel>
       </data>
     </edge>
     <edge id="e7" source="n13" target="n14">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="-2.138393778175214"/>

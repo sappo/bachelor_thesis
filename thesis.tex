@@ -8,7 +8,7 @@
 \newcommand{\titel}{Entwurf, prototypische Implementierung und Evaluation eines Sicherheitskonzepts für die Authentifizierung und Autorisierung von Fernzugriffen auf eine Automatisierungsanlage}
 \newcommand{\kurztitel}{Template Abschlussarbeit}
 \newcommand{\autor}{Kevin Sapper}
-\newcommand{\datum}{10. Oktober 2014} % Abgabedatum
+\newcommand{\datum}{14. Oktober 2014} % Abgabedatum
 \newcommand{\ort}{Wiesbaden}
 \newcommand{\referent}{Prof.\ Dr.\ Reinhold Kröger}
 \newcommand{\korreferent}{Prof.\ Dr.\ Martin Gergeleit}
@@ -55,25 +55,23 @@ Die genaue Funktionsweise einer Kälteanlage ist für diese Arbeit uninteressant
 Viele Kälteanlagen benötigen viele Meter Leitungen, um die Leitungslänge zu optimieren werden die Meisten in Lowspeed betrieben. Dies erhöht zwar die mögliche Leitungslänge, senkt allerdings die Datenrate auf 125 kbit/s. Bei dieser Datenrate ist die maximale Teilnehmeranzahl auf ca. 100 begrenzt.
 \end{comment}
 
-\section{E*LDS} ist die Produktreihe, die von der Eckelmann AG zur Steuerung und Verwaltung von Kälteanlagen entwickelt wird. Diese beinhaltet Verbundsteuerungen zur Kälteerzeugung, Kühlstellenregler zur temperaturgenauen Reglung aller Arten von Kühlmöbeln und Kühlräumen, Funk-Temperatursensoren und der Marktrechner als zentrale Intelligenz einer Kälteanlage \cite{elds}.
+\subsection{E*LDS} ist die Produktreihe, die von der Eckelmann AG zur Steuerung und Verwaltung von Kälteanlagen entwickelt wird. Diese beinhaltet Verbundsteuerungen zur Kälteerzeugung, Kühlstellenregler zur temperaturgenauen Reglung aller Arten von Kühlmöbeln und Kühlräumen, Funk-Temperatursensoren und der Marktrechner als zentrale Intelligenz einer Kälteanlage \cite{elds}.
 
-
-
-\section{Marktrechner} \label{sec:marktrechner} 
+\subsection{Marktrechner} \label{sec:marktrechner} 
 Betrachtet man eine Kälteanlage, dann ist der Marktrechner ihr Herzstück. Über das Bussystem Controller Area Network (CAN) ist er mit sämtlichen Komponenten der Anlage verbunden. Über den CAN-Bus ist er in der Lage, Komponenten zentral zu parametrieren und zu überwachen. Sämtliche Betriebsdaten und Betriebszustände, Meldungen und Alarme aus der Überwachung werden auf seinem internen Speicher archiviert \cite{elds}.
 
-\paragraph{Hardware \& Software} Der Marktrechner verfügt über einen 32-Bit Prozessor mit ARM-Architektur. Als Datenspeicher ist eine SD-Karte fest verbaut. Zur Kommunikation notwendige Schnittstellen sind in Abbildung~\ref{fig:marktrechner_interfaces} zu sehen. Der Ethernet-Port wird zur Fernwartung eingesetzt. Über die drei RS232 COM-Schnittstellen kann ein PC vor Ort angeschlossen werden, die Fernwartung via Modem erfolgen, das M-Bus-Gateway zur Verbrauchsdatenerfassung verbunden werden oder Sonderfunktionen zum Beispiel Gebäudeleittechnik, sonstige Fremdsysteme oder Kompaktregler bedient werden. Über die RS485 COM-Schnittstelle können Modbus-Regler hinzugefügt werden. Die USB-Host und USB-Slave Anschlüsse sind für zukünftig Benutzung vorgesehen. Einer der beiden CAN-Bus Anschlüsse wird benutzt, um mit den E*LDS zu kommunizieren. Der zweite ist für zukünftige Benutzung vorgesehen. Und über die zwei Digitaleingänge können entweder Alarme entgegengenommen oder Energiezähler gelesen werden. Die Benutzerinteraktion wird über ein 5-Zoll Touch-Display realisiert.
+\paragraph{Hardware \& Software} Der Marktrechner verfügt über einen 32-Bit Prozessor mit ARM-Architektur. Als Datenspeicher ist eine SD-Karte fest verbaut. Zur Kommunikation notwendige Schnittstellen sind in Abbildung~\ref{fig:marktrechner_interfaces} zu sehen. Der Ethernet-Port wird zur Fernwartung eingesetzt. Über die drei RS232 COM-Schnittstellen kann ein PC vor Ort angeschlossen werden, die Fernwartung via Modem erfolgen, das M-Bus-Gateway zur Verbrauchsdatenerfassung verbunden werden oder Sonderfunktionen zum Beispiel Gebäudeleittechnik, sonstige Fremdsysteme oder Kompaktregler bedient werden. Über die RS485 COM-Schnittstelle können Modbus-Regler hinzugefügt werden. Die USB-Host und USB-Slave Anschlüsse sind für zukünftig Benutzung vorgesehen. Einer der beiden CAN-Bus Anschlüsse wird benutzt, um mit den E*LDS zu kommunizieren. Der zweite ist für zukünftige Benutzung vorgesehen. Und über die zwei Digitaleingänge können entweder Alarme entgegengenommen oder Energiezähler gelesen werden. Die Benutzerinteraktion wird über ein 7-Zoll Touch-Display realisiert.
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.5]{images/CI4000_Hardware.pdf}
+\includegraphics[scale=0.54]{images/CI4000_Hardware.pdf}
 \caption{Schittstellen Marktrechner}
 \label{fig:marktrechner_interfaces}
 \end{figure}
 
-Das Betriebssystem auf dem Marktrechner ist eine eigene Linux-Distribution, welche mit der Software ptxdist, der  Pengutronix e.K., erstellt wird. Mit ptxdist lassen sich vorgegeben und eigene Module zu einer sehr schlanken Distribution zusammenbauen. Die eigenen Softwaremodule sind in C++ und dem Qt-Framework geschrieben. Als Fremdmodul ist zum Beispiel der lighttpd Webserver installiert.
+Das Betriebssystem auf dem Marktrechner ist eine eigene Linux-Distribution, welche mit der Software ptxdist, der  Pengutronix e.K., erstellt wird. Ptxdist bringt einige Hundert Module und Bibliotheken mit, welche über einen einfachen Dialog an- und abgewählt werden können. Mit ein wenig Konfigurationsaufwand können auch eigene Module mit aufgenommen werden. Dadurch kann eine sehr schlanken Distribution erzeugt werden, die  auf den eigenen Software-Stack zugeschnitten ist. Die eigenen Softwaremodule sind in C++ und dem Qt-Framework geschrieben. 
 
-\paragraph{Konnektivität}
+\paragraph{Architektur}
 
 Alle Daten und Meldungen, die der Marktrechner sammelt und aufbereitet, müssen zu einem Zeitpunkt von einem Menschen ausgewertet werden. Die 24-Stunden Überwachung vor Ort, durch einen Mitarbeiter, ist nicht wirtschaftlich. Deshalb übernehmen heutzutage großteils Fernservice-Zentralen (FSZs) die Überwachung von Kälteanlagen. Der Marktrechner kann aus der Ferne über eine Ethernet- oder Modem-Verbindung erreicht werden. Letztere wird, aufgrund ihres aussterbendes Charakters, an dieser Stelle nicht weiter erläutert. Für den Zugriff auf die Ethernet-Schnittstelle sind Fernservice-Zentralen, über VPN, mit einem oder mehreren Unternehmensnetzwerken, ihrer Kunden, verbunden (Abbildung~\ref{fig:current_setup}). Über dieses können die Marktrechner erreicht werden. Auf diese Weise kann eine einzige Fernservice-Zentrale Tausende Marktrechner überwachen. Der Marktrechner fungiert als Server, das heißt Daten und Meldungen müssen aktiv von einer Fernservice-Zentrale abgeholt werden. Ist aus den abgeholten Daten ersichtlich, dass ein Fehler in der Anlage aufgetreten ist, kann die Fernservice-Zentrale entweder direkt eingreifen oder einen Monteur zum betreffenden Kunden schicken, der die Anlage instand setzt.
 
@@ -121,9 +119,9 @@ Beim Einsatz von VPN ist die Kommunikation von der Fernservice-Zentrale bis zum 
 
 Neben diesen offensichtlichen gibt es weitere Mängeln. Zum Beispiel sind aussagekräftige Logs Hauptbestandteil eines guten Systems. Sinnvoll ist das protokollieren des Systemzugriffs. Durch die ungeeigneten Sicherheitsmaßnahmen verliert das Zugriffslog jedoch komplett an Aussagekraft und ist damit wertlos. Ein weiterer Mangel ist, dass der Hersteller durch die existierende End-to-Site VPN-Verbindung keinen Zugriff auf die Systeme erlangen kann, um Unterstützung bei Problemen zu leisten. 
 
-\section{Alarmmanagement} beschreibt Tätigkeiten, um die Alarmierung einer Kälteanlage. Dazu gehört in ersten Schritt das Anlegen und das Konfigurieren der Alarme. Als nächstes sieht es die aktive, durch Polling am System, oder passive, durch Pushen des Systems, Versand der Alarme vor. Außerdem beinhaltet es das Auswerten archivierter Alarme. Ein Alarm trifft eine Aussage über den Betriebszustand der Kälteanlage. Beispielsweise, wird ein Alarm ausgelöst, wenn die Temperatur in einen Kühlgerät für die darin gelagerte Waren einen bestimmten Grenzwert übersteigt.
+\subsection{Alarmmanagement} beschreibt Tätigkeiten, um die Alarmierung einer Kälteanlage. Dazu gehört in ersten Schritt das Anlegen und das Konfigurieren der Alarme. Als nächstes sieht es die aktive, durch Polling am System, oder passive, durch Pushen des Systems, Versand der Alarme vor. Außerdem beinhaltet es das Auswerten archivierter Alarme. Ein Alarm trifft eine Aussage über den Betriebszustand der Kälteanlage. Beispielsweise, wird ein Alarm ausgelöst, wenn die Temperatur in einen Kühlgerät für die darin gelagerte Waren einen bestimmten Grenzwert übersteigt.
 
-\section{Offline-Konfiguration} Eine an den Markt angepasste Konfiguration der Kälteanlage, welche vor Inbetriebnahme erstellt wurde. Ein Teil ist die genaue Parametrierung der Kühlgeräte und Kühlmöbel, unter Berücksichtigung der darin zu lagernden Ware.
+\subsection{Offline-Konfiguration} Eine an den Markt angepasste Konfiguration der Kälteanlage, welche vor Inbetriebnahme erstellt wurde. Ein Teil ist die genaue Parametrierung der Kühlgeräte und Kühlmöbel, unter Berücksichtigung der darin zu lagernden Ware.
 
 \section{Sicherheitskonzept}
 
@@ -135,37 +133,44 @@ Als Teil des Sicherheitskonzeptes dieser Arbeit wird es sein dieses Authentifizi
 \chapter{Bedrohungsmodell} \label{chap:threat}
 \epigraphhead[70]{\epigraph{The only truly secure system is one that is powered off, cast in a block of concrete and sealed in a lead-lined room with armed guards.}{\textit{Gene Spafford}}}
 
-Das Bedrohungsmodell soll auf mögliche Gefährdungen des aktuellen Systems hinweisen. Diese werden analysiert und schrittweise, durch geeignete Maßnahmen, versucht einzudämmen. 
+Das Bedrohungsmodell soll auf mögliche Gefährdungen des aktuellen Systems hinweisen. Diese werden analysiert und schrittweise, durch geeignete Maßnahmen, versucht einzudämmen. Eine aussagekräftige Analyse setzt die Wahl eines geeigneten Modells voraus. 
 
-\section{Modellauswahl}
+\section{Modellübersicht}
+
+Die beiden Modelle die erläutert und gegenübergestellt werden sind, der IT-Grundschutz und die Soft Systems Methodology (SSM). Während der IT-Grundschutz auf Sicherheitssysteme spezialisiert ist, lässt sich SSM auch allgemein verwenden.
 
 \subsection{BSI Sicherheitskonzept}
+Folgende Ausführungen sind dem BSI IT-Grundschutz Empfehlungen entnommen \cite{bsi_standard1,bsi_standard2,bsi_standard3,bsi_standard4}.
+Das Bundesamt für Sicherheit in der Informationstechnik stellt im Rahmen seiner IT-Grundschutz Empfehlungen auch ein Modell zur Entwicklung von Sicherheitskonzepten dar. In Abbildung~\ref{fig:bsi_sicherheit} sind die empfohlenen Schritte gezeigt. Das Modell des BSI betrachtet ein Sicherheitskonzept rein aus technischer Seite und nimmt direkten Bezug auf die Reale Welt. Schritt eins, verlangt die Erfassung aller Komponenten im Geltungsbereich. Dazu soll das Zusammenspiel zwischen Geschäftsprozessen und Anwendungen herausgearbeitet werden. Als nächstes soll der Schutzbedarf, der Komponenten aus Schritt eins, ermittelt werden. Der ermittelte Schutz soll gemäß der eingesetzte Informationstechnik ausreichend beziehungsweise angemessen sein. Anhand dieser Informationen werden, für die Zielobjekte aus Strukturanalyse und Schutzbedarf, Bausteine aus dem IT-Grundschutz gewählt. Der anschließende Basis-Sicherheitscheck soll das aktuelle Sicherheitsniveau einschätzen und liefert als Ergebnis eine Liste der relevanten Maßnahmen und ihrem Umsetzungsstatus "entbehrlich", "ja", "teilweise" oder "nein". Dafür sollen Gefährdungenkataloge und Maßnahmenkataloge des BSI genutzt werden. In Schritt vier wird geprüft, ob die Standard-Sicherheitsmaßnahmen ausreichend sind, was für die meisten typischen Geschäftsfelder der Fall seinen sollte. Sollten erweitere Sicherheitsmaßnahmen nötig werden muss für diese eine Risikoanylse durchgeführt werden. Bei den Standard-Sicherheitsmaßnahmen ist dies bereits durch die IT-Grundschutz-Kataloge abgedeckt. 
 
-Der Bundesamt für Sicherheit in der Informationstechnik stellt im Rahmen seiner IT-Grundschutz Empfehlungen auch eine Modell zur Entwicklung von Sicherheitskonzepten dar. In Abbildung~\ref{fig:bsi_sicherheit} sind die empfohlenen Schritte gezeigt. 
-
-Das Modell des BSI betrachtet ein Sicherheitskonzept rein aus technischer Seite ohne sich explizit mit der Systemlandschaft, den Benutzern oder geeigneten Abstraktionsmethodiken zu befassen. Die einzelnen Schritte können jedoch im SSM berücksichtigt werden, auch wenn die Reihenfolge dabei durcheinander geworfen wird.
-
-\begin{figure}[h]
+\begin{figure}[htbp]
 \centering
-\includegraphics[scale=0.3]{images/bsi_sicherheitskonzept.pdf}
-\caption{BSI Sicherheitskonzept}
+\includegraphics[scale=0.35]{images/bsi_sicherheitskonzept.pdf}
+\caption[BSI Sicherheitskonzept]{BSI Sicherheitskonzept\footnotemark}
 \label{fig:bsi_sicherheit}
 \end{figure}
+\footnotetext{Der Zeichnung \cite{bsi_img} des BSI nachempfunden, aufgrund unangemessener Bildqualität}
+
+Ab Schritt sechs erfolgt die Durchführung der Maßnahmen. Bei der Konsolidierung wird geprüft, welche Maßnahmen aus den IT-Grundschutz-Katalogen tatsächlich, in der Praxis, umsetzbar sind. Teilweise müssen einige Maßnahmen noch an Begebenheiten im Unternehmen angepasst werden. Unter Berücksichtigung des verfügbaren Budgets und des verfügbaren Personals, werden die entsprechenden Maßnahmen für die Umsetzung geplant. Im zweiten Sicherheitscheck wird abschließend ein erneuter Soll-Ist-Vergleich durchgeführt, um die Ergebnisse der Maßnahmen zu überprüfen. Als letzter Schritt werden die Maßnahmen im Alltagsgeschäft in Betrieb genommen.
 
 \subsection{Soft Systems Methodology}
 
-%\begin{figure}[h]
-\begin{wrapfigure}{r}{6cm}
+Eine geeignete Analyse- und Designmethodik für ein Bedrohungsmodell, bietet die Soft Systems Methodology (SSM), Abbildung~\ref{fig:ssm}.
+
+\begin{figure}[htbp]
 \centering
-\includegraphics[width=6cm]{images/ssm.pdf}
+\includegraphics[scale=0.30]{images/ssm.pdf}
 \caption{Soft Systems Methodologie}
 \label{fig:ssm}
-\end{wrapfigure}
-%\end{figure}
+\end{figure}
 
-Eine geeignete Analyse- und Designmethodik für ein Bedrohungsmodell, bietet die Soft Systems Methodology (SSM), Abbildung~\ref{fig:ssm}. SSM wurde in den 1960er Jahren, an Universität von Lancaster, von Peter Checkland, begonnen zu entwickeln. SSM kann prinzipielle immer dann eingesetzt werden, wenn jemand versucht zielgerichtet zu handeln \cite{checkland1}. Ein wichtiger Teil von SSM ist die Weltansicht, welche einem Vorgehen Sinn und Zweck verleiht. Beispielsweise ist des Einen Terrorist, in den Augen eines Anderen ein Freiheitskämpfer. Beide betrachten jedoch das Selbe. Durch mehrere zielgerichtete Vorgehen, unterschiedlicher Weltansichten, wird in SSM versucht die Reale Welt zu beschrieben. Diese ist jedoch viel zu komplex ist, um in irgendeiner Modellsprache erfasst zu werden. Daher werden bewusst bestimmte Teile des zielgerichteten Vorgehens, in einem rein konzeptionellen Modell beschrieben. Diese Trennung findet im Modell zwischen Phase 1 und 2 statt. In der ersten Phase wird die gesamte Problemsituation in der Realen Welt, aus Sicht aller Beteiligten, erörtert und unstrukturiert beschrieben. Anhand dieser Informationen werden in der zweiten Phase, die bereits genannten, konzeptuellen Modelle erstellt. Die Modelle dienen dazu Debatten über die Thematik zu strukturieren, indem Sie mit der Realen Welt verglichen werden. In einem iterativen Prozess werden die ersten beiden Phasen wiederholt, bis die Thematik klar genug ist Ergebnisse zu treffen. Die Ergebnisse werden anschließend in konkrete Schritte formuliert, die ausgeführt werden sollen.
+SSM wurde in den späten 1960er Jahren, an Universität von Lancaster, von Peter Checkland, begonnen zu entwickeln. Es war zunächst als Modellierungswerkzeug gedacht, wird aber hauptsächlich als Lern- und Bedeutungswerkzeug angesehen \cite{bobwill}. SSM kann prinzipielle immer dann eingesetzt werden, wenn jemand versucht zielgerichtet zu handeln \cite{checkland1}. Ein wichtiger Teil von SSM ist die Weltansicht, welche einem Vorgehen Sinn und Zweck verleiht. Beispielsweise, des einen Terrorist ist des anderen Freiheitskämpfer. Beide betrachten jedoch das Selbe. Durch mehrere zielgerichtete Vorgehen, unterschiedlicher Weltansichten, wird in SSM versucht die Reale Welt zu beschrieben. Diese ist jedoch viel zu komplex, um in irgendeiner Modellsprache erfasst zu werden. Daher wird das Vorgehen bewusst auf ein rein konzeptionelles Modell beschränkt. Diese Einschränkung verringert die Komplexität und soll dadurch die Problemlösung vereinfachen. Die Trennung zwischen Realer Welt und Systemabbild der Realen Welt findet im Modell zwischen Phase 1 und 2 statt. In der ersten Phase wird die gesamte Problemsituation der Realen Welt, aus Sicht aller Beteiligten, erörtert und unstrukturiert beschrieben. Anhand dieser Informationen werden in der zweiten Phase, die bereits genannten, konzeptuellen Modelle erstellt. Die Modelle dienen dazu Debatten über die Thematik zu strukturieren, indem Sie mit der Realen Welt verglichen werden. In einem iterativen Prozess werden die ersten beiden Phasen wiederholt, bis die Thematik klar genug ist Ergebnisse zu treffen. Die Ergebnisse werden anschließend in konkrete Schritte formuliert, die ausgeführt werden sollen.
 
 Im Kontext des Bedrohungsmodell wird SSM eingesetzt, um das zielgerichtete Vorgehen ein Sicherheitskonzept zu erstellen zu analysieren. Die unterschiedlichen Weltansichten entstammen der Betrachtung eines Beschützers und Angreifers des Systems. Anhand deren konzeptionellen Modelle soll möglichst ganzheitliches Bedrohungsbild entstehen, aus welchem konkrete Schritte abgeleitet werden können.
+
+\subsection{Modellentscheidung}
+
+Das vom BSI vorgeschlagene Konzept betrachtet aus technischer Sicht alle Aspekte, welche ein Sicherheitsmodell umfassen sollte. Vom Konzept her ist es jedoch wesentlich zu komplex, da es für Sicherheitskonzepte kompletter Unternehmen ausgelegt ist, die eine teure Zertifizierung, als "Qualitätsmerkmal", durch den BSI anstreben. Zudem nimmt die vom BSI vorgeschlagenen Vorgehensweise keinerlei Rücksicht auf verschiedene Weltanschauungen. Im Bezug auf die Bedrohungsanalyse, kann diese allenfalls aus der Weltanschauung des Unternehmens komplett sein. Die Soft Systems Methodology ist zwar nicht als Methodik zur Erstellung eines Sicherheitskonzeptes gedacht, dennoch ist sie als Vorgehensweise durch ihre Trennung zwischen Realer Welt und deren Abstraktion besser geeignet. Im Gegensatz zum Vorgehen des BSI wird nicht alles anhand großer Tabellen stur abgearbeitet, SSM wurde geschaffen, um Einfluss auf das menschliche Denken und Vorgehen zu nehmen und soll diese zu optimieren. Das heißt nicht, dass alles aus dem IT-Grundschutz des BSI unbrauchbar, für anwendungsspezifische Sicherheitskonzepte, ist. Unter anderem die Vorarbeit, die der BSI mit Gefährdungenkataloge und Maßnahmenkataloge geleistet hat lässt sich auch mit SSM verwenden.
 
 \section{Beschreibung der Problemsituation} \label{sec:problem_situation}
 
