@@ -32,15 +32,21 @@ LaTeXThesis.zip: $(TOPACK)
 $(MAIN).pdf: $(TEXFILES) $(STYLES) $(INCLUDE_DRAWINGS) $(INCLUDE_BIB)
 
 plantToSvg:
-	java -jar tools/plantuml.jar -tsvg thesis.tex
+	java -jar tools/plantuml.jar -tsvg -forcecairo thesis.tex
+	mv images/*.svg images/rsvg
 
-SVGS= $(shell find images/ -type f -name '*.svg')
-.PHONY: svgToPdf $(SVGS)
-svgToPdf: $(SVGS)
-$(SVGS):
-	rsvg-convert -d 150 -p 150 -f pdf -o $(basename $@).pdf $@
+CAIRO_SVGS=$(shell find images/cairo -type f -name '*.svg')
+RSVG_SVGS=$(shell find images/rsvg -type f -name '*.svg')
+.PHONY: svgCToPdf $(CAIRO_SVGS)
+.PHONY: svgRToPdf $(RSVG_SVGS)
+svgCToPdf: $(CAIRO_SVGS) 
+$(CAIRO_SVGS):
+	cairosvg $@ -f pdf -d 150 -o $(dir $@)../$(basename $(notdir $@)).pdf
+svgRToPdf: $(RSVG_SVGS) 
+$(RSVG_SVGS):
+	rsvg-convert $@ -f pdf -d 150 -p 150 -o $(dir $@)../$(basename $(notdir $@)).pdf
 
-images: plantToSvg svgToPdf
+images: plantToSvg svgCToPdf svgRToPdf
 
 
 bib: $(MAIN)1.bbl $(MAIN)2.bbl
