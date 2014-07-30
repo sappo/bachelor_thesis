@@ -58,7 +58,7 @@ Viele Kälteanlagen benötigen viele Meter Leitungen, um die Leitungslänge zu o
 
 \subsection{E*LDS} ist die Produktreihe, die von der Eckelmann AG zur Steuerung und Verwaltung von Kälteanlagen entwickelt wird. Abbildung~\ref{fig:kaelteanlage} zeigt die typische Vernetzung der Komponenten. Diese beinhaltet Verbundsteuerungen zur Kälteerzeugung, Kühlstellenregler zur temperaturgenauen Reglung aller Arten von Kühlmöbeln und Kühlräumen, Funk-Temperatursensoren und der Marktrechner als zentrale Intelligenz einer Kälteanlage \cite{elds}. Über das Bussystem Controller Area Network (CAN) sind sämtlichen Komponenten der Anlage verbunden. Zusätzlich können über eine Modbus-Schnittstelle Fremdsysteme anderer Hersteller angebunden werden. Für die Vorort-Bedienung kann das  Touch-Screen des Marktrechners genutzt werden. Alternative kann ein PC mit einem CAN-Bus-PC-Adapter verbunden werden und über die Software LDSWin zugreifen. Der Fernzugriff kann über eine Wählverbinung (Modem) oder über VPN, je nach Verfügbarkeit, geschehen. Auch hier wird der Zugriff durch die Software LDSWin ermöglicht.
 
-\begin{figure}[h]
+\begin{figure}[htbp]
 \centering
 \includegraphics[scale=0.65]{images/kaelteanlage_uebersicht.pdf}
 \caption{Übersicht einer Kälteanlage}
@@ -70,9 +70,9 @@ Betrachtet man eine Kälteanlage, dann ist der Marktrechner ihr Herzstück. Übe
 
 \paragraph{Hardware \& Software} Der Marktrechner verfügt über einen 32-Bit Prozessor mit ARM-Architektur. Als Datenspeicher ist eine SD-Karte fest verbaut. Zur Kommunikation notwendige Schnittstellen sind in Abbildung~\ref{fig:marktrechner_interfaces} zu sehen. Der Ethernet-Port wird zur Fernwartung eingesetzt. Über die drei RS232 COM-Schnittstellen kann ein PC vor Ort angeschlossen werden, die Fernwartung via Modem erfolgen, das M-Bus-Gateway zur Verbrauchsdatenerfassung verbunden werden oder Sonderfunktionen zum Beispiel Gebäudeleittechnik, sonstige Fremdsysteme oder Kompaktregler bedient werden. Über die RS485 COM-Schnittstelle können Modbus-Regler hinzugefügt werden. Die USB-Host und USB-Slave Anschlüsse sind für zukünftig Benutzung vorgesehen. Einer der beiden CAN-Bus Anschlüsse wird benutzt, um mit den E*LDS zu kommunizieren. Der zweite ist für zukünftige Benutzung vorgesehen. Und über die zwei Digitaleingänge können entweder Alarme entgegengenommen oder Energiezähler gelesen werden. Die Benutzerinteraktion wird über ein 7-Zoll Touch-Display realisiert.
 
-\begin{figure}[h]
+\begin{figure}[htbp]
 \centering
-\includegraphics[scale=0.57]{images/CI4000_Hardware.pdf}
+\includegraphics[scale=1.1]{images/CI4000_Hardware_Sticker.pdf}
 \caption{Schittstellen Marktrechner}
 \label{fig:marktrechner_interfaces}
 \end{figure}
@@ -116,7 +116,7 @@ UA - [Marktrechner 1]
 @enduml
 \end{comment}
 
-\begin{figure}[h]
+\begin{figure}[htbp]
 \centering
 \includegraphics[scale=0.2]{images/problemfeld.pdf}
 \caption{Aktuelle Vernetzung}
@@ -137,32 +137,38 @@ Viele Sicherheitssysteme heutzutage sind \textit{"sicher"}, da niemand sich die 
 
 Teil des Sicherheitskonzeptes dieser Arbeit wird es sein, dieses Authentifizierungsproblem auf geeignete Weise zu berücksichtigen, ohne das durch den Einsatz einer bestimmten Technologie im Extremfall enorme Kosten entstehen können. 
 
-\chapter{Bedrohungsmodell} \label{chap:threat}
-\epigraphhead[70]{\epigraph{The only truly secure system is one that is powered off, cast in a block of concrete and sealed in a lead-lined room with armed guards.}{\textit{Gene Spafford}}}
-
-Das Bedrohungsmodell soll auf mögliche Gefährdungen des aktuellen Systems hinweisen. Diese werden analysiert und schrittweise durch geeignete Maßnahmen versucht einzudämmen. Eine aussagekräftige Analyse setzt die Wahl eines geeigneten Modells voraus. 
-
-\section{Modellübersicht}
+\section{Sicherheitsmodell}
 
 Die beiden Modelle, die erläutert und gegenübergestellt werden, sind der IT-Grund\-schutz und die Soft Systems Methodology (SSM). Während der IT-Grundschutz auf Sicherheits\-systeme/-konzepte entwickelt wurde, lässt sich SSM auch für allgemeine Problemstellungen verwenden.
 
 \subsection{BSI Sicherheitskonzept}
-Folgende Ausführungen sind dem BSI IT-Grundschutz Empfehlungen entnommen \cite{bsi_standard1,bsi_standard2,bsi_standard3,bsi_standard4}.
-Das Bundesamt für Sicherheit in der Informationstechnik stellt im Rahmen seiner IT-Grundschutz Empfehlungen auch ein Modell zur Entwicklung von Sicherheitskonzepten dar. In Abbildung~\ref{fig:bsi_sicherheit} sind die empfohlenen Schritte gezeigt. Das Modell des BSI betrachtet ein Sicherheitskonzept rein aus technischer Seite und nimmt direkten Bezug auf die Reale Welt. Schritt eins, verlangt die Erfassung aller Komponenten im Geltungsbereich. Dazu soll das Zusammenspiel zwischen Geschäftsprozessen und Anwendungen herausgearbeitet werden. Als nächstes soll der Schutzbedarf, der Komponenten aus Schritt eins, ermittelt werden. Der ermittelte Schutz soll gemäß der eingesetzte Informationstechnik ausreichend beziehungsweise angemessen sein. Anhand dieser Informationen werden, für die Zielobjekte aus Strukturanalyse und Schutzbedarf, Bausteine aus dem IT-Grundschutz gewählt. Der anschließende Basis-Sicherheitscheck soll das aktuelle Sicherheitsniveau einschätzen und liefert als Ergebnis eine Liste der relevanten Maßnahmen und ihrem Umsetzungsstatus "entbehrlich", "ja", "teilweise" oder "nein". Dafür sollen Gefährdungenkataloge und Maßnahmenkataloge des BSI genutzt werden. In Schritt vier wird geprüft, ob die Standard-Sicherheitsmaßnahmen ausreichend sind, was für die meisten typischen Geschäftsfelder der Fall seinen sollte. Sollten erweitere Sicherheitsmaßnahmen nötig werden muss für diese eine Risikoanylse durchgeführt werden. Bei den Standard-Sicherheitsmaßnahmen ist dies bereits durch die IT-Grundschutz-Kataloge abgedeckt. 
 
-\begin{figure}[htbp]
+Folgende Ausführungen sind dem BSI IT-Grundschutz Empfehlungen entnommen \cite{bsi_standard1,bsi_standard2,bsi_standard3,bsi_standard4}.
+Das Bundesamt für Sicherheit in der Informationstechnik stellt im Rahmen seiner IT-Grundschutz Empfehlungen auch ein Modell/Konzept zur Entwicklung von Sicherheitskonzepten dar. In Abbildung~\ref{fig:bsi_sicherheit} sind die empfohlenen Schritte gezeigt. Das Modell des BSI betrachtet ein Sicherheitskonzept rein aus technischer Seite und nimmt direkten Bezug auf die Reale Welt. Schritt eins, verlangt die Erfassung aller Komponenten im Geltungsbereich. Dazu soll das Zusammenspiel zwischen Geschäftsprozessen und Anwendungen herausgearbeitet werden. Als nächstes soll der Schutzbedarf, der Komponenten aus Schritt eins, ermittelt werden. Der ermittelte Schutz soll gemäß der eingesetzte Informationstechnik ausreichend beziehungsweise angemessen sein. Anhand dieser Informationen werden, für die Zielobjekte aus Strukturanalyse und Schutzbedarf, Bausteine aus dem IT-Grundschutz gewählt. Der anschließende Basis-Sicherheitscheck soll das aktuelle Sicherheitsniveau einschätzen und liefert als Ergebnis eine Liste der relevanten Maßnahmen und ihrem Umsetzungsstatus "entbehrlich", "ja", "teilweise" oder "nein". Dafür sollen Gefährdungenkataloge und Maßnahmenkataloge des BSI genutzt werden. In Schritt vier wird geprüft, ob die Standard-Sicherheitsmaßnahmen ausreichend sind, was für die meisten typischen Geschäftsfelder der Fall seinen sollte. Sollten erweitere Sicherheitsmaßnahmen nötig werden muss für diese eine Risikoanylse durchgeführt werden. Bei den Standard-Sicherheitsmaßnahmen ist dies bereits durch die IT-Grundschutz-Kataloge abgedeckt. 
+
+\begin{figure}[htb]
 \centering
 \includegraphics[scale=0.7]{images/bsi_sicherheitskonzept.pdf}
 \caption[BSI Sicherheitskonzept]{BSI Sicherheitskonzept\footnotemark}
 \label{fig:bsi_sicherheit}
 \end{figure}
-\footnotetext{Der Zeichnung \cite{bsi_img} des BSI nachempfunden, aufgrund unangemessener Bildqualität}
 
 Ab Schritt sechs erfolgt die Durchführung der Maßnahmen. Bei der Konsolidierung wird geprüft, welche Maßnahmen aus den IT-Grundschutz-Katalogen tatsächlich, in der Praxis, umsetzbar sind. Teilweise müssen einige Maßnahmen noch an Begebenheiten im Unternehmen angepasst werden. Unter Berücksichtigung des verfügbaren Budgets und des verfügbaren Personals, werden die entsprechenden Maßnahmen für die Umsetzung geplant. Im zweiten Sicherheitscheck wird abschließend ein erneuter Soll-Ist-Vergleich durchgeführt, um die Ergebnisse der Maßnahmen zu überprüfen. Als letzter Schritt werden die Maßnahmen im Alltagsgeschäft in Betrieb genommen.
+\footnotetext{Der Zeichnung \cite{bsi_img} des BSI nachempfunden, aufgrund unangemessener Bildqualität}
+
+\subsection{Modellentscheidung}
+
+Das vom BSI vorgeschlagene Konzept betrachtet aus technischer Sicht alle Aspekte, welche ein Sicherheitsmodell umfassen sollte. Vom Konzept her ist es jedoch wesentlich zu komplex, da es für Sicherheitskonzepte kompletter Unternehmen ausgelegt ist, die eine teure Zertifizierung, als "Qualitätsmerkmal", durch den BSI anstreben. Zudem nimmt die vom BSI vorgeschlagenen Vorgehensweise keinerlei Rücksicht auf verschiedene Weltanschauungen. Im Bezug auf die Bedrohungsanalyse, kann diese allenfalls aus der Weltanschauung des Unternehmens komplett sein. Die Soft Systems Methodology ist zwar nicht als Methodik zur Erstellung eines Sicherheitskonzeptes gedacht, dennoch ist sie als Vorgehensweise durch ihre Trennung zwischen Realer Welt und deren Abstraktion besser geeignet. Im Gegensatz zum Vorgehen des BSI wird nicht alles anhand großer Tabellen stur abgearbeitet, SSM wurde geschaffen, um Einfluss auf das menschliche Denken und Vorgehen zu nehmen und soll dieses optimieren. Das heißt aber nicht, dass alles aus dem IT-Grundschutz des BSI unbrauchbar, für anwendungsspezifische Sicherheitskonzepte, ist. Unter anderem die Vorarbeit, die der BSI mit Gefährdungenkataloge und Maßnahmenkataloge geleistet hat, lässt sich auch mit SSM verwenden.
+
+\chapter{Bedrohunganalyse} \label{chap:analysis}
+\epigraphhead[70]{\epigraph{The only truly secure system is one that is powered off, cast in a block of concrete and sealed in a lead-lined room with armed guards.}{\textit{Gene Spafford}}}
+
+Nachfolgend beziehe ich mich auf \cite{gutmann9}.
+Das Lösen von Sicherheitsproblemen ist ein kniffeliges Unterfangen, da die typische Vorgehensweise von vielen Informatikern, dass Problem mit Technologien zu bewerfen nicht funktioniert. Fragt man diese beispielsweise, wie löst man das Problem Benutzer sicher über das Internet zu authentifizieren? Dann werden Antworten wie OpenID, LDAP, SecurID oder ähnliches zu hören sein. Nur die wenigsten werden fragen: Wer soll, wo, wogegen authentifiziert werden, wie benutzerfreundlich (einfach) kann der Mechanismus sein und welches Budget steht zur Verfügung? Um das natürliche Verlangen, die Lieblingstechnologie verwenden zu wollen, zu unterdrücken, ist es sinnvoll Problem Structuring Methods (PSK) einzusetzen. Das Ergebnis der Bedrohungsanalyse soll Aussagen, gegen was und wie die Anwendung geschützt werden soll.
 
 \subsection{Soft Systems Methodology}
 
-Eine geeignete Analyse- und Designmethodik für ein Bedrohungsmodell, bietet die Soft Systems Methodology (SSM), Abbildung~\ref{fig:ssm}.
+Eine geeignete Problem Structuring Method zur Bedrohungsanalyse, bietet die Soft Systems Methodology (SSM), welche in Abbildung~\ref{fig:ssm} gezeigt wird.
 
 \begin{figure}[htbp]
 \centering
@@ -171,13 +177,10 @@ Eine geeignete Analyse- und Designmethodik für ein Bedrohungsmodell, bietet die
 \label{fig:ssm}
 \end{figure}
 
-SSM wurde in den späten 1960er Jahren, an Universität von Lancaster, von Peter Checkland, begonnen zu entwickeln. Es war zunächst als Modellierungswerkzeug gedacht, wird aber hauptsächlich als Lern- und Bedeutungswerkzeug angesehen \cite{bobwill}. SSM kann prinzipielle immer dann eingesetzt werden, wenn jemand versucht zielgerichtet zu handeln \cite{checkland1}. Ein wichtiger Teil von SSM ist die Weltansicht, welche einem Vorgehen Sinn und Zweck verleiht. Beispielsweise, des einen Terrorist ist des anderen Freiheitskämpfer. Beide betrachten jedoch das Selbe. Durch mehrere zielgerichtete Vorgehen, unterschiedlicher Weltansichten, wird in SSM versucht die Reale Welt zu beschrieben. Diese ist jedoch viel zu komplex, um in irgendeiner Modellsprache erfasst zu werden. Daher wird das Vorgehen bewusst auf ein rein konzeptionelles Modell beschränkt. Diese Einschränkung verringert die Komplexität und soll dadurch die Problemlösung vereinfachen. Die Trennung zwischen Realer Welt und Systemabbild der Realen Welt findet im Modell zwischen Phase 1 und 2 statt. In der ersten Phase wird die gesamte Problemsituation der Realen Welt, aus Sicht aller Beteiligten, erörtert und unstrukturiert beschrieben. Anhand dieser Informationen werden in der zweiten Phase, die bereits genannten, konzeptuellen Modelle erstellt. Die Modelle dienen dazu Debatten über die Thematik zu strukturieren, indem Sie mit der Realen Welt verglichen werden. In einem iterativen Prozess werden die ersten beiden Phasen wiederholt, bis die Thematik klar genug ist Ergebnisse zu treffen. Die Ergebnisse werden anschließend in konkrete Schritte formuliert, die ausgeführt werden sollen.
+SSM wurde in den späten 60iger Jahren, an Universität von Lancaster, von Peter Checkland, begonnen zu entwickeln. Es war zunächst als Modellierungswerkzeug gedacht, wird aber hauptsächlich als Lern- und Bedeutungswerkzeug angesehen \cite{bobwill}. SSM kann prinzipielle immer dann eingesetzt werden, wenn jemand versucht zielgerichtet zu handeln \cite{checkland1}. Ein wichtiger Teil von SSM ist die Weltansicht, welche einem Vorgehen Sinn und Zweck verleiht. Beispielsweise, des einen Terrorist ist des anderen Freiheitskämpfer. Beide betrachten jedoch das Selbe. Durch mehrere zielgerichtete Vorgehen, unterschiedlicher Weltansichten, wird in SSM versucht die Reale Welt zu beschrieben. Diese ist jedoch viel zu komplex, um in irgendeiner Modellsprache erfasst zu werden. Daher wird das Vorgehen bewusst auf ein rein konzeptionelles Modell beschränkt. Diese Einschränkung verringert die Komplexität und soll dadurch die Problemlösung vereinfachen. Die Trennung zwischen Realer Welt und Systemmodell der Realen Welt findet zwischen Phase 1 und 2 statt. In der ersten Phase wird die gesamte Problemsituation der Realen Welt, aus Sicht aller Beteiligten, erörtert und unstrukturiert beschrieben. Anhand dieser Informationen werden in der zweiten Phase, die bereits genannten, konzeptuellen Modelle erstellt. Die Modelle dienen dazu Debatten über die Thematik zu strukturieren, indem sie mit der Realen Welt verglichen werden. In einem iterativen Prozess werden die ersten beiden Phasen wiederholt, bis die Thematik klar genug ist, um Ergebnisse zu treffen. Die Ergebnisse werden anschließend in konkrete Schritte formuliert, die ausgeführt werden sollen.
 
-Im Kontext des Bedrohungsmodell wird SSM eingesetzt, um das zielgerichtete Vorgehen ein Sicherheitskonzept zu erstellen zu analysieren. Die unterschiedlichen Weltansichten entstammen der Betrachtung eines Beschützers und Angreifers des Systems. Anhand deren konzeptionellen Modelle soll möglichst ganzheitliches Bedrohungsbild entstehen, aus welchem konkrete Schritte abgeleitet werden können.
+Nachfolgend wird zunächst die Problemsituation beschrieben, danach werden zwei konzeptionell Modelle aus unterschiedlichen Weltansichten erstellt. Die unterschiedlichen Weltansichten entstammen der Betrachtung eines Beschützers und Angreifers des Systems. Durch den Vergleich der konzeptionellen Modelle mit der Realen Welt werden konkrete Maßnahmen formuliert.
 
-\subsection{Modellentscheidung}
-
-Das vom BSI vorgeschlagene Konzept betrachtet aus technischer Sicht alle Aspekte, welche ein Sicherheitsmodell umfassen sollte. Vom Konzept her ist es jedoch wesentlich zu komplex, da es für Sicherheitskonzepte kompletter Unternehmen ausgelegt ist, die eine teure Zertifizierung, als "Qualitätsmerkmal", durch den BSI anstreben. Zudem nimmt die vom BSI vorgeschlagenen Vorgehensweise keinerlei Rücksicht auf verschiedene Weltanschauungen. Im Bezug auf die Bedrohungsanalyse, kann diese allenfalls aus der Weltanschauung des Unternehmens komplett sein. Die Soft Systems Methodology ist zwar nicht als Methodik zur Erstellung eines Sicherheitskonzeptes gedacht, dennoch ist sie als Vorgehensweise durch ihre Trennung zwischen Realer Welt und deren Abstraktion besser geeignet. Im Gegensatz zum Vorgehen des BSI wird nicht alles anhand großer Tabellen stur abgearbeitet, SSM wurde geschaffen, um Einfluss auf das menschliche Denken und Vorgehen zu nehmen und soll dieses optimieren. Das heißt aber nicht, dass alles aus dem IT-Grundschutz des BSI unbrauchbar, für anwendungsspezifische Sicherheitskonzepte, ist. Unter anderem die Vorarbeit, die der BSI mit Gefährdungenkataloge und Maßnahmenkataloge geleistet hat, lässt sich auch mit SSM verwenden.
 
 \section{Beschreibung der Problemsituation} \label{sec:problem_situation}
 
@@ -220,7 +223,6 @@ Anhand der in Abschnitt~\ref{sec:problem_situation} beschriebenen Problemsituati
 
 Die Ursachendefinitionen werden anhand der Gedächtnisstütze CATWOE\footnote{Übersetzungen wurden aus dem Artikel \cite{ssmger} übernommen.} gebildet \cite{bobwill}:
 
-
 \begin{itemize}[leftmargin=*]
 \item \textbf{Client (Kunde)}, Wer oder Was profitiert von dem Umwandlungsprozess.
 \item \textbf{Actor (Akteur)}, Wer ermöglicht den Umwandlungsprozess den Kunden.
@@ -245,34 +247,50 @@ Von einem nicht vertrauenswürdigen Zustand in einen vertrauenswürdigen Zustand
 
 \paragraph{Akteur} Die Verwaltung der Vertrauenswürdigkeit von vielen Kunden ist extrem zeit- und kostenintensiv. Deshalb werden als Akteure ein kleine Zahl von vertrauenswürdigen Mediatoren eingesetzt. Der Mediator ist die Schnittstelle zwischen Marktrechner und Kunde.
 
-\paragraph{Weltanschauung} Hersteller und Fernservice-Zentralen sind daran interessiert unerwünschte Zugriffe zu verhindern und ihr jeweiligen vertraulichen Daten zu schützen. Im Falle des Hersteller könnten Mitbewerber, aus den Kommunikationsinhalten, Kenntnisse über die Routinen und Protokolle erlangen. Ein Angreifer könnte durch Manipulation der Anlage Warenschaden anrichten, wofür der Hersteller und Fernservice-Zentrale haftbar sein können. Darüber hinaus kann eine Imageschaden verursacht werden, um Endkunden abzuwerben. Die Benutzer hingegen wollen ein funktionierendes System, sie haben einen Kältehintergrund und keine Ahnung von IT, Vertraulichkeit ist von sekundärer Natur. Wenn der Prozess Vertrauen zu schaffen Dinge kompliziert, wird der Benutzer versuchen ihn zu umgehen. Sollte das System nicht funktioniert, weil der Benutzer die Authentifizierung falsch bedient, ist trotzdem das System schuld, denn es ist seine Aufgabe den Benutzer darauf hinzuweisen.
+\paragraph{Weltanschauung} Hersteller und Fernservice-Zentralen sind daran interessiert unerwünschte Zugriffe zu verhindern und ihre jeweiligen vertraulichen Daten zu schützen. Im Falle des Hersteller könnten Mitbewerber, aus den Kommunikationsinhalten, Kenntnisse über die Routinen und Protokolle erlangen. Des Weiteren könnte ein Angreifer, durch die Manipulation der Anlage Warenschaden anrichten, wofür der Hersteller und/oder die Fernservice-Zentrale haftbar sein können. Darüber hinaus kann ein Imageschaden verursacht werden, um zum Beispiel Endkunden abzuwerben. Die Benutzer hingegen wollen ein funktionierendes System, sie haben einen Kältehintergrund und keine Ahnung von IT, Vertraulichkeit ist von sekundärer Natur. Wenn der Prozess Vertrauen zu schaffen Dinge kompliziert, wird der Benutzer versuchen ihn zu umgehen. Sollte das System nicht funktioniert, weil der Benutzer die Authentifizierung falsch bedient, ist trotzdem das System schuld, denn es ist seine Aufgabe den Benutzer darauf hinzuweisen.
 
-\paragraph{Ökologische Einschränkungen} Marktrechner sind im Unternehmensnetz des Endkunden installiert und haben einen Internetzugang. Die Rollen aus \ref{sec:roles} haben keine direkten Fernzugriffsrechte auf den Marktrechner, ein Mediator hat direkten Zugriff auf den Marktrechner,  die Kommunikation findet über einen unzuverlässigen Kanal (im Bezug auf Verfügbarkeit und Attackierbarkeit) statt, HTTP Kommunikation bzw. Port (80|443) muss eingesetzt werden, wegen restriktiver Firewallregeln. Die Zutrittskontrolle zum Marktrechner, obliegt dem Endkunden.
+\paragraph{Ökologische Einschränkungen} Marktrechner sind im Unternehmensnetz des Endkunden installiert und haben einen Internetzugang. Die Kommunikation findet über einen unzuverlässigen Kanal (im Bezug auf Verfügbarkeit und Attackierbarkeit) statt, HTTP/S Kommunikation bzw. Port (80|443) muss eingesetzt werden, wegen restriktiver Firewallregeln. Die Zutrittskontrolle zum Marktrechner, obliegt dem Endkunden.
 
 \subsection{Konzeptionelles Modell}
 
 Die folgende Beschreibung des Konzeptionellen Modells nimmt direkten Bezug auf die Ursachendefinitionen. Das Modell darf nichts hinzufügen, das nicht in den Ursachendefinitionen aufgeführt wurde. Durch diese Einschränkung soll verhindern, dass Instanzen aus der Realen Welt hinzugefügt werden, und damit das Modell unbrauchbar komplex wird \cite{gutmann6}. Aus den Ursachendefinitionen ergibt sich das folgende Konzeptionelle Modell:
 
+\begin{enumerate}[leftmargin=*]
+\item Kunden müssen beim Fernzugriff vom Marktrechner authentifiziert und autorisiert werden.
+\item Kunden müssen beim lokalen Zugriff vom Marktrechner authentifiziert und autorisiert werden.
+\item Der Marktrechner soll die Zugriffsrechte anhand von Rolleninformation einschränken, welche er durch die Autorisierung erhalten hat.
+\item Verbindungen müssen über HTTP/S, respektive Port 80/443, initialisiert werden.
+\item Angreifer (Inhaber) können sich Zugang zum Unternehmensnetzwerk verschaffen.
+\item Angreifer (Inhaber) dürfen keine Ahnung über Kommunikationsinhalte haben.
+\item Angreifer (Inhaber) dürfen nicht vorgeben Benutzer (Kunden) zu sein.
+\end{enumerate}
+
+\subsection{Vergleich mit der Realen Welt}
+
+Der Vergleich des Konzeptionenellen Modells mit der Realen, soll schwächen auflegen die dort zunächst ignoriert werden konnten. Die Punkte 1-3 sagen aus, dass jeder Marktrechner alle zur Authentifizierung und Autorisierung nötigen Benutzer- und Rollen-Informationen haben muss. Während dies Konzeptionell durchaus Sinn macht ist das Konzept in der Praxis nahezu unmöglich zu realisieren. Nimmt man beispielsweise eine Fernservice-Zentrale, die 1000 Marktrechner mit 50 Mitarbeitern betreut und die Mitarbeiter Fluktuation hoch ist. Dann müssen zunächst einmal alle 1000 Marktrechner die Berechtigungsnachweis der 50 Mitarbeiter erhalten. Fällt ein Mitarbeiter weg oder kommt ein neuer hinzu müssen jedes Mal alle 1000 Marktrechner aktualisiert werden. Initial sind dadurch 50000 Berechtigungsnachweis zu setzen wobei 49950 redundante sind. Bei jeder Änderung müssen zudem erneut 1000 Berechtigungsnachweis aktualisiert werden wovon 999 redundant sind. Das ganze sorgt für einen riesigen Administrativen aufwand, welcher zwangsläufig zu Fehlern und Schwachstellen führen muss. Stattdessen nehmen wir den Marktrechner aus der Pflicht, sich über alle Kunden mit Berechtigungsnachweis ständig zu aktualisieren und beschränken seine Funktion auf die Autorisierung und Beschränkung der Zugriffsrechte anhand derer. Für die Authentifizierung setzten wir stattdessen auf eine kleine Zahl an Mediatoren, vorzugsweise zwei wegen der Verfügbarkeit. Diese Mediatoren verwalten dann die Berechtigungsnachweis der 50 Mitarbeiter. Nehmen für den Worst-Case an das beide separat gepflegt werden und nicht gespiegelt sind, dann macht dies initial 100 Berechtigungsnachweis, davon 50 Redundant und bei neuem oder wegfallendem Mitarbeiter je zwei Änderungen, davon ist einer redundant. Das ganze ist ein Verbesserung, im Verhältnis:
+
+\[\frac{Anzahl der Marktrechner}{2}\]
+ 
+Damit sind wir allerdings noch nicht fertig, denn die Mediatoren müssen sich gegenüber den 1000 Marktrechner authentifizieren, um eine Vertrauensverhältnis herzustellen. Dies erhöht den initialen Aufwand, um 2*1000 Berechtigungsnachweise. Bei Änderungen der Belegschaft fallen jedoch keine weiteren Aufwände an.
+
+Für das Konzeptionelle Modell ergeben sich daraus folgende Änderungen. Die Punkte 1-3 fallen raus und werden ersetzt durch:
+
 \begin{itemize}[leftmargin=*]
-\item Kunden müssen Verbindungen zum Marktrechner über den Mediator (Akteur) aufbauen.
+\item Kunden müssen beim Fernzugriff den Verbindungsaufbau über den Mediator (Akteur) delegieren.
 \item Der Marktrechner darf Verbindungen nur aufbauen, wenn er dem Mediator (Akteur) vertraut.
-\item Der Mediator (Akteur) muss den Kunden authentifizieren.
-\item Der Mediator (Akteur) muss den Kunden autorisieren.
+\item Der Mediator (Akteur) muss den Kunden authentifizieren und autorisieren.
 \item Der Mediator (Akteur) soll dem Marktrechner die Rolle des authentifizierten und autorisierten Kunden mitteilen.
 \item Der Marktrechner soll die Zugriffsrechte anhand der Rolleninformation einschränken.
 \item Der Marktrechner muss lokale Kunden durch einen Mediator authentifizierten und autorisierten lassen.
-\item Der Marktrechner muss lokal, durch einen einmaligen Mechanismus, entsperrbar sein, wenn kein Mediator verfügbar ist.
-\item Verbindungen müssen über HTTP/S, respektive Port 80/443, initialisiert werden.
-\item Angreifer (Inhaber) dürfen keine Ahnung über Kommunikationsinhalte haben.
-\item Angreifer (Inhaber) dürfen nicht vorgeben Benutzer (Kunden) zu sein.
-\item Angreifer (Inhaber) können sich Zugang zum Unternehmensnetzwerk verschaffen.
 \end{itemize}
 
-\begin{comment}
-Im Rahmen des Sicherheitskonzeptes wäre es denkbar hier - und Authentifizierungs- und  Autorisierungsinformationen zu hinterlegen. Die Offline-Konfiguration kann von Werk oder vor Ort, während der Installation, aufgespielt werden.
-\end{comment}
+Für den lokalen Zugriff ergibt sich durch das Mediator-Konzept eine Besonderheit. Für den Fall, dass kein Mediator erreichbar ist, zum Beispiel durch eine Netzwerkstörung, muss es einen einmaligen Mechanismus geben, um einem lokalen Kunden den Zugriff zu erlauben. Ein Beispiel für einen solchen Mechanismus sind Einmal-Passwörter, die die Fernservice-Zentrale auf Anfrage ausstellt. Daher wird das Konzept noch ergänzt durch:
 
-\subsection{Vergleich mit der Realen Welt}
+\begin{itemize}[leftmargin=*]
+\item Der Marktrechner muss lokal, durch einen einmaligen Mechanismus, entsperrbar sein, wenn kein Mediator verfügbar ist.
+\end{itemize}
+
+Der vierte Punkte des Konzveptionellen Modell ist in der Realen Welt tatsächlich förderlich. Eine Änderung hier würde die Umsetzung aufgrund gegebener Firewall Situation deutlich erschweren. Punkt fünf ist aufgrund der Ökologischen Einschränkungen aus der Herstellersicht nicht regulierbar. Punkt 6 verlangt, dass die Kommunikation verschlüsselt zwischen den Kommunikationspartnern erfolgt. In Punkt 7 wird auf die sichere Verwaltung der Berechtigungsnachweis hingewiesen, welche ein Angreifer nicht erlangen darf. Das heißt zum Beispiel, nicht in Klartext auf der Festplatte des Mediators abspeichern.
 
 \section{Sichtweise der Angreifer}
 
@@ -282,6 +300,10 @@ Im Rahmen des Sicherheitskonzeptes wäre es denkbar hier - und Authentifizierung
 
 \subsection{Vergleich mit der Realen Welt}
 
+
+\chapter{Bedrohungsmodell} \label{chap:threat}
+
+Das Bedrohungsmodell soll auf mögliche Gefährdungen des aktuellen Systems hinweisen. Diese werden analysiert und schrittweise durch geeignete Maßnahmen versucht einzudämmen. Eine aussagekräftige Analyse setzt die Wahl eines geeigneten Modells voraus. 
 
 \chapter{Entwurf oder Design} \label{chap:design}
 \epigraphhead[70]{\epigraph{The user's going to pick dancing pigs over security every time.}{\textit{Bruce Schneier}}}
