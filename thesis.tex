@@ -245,7 +245,7 @@ Von einem nicht vertrauenswürdigen Zustand in einen vertrauenswürdigen Zustand
 \end{tabularx}
 \end{table}
 
-\paragraph{Akteur} Die Verwaltung der Vertrauenswürdigkeit von vielen Kunden ist extrem zeit- und kostenintensiv. Deshalb werden als Akteure ein kleine Zahl von vertrauenswürdigen Mediatoren eingesetzt. Der Mediator ist die Schnittstelle zwischen Marktrechner und Kunde.
+\paragraph{Akteur} Diese Rolle kann je nach Dienstleister und Kundenwünschen unterschiedlich besetzt sein. Die offensichtlichsten Akteure sind Hersteller und Fernservice-Zentralen. Darüber hinaus wäre es denkbar, dass ein Marktbetreiber selbst diese Rolle einnehmen möchte.
 
 \paragraph{Weltanschauung} Hersteller und Fernservice-Zentralen sind daran interessiert unerwünschte Zugriffe zu verhindern und ihre jeweiligen vertraulichen Daten zu schützen. Im Falle des Hersteller könnten Mitbewerber, aus den Kommunikationsinhalten, Kenntnisse über die Routinen und Protokolle erlangen. Des Weiteren könnte ein Angreifer, durch die Manipulation der Anlage Warenschaden anrichten, wofür der Hersteller und/oder die Fernservice-Zentrale haftbar sein können. Darüber hinaus kann ein Imageschaden verursacht werden, um zum Beispiel Endkunden abzuwerben. Die Benutzer hingegen wollen ein funktionierendes System, sie haben einen Kältehintergrund und keine Ahnung von IT, Vertraulichkeit ist von sekundärer Natur. Wenn der Prozess Vertrauen zu schaffen Dinge kompliziert, wird der Benutzer versuchen ihn zu umgehen. Sollte das System nicht funktioniert, weil der Benutzer die Authentifizierung falsch bedient, ist trotzdem das System schuld, denn es ist seine Aufgabe den Benutzer darauf hinzuweisen.
 
@@ -290,15 +290,57 @@ Für den lokalen Zugriff ergibt sich durch das Mediator-Konzept eine Besonderhei
 \item Der Marktrechner muss lokal, durch einen einmaligen Mechanismus, entsperrbar sein, wenn kein Mediator verfügbar ist.
 \end{itemize}
 
-Der vierte Punkte des Konzveptionellen Modell ist in der Realen Welt tatsächlich förderlich. Eine Änderung hier würde die Umsetzung aufgrund gegebener Firewall Situation deutlich erschweren. Punkt fünf ist aufgrund der Ökologischen Einschränkungen aus der Herstellersicht nicht regulierbar. Punkt 6 verlangt, dass die Kommunikation verschlüsselt zwischen den Kommunikationspartnern erfolgt. In Punkt 7 wird auf die sichere Verwaltung der Berechtigungsnachweis hingewiesen, welche ein Angreifer nicht erlangen darf. Das heißt zum Beispiel, nicht in Klartext auf der Festplatte des Mediators abspeichern.
+Der vierte Punkte des Konzeptionellen Modell ist in der Realen Welt tatsächlich förderlich. Eine Änderung hier würde die Umsetzung aufgrund gegebener Firewall Situation deutlich erschweren. Punkt fünf ist aufgrund der Ökologischen Einschränkungen aus der Herstellersicht nicht regulierbar. Punkt 6 verlangt, dass die Kommunikation verschlüsselt zwischen den Kommunikationspartnern erfolgt. In Punkt 7 wird auf die sichere Verwaltung der Berechtigungsnachweis hingewiesen, welche ein Angreifer nicht erlangen darf. Das heißt zum Beispiel, nicht in Klartext auf der Festplatte des Mediators abspeichern.
 
 \section{Sichtweise der Angreifer}
 
+Nach der Analyse der Gefährdungen aus Sicht der Beschützer, wird nun die Sichtweise der Angreifer beleuchtet. Im wesentlichen werden drei Angreifertypen unterschieden:
+
+\begin{itemize}[leftmargin=*]
+\item Spionage
+\item Finanziell motiviert
+\item Selbstbestätigung des Egos
+\end{itemize}
+
+Für Spionage kommen hauptsächlich Konkurrenten, der Firma Eckelmann, in Frage. Spionage von Endkunden-Konkurrenz, um Informationen auf diesem Weg erlangen ist auszuschließen. Hierzu bieten sich andere Möglichkeiten, wie etwa das abwerben von Mitarbeitern. Finanziell motivierte Angreifer können bei einem Angriff auf eine Kälteanlage keinen direkten unbemerkten finanziellen Diebstahl begehen, da dort keinerlei Zahlungsströme abgewickelt werden. Durchaus denkbar wäre die Erpressung gegen einen Eigentümer vieler Anlagen, mit der Drohung Warenschaden zu verursachen. Die dafür benötigte technische Expertise verlangt allerdings detailliertes Informatik- und Kältetechnikwissen. Ein Angreifer, welcher auf einen direkten Konkurrenten zurückzuführen ist, hätte dieses Wissen. Ein solcher Angreifer könnte durch seine(n) Angriff(e) Imageschaden verursachen, beispielsweise durch verursachen von Fehlfunktionen. Dadurch ist es der Konkurrenz möglich die eigenen Produkte unter Kunden besser zu bewerben und die eigene Marktmacht auszubauen. Der dritten Angreifertyp ist aufgrund erforderlicher Expertise fast vollständig auszuschließen, zudem wird das Hacken einer Kälteanlage kein großes Öffentliches Interesse, wodurch der erfolgreiche Hack ohne Prestige/Ruhm bleibt, welches das Ego aufbauen würde.
+
 \subsection{Ursachendefinitionen}
+
+\begin{table}[h] % htbp ~ here, top, bottom, page
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\textbf{Kunden} & Angreifer, beziehungsweise deren Auftraggeber\\
+\textbf{Inhaber} & Beschützer\\
+\textbf{Akteur} & Alle Rollen aus Abschnitt~\ref{sec:roles} und die Angreifer\\
+\end{tabularx}
+\end{table}
+
+\paragraph{Umwandlungsprozess} Authentifizierung und Autorisierung ohne Wissen der Beschützer aushebeln, um geschützte Inhalte zu kompromittieren und Daten zu extrahieren oder Fehlfunktionen in einer funktionierenden zu verursachen.
+
+\paragraph{Weltanschauung} Die Angreifer, respektive deren Auftraggeber, wollen durch Spionage und/oder Manipulation der Konkurrenz Marktanteile abnehmen und verhindern, dass diese neue Anteile erhalten. Der größte Erfolg ist es einen Konkurrent komplett vom Markt zu verdrängen, etwa durch Fehlfunktionen die zu Endkundenschaden führen, für welche der Konkurrent haftbar ist. 
+
+\paragraph{Ökologische Einschränkungen} Die Kommunikation erfolgt verschlüsselt durch ein geeignetes Kryptoverfahren.  Der Zugriff auf alle Systeme ist durch entsprechende Berechtigungsnachweise geschützt.
 
 \subsection{Konzeptionelles Modell}
 
+\begin{enumerate}[leftmargin=*]
+\item Angreifer (Kunden) können sich Zugriff zum LAN der Endkunden verschaffen.
+\item Alle Aktionen der Angreifer (Kunden) sollen geschehen, ohne Kenntnis der Beschützer (Inhaber).
+\item Angreifer (Kunden) wollen in den Besitz von Berechtigungsnachweisen der Akteure kommen (Phishing, Social Engineering).
+\item Angreifer (Kunden) können verschlüsselte Kommunikation aufnehmen und später erneut einspielen (Replay-Attacke).
+\end{enumerate}
+
 \subsection{Vergleich mit der Realen Welt}
+
+Der erste Punkt kommt ist ebenfalls Teil des Konzeptionellen Modells der Beschützer, er wirkt sich auf beide Sichtweisen aus, allerdings ist er aus Angreifersicht positiv und aus Beschützersicht negativ anzusehen. Der Zweite Punkt zeigt, dass Angreifer nicht entdeckt werden wollen und zeigt eine Schwachstelle im Konzeptionellen Modell der Beschützer, da dort nicht explizit nach einem ausreichend, aussagekräftigen Logging-Mechanismus verlangt wird. Dadurch können viele Angriffe aufgedeckt werden. In Punkt drei versuchen die Angreifer in Besitz von Berechtigungsnachweisen zu kommen. Dazu gibt es mehrere Möglichkeiten, die zwei beliebtesten sind Phishing und Social Engineering. Damit ihre Zugriff auf das System trotz Logging legitim erscheinen. Daraus ergibt sich für die Beschützer nach Unregelmäßigkeiten in den aufgezeichneten Logs zu schauen, um dadurch kompromittierte Berechtigungsnachweise zu entdecken. In Punkt vier versuchen die Angreifer durch aufzeichnen und wieder einspielen von Nachrichten schaden anzurichten. Dies ist ein weiteres Kriterium, welches die Beschützer beim Nachrichtenaustausch beachten müssen. Insgesamt ergeben sich durch die Betrachtung aus Sicht der Angreifer drei gravierende Schwachstellen im Modell der Beschützer. Diese umformuliert in Beschützer sich ergeben folgende Ergänzungen: 
+
+\begin{itemize}[leftmargin=*]
+\item 
+\item
+\item 
+\end{itemize}
+
+\section{Maßnahmen}
+
 
 
 \chapter{Bedrohungsmodell} \label{chap:threat}
