@@ -185,7 +185,7 @@ Die Bedrohungsanalyse gliedert sich in die drei SSM-Phasen, welche in Abschnitt~
 
 Die in Abschnitt~\ref{sec:marktrechner} geschilderte Architektur des Marktrechnerumfeldes, weißt einige Mängel des aktuellen Systems auf. Die Abbildung~\ref{fig:problem_situation} zeigt ein unstrukturiertes Bild, in SSM Terminologie Rich-Picture. Es ist ein wichtiges Hilfsmittel zur Beschreibung der Problemsituation, welches möglichst viele Informationen in einem Bild erfassen soll. Besonders Grenzen, Struktur, Informationsflüsse, Kommunikationskanäle und das menschliche Aktivitätssystem sollen aufzeigt werden \cite{ssmger}. Der Fokus dieser Arbeit liegt auf dem Fernzugriff, dennoch werden auch die Probleme des lokalen Zugriffes erfasst. Dadurch soll verhindert werden, dass der Fernzugriff unnötige Hindernisse für die lokale Zugriffskontrolle schafft. 
 
-\begin{figure}[h]
+\begin{figure}[htbp]
 \centering
 \includegraphics[scale=0.215]{images/problemsituation.jpg}
 \caption{Problemsituation}
@@ -346,7 +346,7 @@ Der erste Punkt, ist aufgrund der selben Ökologischen Einschränkungen, sowohl 
 \item Direkte, beliebige Verbindungsversuche, aus dem Internet, auf den Marktrechner, sind zu unterbinden.
 \end{itemize}
 
-\section{Maßnahmen}
+\section{Maßnahmen} \label{sec:analysis_measures}
 
 Die Sichtweise der Beschützer und der Angreifer haben jeweils ein Konzeptionelle Modell hervorgebracht, welches mit der Realen Welt verglichen wurde. Die jetzt noch praktikablen Inhalte werden nachfolgend in konkreten Maßnahmen formuliert. 
 
@@ -375,7 +375,50 @@ Nachdem in der Bedrohungsanalyse (Kapitel~\ref{chap:threat_analysis}) festgelegt
 
 \section{Data Flow Diagramm}
 
-BILD!!!
+Mit Data Flow Diagrammen gehen zurück auf die 70er Jahre, sie sollen die gefährdeten Informationen der Applikation identifiziert, die Bedrohungen finden und Maßnahmen dagegen treffen. Es gibt mehrere Level von DFDs, welche den Detailgrad des Diagramms bestimmen. Für die Bedrohungsmodellierung reicht Level 0 aus. Es ist zeigt den Informationsfluss zwischen internen und externen Grenzen. Für die Bedrohungsmodellierung wird der Aufbau der Diagramme auf die fünf Objekte in Abbildung~\ref{fig:dfd_intro} beschränkt, wobei die Vertrauensgrenze in klassischen DFDs nicht vorkommt. Überschreitet eine Datenfluss eine Vertrauensgrenze können Bedrohungen diesen attackieren.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=0.4]{images/dfd_intro.pdf}
+\caption{Data Flow Diagramm Beispiel}
+\label{fig:dfd_intro}
+\end{figure}
+
+\section{Gefährdete Informationen}
+
+In diesem Abschnitt werden die gefährdeten Informationen des Marktrechners mit Bezug auf die Authentifizierung und Autorisierung identifiziert. Alle Datenflüsse werden in Data Flow Diagrammen visualisiert.
+
+\paragraph{Logdateien}
+
+In Abschnitt~\ref{sec:analysis_measures} wurden die Maßnahmen aus der Bedrohungsanalyse festgehalten. Eine der wichtigsten ist der Logging-Mechnismus, darum müssen auch die Informationsflüsse des Logging genauer betrachtet werden. In der Abbildung~\ref{fig:dfd_logs} sehen wir, dass über eine Betrachtungsfunktion Administratoren in der Lage sind die Logs anzusehen. Logdateien können sensitive Daten enthalten, wie zum Beispiel Berechtigungsnachweise. Daher sollen nur Administratoren Zugriff auf die Daten haben.
+
+\paragraph{HTTP-Anfragen}
+
+Eine weitere Maßnahme sagt, dass die gesamte Kommunikation zum Marktrechner über Port 80/443 erfolgen soll. Durch ein RestGateway können HTTP-Anfragen vom Marktrechner angenommen werden. Diese werden anschließend über das LanGateway an die E*LDS Komponenten weitergegeben. Bei diesem Setup fließen die Daten durch drei Vertrauensgrenzen, welche in Abbildung~\ref{fig:dfd_http} gezeigt sind.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=0.4]{images/dfd_http.pdf}
+\caption{DFD HTTP-Anfrage}
+\label{fig:dfd_intro}
+\end{figure}
+
+
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=0.37]{images/dfd_http_legacy.pdf}
+\caption{DFD HTTP-Anfrage Legacy-System}
+\label{fig:dfd_intro}
+\end{figure}
+
+LDSWin -> HTTPWrapper -t-> RestGateway -t-> LanGateway -t-> LDS-Protokoll
+* no sanatize checking possible
+
+\paragraph{Alarme}
+
+Marktrechner -t-> SMS-Provider -t-> FSZ
+Marktrechner -t-> E-Mail-Provider -t-> FSZ
 
 \chapter{Entwurf oder Design} \label{chap:design}
 \epigraphhead[70]{\epigraph{The user's going to pick dancing pigs over security every time.}{\textit{Bruce Schneier}}}

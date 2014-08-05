@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="35cm" height="10cm" viewBox="21 88 695 182" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #ffffff" x="23.3834" y="103.072" width="112.35" height="45"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" x="23.3834" y="103.072" width="112.35" height="45"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="79.5584" y="129.472">
+      <tspan x="79.5584" y="129.472">LDSWin</tspan>
+    </text>
+  </g>
+  <g>
+    <ellipse style="fill: #ffffff" cx="299.875" cy="179.459" rx="59.477" ry="29.7385"/>
+    <ellipse style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" cx="299.875" cy="179.459" rx="59.477" ry="29.7385"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="299.875" y="183.359">
+      <tspan x="299.875" y="183.359">RestGateway</tspan>
+    </text>
+  </g>
+  <g>
+    <ellipse style="fill: #ffffff" cx="477.874" cy="180.001" rx="57.4605" ry="28.7303"/>
+    <ellipse style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" cx="477.874" cy="180.001" rx="57.4605" ry="28.7303"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="477.874" y="183.901">
+      <tspan x="477.874" y="183.901">LanGateway</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 0.3; stroke: #000000" x1="609.653" y1="222.055" x2="716.097" y2="222.055"/>
+    <line style="fill: none; fill-opacity:0; stroke-width: 0.3; stroke: #000000" x1="609.653" y1="138.055" x2="716.097" y2="138.055"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="662.875" y="176.055">
+      <tspan x="662.875" y="176.055">Marktrechner</tspan>
+      <tspan x="662.875" y="192.055">Datenbanken</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="536.83" y1="180.025" x2="598.653" y2="180.05"/>
+    <polygon style="fill: #000000" points="598.651,185.05 608.653,180.054 598.655,175.05 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="598.651,185.05 608.653,180.054 598.655,175.05 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="90.0498" y1="149.574" x2="97.9084" y2="167.552"/>
+    <polygon style="fill: #000000" points="93.3269,169.555 101.914,176.715 102.49,165.55 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="93.3269,169.555 101.914,176.715 102.49,165.55 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="359.352" y1="179.459" x2="409.414" y2="179.903"/>
+    <polygon style="fill: #000000" points="409.37,184.903 419.414,179.992 409.458,174.903 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="409.37,184.903 419.414,179.992 409.458,174.903 "/>
+  </g>
+  <path style="fill: none; fill-opacity:0; stroke-width: 3; stroke-dasharray: 10; stroke: #bfbfbf" d="M 169.375,262.8 A 116.422,116.422 0 0 0 169.375,89.8"/>
+  <path style="fill: none; fill-opacity:0; stroke-width: 3; stroke-dasharray: 10; stroke: #bfbfbf" d="M 360.375,265.1 A 141.568,141.568 0 0 0 360.375,92.1"/>
+  <path style="fill: none; fill-opacity:0; stroke-width: 3; stroke-dasharray: 10; stroke: #bfbfbf" d="M 580.375,94.8 A 177.522,177.522 0 0 0 580.375,267.8"/>
+  <g>
+    <ellipse style="fill: #ffffff" cx="115.776" cy="208.43" rx="61.7414" ry="30.0768"/>
+    <ellipse style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" cx="115.776" cy="208.43" rx="61.7414" ry="30.0768"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="115.776" y="212.33">
+      <tspan x="115.776" y="212.33">HTTPWrapper</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="176.015" y1="198.951" x2="232.041" y2="190.134"/>
+    <polygon style="fill: #000000" points="239.45,188.968 230.349,195.462 232.041,190.134 228.794,185.583 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="239.45,188.968 230.349,195.462 232.041,190.134 228.794,185.583 "/>
+  </g>
+</svg>

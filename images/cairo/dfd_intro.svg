@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="20cm" height="13cm" viewBox="8 94 387 244" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #ffffff" x="48.4547" y="95.0861" width="116" height="38"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="48.4547" y="95.0861" width="116" height="38"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="106.455" y="117.986">
+      <tspan x="106.455" y="117.986">Benutzer</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="48.6944" y1="337" x2="164" y2="337"/>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="48.6944" y1="293" x2="164" y2="293"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="106.347" y="319">
+      <tspan x="106.347" y="319">Datei</tspan>
+    </text>
+  </g>
+  <g>
+    <ellipse style="fill: #ffffff" cx="106.091" cy="211.453" rx="52.1968" ry="26.0984"/>
+    <ellipse style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" cx="106.091" cy="211.453" rx="52.1968" ry="26.0984"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="106.091" y="215.353">
+      <tspan x="106.091" y="215.353">Betrachter</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="106.192" y1="184.401" x2="106.344" y2="143.814"/>
+    <polygon style="fill: #000000" points="106.372,136.314 111.334,146.332 106.344,143.814 101.334,146.295 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="106.372,136.314 111.334,146.332 106.344,143.814 101.334,146.295 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="106.347" y1="293" x2="106.21" y2="249.549"/>
+    <polygon style="fill: #000000" points="111.21,249.533 106.179,239.549 101.21,249.564 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="111.21,249.533 106.179,239.549 101.21,249.564 "/>
+  </g>
+  <path style="fill: none; fill-opacity:0; stroke-width: 3; stroke-dasharray: 10; stroke: #bfbfbf" d="M 200,311 A 132.806,132.806 0 0 0 10,309"/>
+  <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="113" y="274.726">
+    <tspan x="113" y="274.726">Eingabe</tspan>
+  </text>
+  <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="114.364" y="168.116">
+    <tspan x="114.364" y="168.116">Ausgabe</tspan>
+  </text>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 0.2; stroke: #000000" x1="221.242" y1="151.148" x2="272.154" y2="151.148"/>
+    <line style="fill: none; fill-opacity:0; stroke-width: 0.2; stroke: #000000" x1="221.242" y1="135.148" x2="272.154" y2="135.148"/>
+    <text font-size="1.59998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="246.698" y="143.648">
+      <tspan x="246.698" y="143.648"></tspan>
+    </text>
+  </g>
+  <g>
+    <ellipse style="fill: #ffffff" cx="245.894" cy="172.018" rx="25.3518" ry="9.45264"/>
+    <ellipse style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" cx="245.894" cy="172.018" rx="25.3518" ry="9.45264"/>
+    <text font-size="1.59998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="245.894" y="172.518">
+      <tspan x="245.894" y="172.518"></tspan>
+    </text>
+  </g>
+  <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="276.268" y="147.712">
+    <tspan x="276.268" y="147.712">Datenspeicher</tspan>
+  </text>
+  <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="276.182" y="176.703">
+    <tspan x="276.182" y="176.703">Funktion</tspan>
+  </text>
+  <g>
+    <rect style="fill: #ffffff" x="224.07" y="191.952" width="45.2548" height="24"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="224.07" y="191.952" width="45.2548" height="24"/>
+    <text font-size="1.59998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="246.698" y="204.452">
+      <tspan x="246.698" y="204.452"></tspan>
+    </text>
+  </g>
+  <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="276.389" y="208.523">
+    <tspan x="276.389" y="208.523">E/A</tspan>
+  </text>
+  <g>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 259.829,233.991 A 29.1937,29.1937 0 0 0 224.05,239.837"/>
+    <polygon style="fill: #000000" points="256.987,235.471 267.265,239.873 264.62,229.01 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="256.987,235.471 267.265,239.873 264.62,229.01 "/>
+  </g>
+  <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="276.27" y="240.343">
+    <tspan x="276.27" y="240.343">Datenfluss</tspan>
+  </text>
+  <path style="fill: none; fill-opacity:0; stroke-width: 3; stroke-dasharray: 4; stroke: #bfbfbf" d="M 268.323,266.636 A 29.6427,29.6427 0 0 0 224.05,266.586"/>
+  <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="277.348" y="267.213">
+    <tspan x="277.348" y="267.213">Vertrauensgrenze</tspan>
+  </text>
+  <rect style="fill: none; fill-opacity:0; stroke-width: 0.6; stroke: #000000" x="215.05" y="121.213" width="180" height="167.272"/>
+</svg>

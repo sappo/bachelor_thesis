@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="23cm" height="9cm" viewBox="64 127 458 177" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="65" y1="239" x2="151" y2="239"/>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="65" y1="192" x2="151" y2="192"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="108" y="219.5">
+      <tspan x="108" y="219.5">Logdateien</tspan>
+    </text>
+  </g>
+  <path style="fill: none; fill-opacity:0; stroke-width: 3; stroke-dasharray: 10; stroke: #bfbfbf" d="M 149,302 A 169.506,169.506 0 0 0 149,129"/>
+  <g>
+    <ellipse style="fill: #ffffff" cx="297.129" cy="214.789" rx="62.2631" ry="28.8561"/>
+    <ellipse style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" cx="297.129" cy="214.789" rx="62.2631" ry="28.8561"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="297.129" y="210.689">
+      <tspan x="297.129" y="210.689">Anzeige-</tspan>
+      <tspan x="297.129" y="226.689">tool</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="437" y="193" width="84.4" height="44"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="437" y="193" width="84.4" height="44"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="479.2" y="218.9">
+      <tspan x="479.2" y="218.9">Admin</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="151" y1="215.5" x2="222.866" y2="215.15"/>
+    <polygon style="fill: #000000" points="222.891,220.15 232.866,215.102 222.842,210.15 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="222.891,220.15 232.866,215.102 222.842,210.15 "/>
+  </g>
+  <g>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 437,204 A 52.3826,52.3826 0 0 0 362.21,195.999"/>
+    <polygon style="fill: #000000" points="357.558,192.018 355.273,202.962 365.4,198.224 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="357.558,192.018 355.273,202.962 365.4,198.224 "/>
+  </g>
+  <g>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 354.652,225.832 A 52.3824,52.3824 0 0 0 429.45,233.755"/>
+    <polygon style="fill: #000000" points="434.106,237.731 436.38,226.785 426.258,231.533 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="434.106,237.731 436.38,226.785 426.258,231.533 "/>
+  </g>
+  <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="163" y="201">
+    <tspan x="163" y="201">Logdaten</tspan>
+  </text>
+  <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="370" y="268.2">
+    <tspan x="370" y="268.2">Logdaten</tspan>
+  </text>
+  <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="352" y="174">
+    <tspan x="352" y="174">Anzeigebefehl</tspan>
+  </text>
+</svg>

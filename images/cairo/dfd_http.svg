@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="33cm" height="10cm" viewBox="40 137 644 182" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #ffffff" x="41.125" y="205.586" width="103.875" height="45"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="41.125" y="205.586" width="103.875" height="45"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="93.0625" y="231.986">
+      <tspan x="93.0625" y="231.986">Benutzer</tspan>
+    </text>
+  </g>
+  <g>
+    <ellipse style="fill: #ffffff" cx="267" cy="228.459" rx="58.9659" ry="29.483"/>
+    <ellipse style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" cx="267" cy="228.459" rx="58.9659" ry="29.483"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="267" y="232.359">
+      <tspan x="267" y="232.359">RestGateway</tspan>
+    </text>
+  </g>
+  <g>
+    <ellipse style="fill: #ffffff" cx="444.999" cy="229.001" rx="56.9452" ry="28.4726"/>
+    <ellipse style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" cx="444.999" cy="229.001" rx="56.9452" ry="28.4726"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="444.999" y="232.901">
+      <tspan x="444.999" y="232.901">LanGateway</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="576.778" y1="271.055" x2="683.222" y2="271.055"/>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="576.778" y1="187.055" x2="683.222" y2="187.055"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="630" y="225.055">
+      <tspan x="630" y="225.055">Marktrechner</tspan>
+      <tspan x="630" y="241.055">Datenbanken</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="502.95" y1="229.024" x2="565.778" y2="229.05"/>
+    <polygon style="fill: #000000" points="565.776,234.05 575.778,229.054 565.78,224.05 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="565.776,234.05 575.778,229.054 565.78,224.05 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="145.995" y1="228.199" x2="196.028" y2="228.307"/>
+    <polygon style="fill: #000000" points="196.018,233.307 206.028,228.328 196.039,223.307 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="196.018,233.307 206.028,228.328 196.039,223.307 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="325.966" y1="228.458" x2="377.054" y2="228.904"/>
+    <polygon style="fill: #000000" points="377.011,233.904 387.054,228.991 377.098,223.904 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="377.011,233.904 387.054,228.991 377.098,223.904 "/>
+  </g>
+  <path style="fill: none; fill-opacity:0; stroke-width: 3; stroke-dasharray: 10; stroke: #bfbfbf" d="M 136.5,311.8 A 116.422,116.422 0 0 0 136.5,138.8"/>
+  <path style="fill: none; fill-opacity:0; stroke-width: 3; stroke-dasharray: 10; stroke: #bfbfbf" d="M 327.5,314.1 A 141.568,141.568 0 0 0 327.5,141.1"/>
+  <path style="fill: none; fill-opacity:0; stroke-width: 3; stroke-dasharray: 10; stroke: #bfbfbf" d="M 547.5,143.8 A 177.522,177.522 0 0 0 547.5,316.8"/>
+</svg>
