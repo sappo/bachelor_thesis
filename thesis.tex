@@ -79,7 +79,7 @@ Betrachtet man eine Kälteanlage, dann ist der Marktrechner ihr Herzstück. Übe
 
 Das Betriebssystem auf dem Marktrechner ist eine eigene Linux-Distribution, welche mit der Software ptxdist, der  Pengutronix e.K., erstellt wird. Ptxdist bringt einige hundert Module und Bibliotheken mit, welche über einen einfachen Dialog an- und abgewählt werden können. Mit ein wenig Konfigurationsaufwand können auch eigene Module mit aufgenommen werden. Dadurch kann eine sehr schlanke Distribution erzeugt werden, die  auf den eigenen Software-Stack zugeschnitten ist. Die eigenen Softwaremodule sind in C++ und mit dem Qt-Framework geschrieben. 
 
-\paragraph{Architektur}
+\paragraph{Architektur} \label{para:architektur}
 
 Alle Daten und Meldungen, die der Marktrechner sammelt und aufbereitet, müssen zu einem Zeitpunkt von einem Menschen ausgewertet werden. Die 24-Stunden Überwachung vor Ort, durch einen Mitarbeiter, ist nicht wirtschaftlich. Deshalb übernehmen heutzutage großteils Fernservice-Zentralen (FSZs) die Überwachung von Kälteanlagen. Der Marktrechner kann aus der Ferne über eine Ethernet- oder Modem-Verbindung erreicht werden. Letztere wird, aufgrund ihres aussterbendes Charakters, an dieser Stelle nicht weiter erläutert. Für den Zugriff auf die Ethernet-Schnittstelle sind Fernservice-Zentralen, über VPN, mit einem oder mehreren Unternehmensnetzwerken, ihrer Kunden, verbunden (Abbildung~\ref{fig:current_setup}). Über dieses können die Marktrechner erreicht werden. Auf diese Weise kann eine einzige Fernservice-Zentrale Tausende Marktrechner überwachen. Der Marktrechner fungiert als Server, das heißt Daten und Meldungen müssen aktiv von einer Fernservice-Zentrale abgeholt werden. Ist aus den abgeholten Daten ersichtlich, dass ein Fehler in der Anlage aufgetreten ist, kann die Fernservice-Zentrale entweder direkt eingreifen oder einen Monteur zum betreffenden Kunden schicken, der die Anlage instand setzt.
 
@@ -126,6 +126,27 @@ UA - [Marktrechner 1]
 Beim Einsatz von VPN ist die Kommunikation von der Fernservice-Zentrale bis zum Unternehmensnetzwerk abgesichert. Im Lokal Area Network (LAN) des Unternehmens ist der gesamte Datenverkehr zu und von den Marktrechnern allerdings unverschlüsselt. Es gibt zwei Arten von Datenverkehr zum Marktrechner, zum einen über das proprietäre Protokoll des Herstellers und zum anderen über Webservices auf Basis von einfachen XML-RPCs. Ein Angreifer, mit Zugriff auf das LAN und Kenntnisse des Hersteller-Protokolls, hätte die Möglichkeit den Datenverkehr zwischen Fernservice-Zentrale und Marktrechner mitzulesen. Viel schwerwiegender als das mitlesen der Kommunikation ist, dass ein solcher Angreifer über das Protokoll vollen lesenden und schreibenden Zugriff auf das System erhalten kann, da es keine geeignete Autorisierung und Authentifizierung gibt. Die Anzahl an Personen mit Wissen über das Hersteller-Protokoll schränkt allerdings den Kreis der möglich Angreifer ein. Viel wahrscheinlicher ist ein Angreifer, mit Zugriff auf das LAN ohne Kenntnisse des Hersteller-Protokolls. Dieser kann den Datenverkehr zwischen XML-RPC und Fernservice-Zentrale mithören. Da in der XML die Daten interpretierbar aufbereitet wurden ist es ein leichtes diese Daten auszuwerten. Auch hier sind keine geeignete Autorisierungs- und Authentifizierungstechniken eingesetzt, wodurch der Angreifer statt mitzulesen, den XML-RPC selbst befragen könnte. Dadurch erlangt er zwar keine vollen Zugriff auf das System, kann jedoch einige wichtige Schnittstellen auslesen und zum Teil auch neu konfigurieren. 
 
 Neben diesen offensichtlichen gibt es weitere Mängeln. Zum Beispiel sind aussagekräftige Logs Hauptbestandteil eines guten Systems. Sinnvoll ist das protokollieren des Systemzugriffs. Durch die ungeeigneten Sicherheitsmaßnahmen verliert das Zugriffslog jedoch komplett an Aussagekraft und ist damit wertlos. Ein weiterer Mangel ist, dass der Hersteller durch die existierende End-to-Site VPN-Verbindung keinen Zugriff auf die Systeme erlangen kann, um Unterstützung bei Problemen zu leisten. 
+
+\subsection{RestGateway} 
+Das RestGateway ist die Neuauflage des XML-RPC. Es wurde im Rahmen des, vor der Thesis absolvierten, Praktikums entwickelt. Es basiert auf dem Representational State Transfer (REST) Konzept, zur Entwicklung von Webanwendungen. REST ist keine explizite Norm, sondern bezeichnet vielmehr die Idee, dass eine URL genau einen Seiteninhalt als Ergebnis einer serverseitigen Aktion liefert \cite{wiki_rest}. REST nutzt Standard HTTP-Befehle, um lesend und schreibend auf Ressourcen zuzugreifen. Zur Zeit sind ausschließlich lesende Zugriffe implementiert, welche über URLs abgerufen werden können. Diese Aufrufe liefern interpretierte Inhalte im XML oder JSON Format. Zudem gibt es eine generische Schnittstelle, welche als Proxy für CAN-Nachrichten fungiert, dadurch können beliebige CAN-Nachrichten über HTTP/S gesendet werden, auch solche die schreibend auf das System zugreifen. Das RestGateway bietet keinerlei Mechanismus für die Authentifizierung und Autorisierung. Eine Erweiterung wäre aber im Rahmen dieser Arbeit denkbar. Das RestGateway kann in zwei Ausführungen installiert werden. Entweder als Modul auf dem Marktrechner (Abbildung~\ref{fig:rest_intern}), wo es den XML-RPC ersetzt, oder auf einem externen Server (Abbildung~\ref{fig:rest_extern}), wo es Anfragen an mehrere Marktrechner senden kann. 
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=0.7]{images/RestGateway_intern.pdf}
+\caption[]{RestGateway als Marktrechner-Modul}
+\label{fig:rest_intern}
+\end{figure}
+
+Die Nutzung von intern beziehungsweise extern ermöglicht das LanGateway-Modul des Marktrechners. Es ist eine TCP-Schnittstelle, welche als Proxy zwischen CAN-Netzwerk und TCP-Netzwerk fungiert. Die CAN-Nachrichten werden als Bytestrom übertragen. Intern ist das RestGateway ein Wrapper über dem LanGateway, welcher interpretierbare Inhalte in einem menschenlesbaren Format liefert.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=0.7]{images/RestGateway_extern.pdf}
+\caption[]{RestGateway auf externen Server}
+\label{fig:rest_extern}
+\end{figure}
+
+Extern bietet das RestGateway die Möglichkeit, über eine Schnittstelle mehrere Marktrechner abzufragen. Diese Feature ist vor allen Dingen für Fernservice-Zentralen interessant, die viele Marktrechner verwalten (vgl. \ref{para:architektur}). Des Weiteren können über diesen Weg neue Funktionen, ohne große Testvorbereitungen erprobt werden, da kein Update des Marktrechners notwendig ist. Ein Update des Marktrechners müsste zum einen vor Ort erfolgen und zum anderen werden bei einem Update zwangsläufig auch andere Software-Module upgedatet, was bei Test im Feld ein großes Problemen ist.
 
 \subsection{Alarmmanagement} beschreibt Tätigkeiten für Fehlfunktionen einer Kälteanlage. Das Alarmmanagement beinhaltet zunächst das Anlegen und das Konfigurieren der Alarme. Ein Alarm trifft eine Aussage über den Betriebszustand der Kälteanlage. Beispielsweise soll ein Alarm ausgelöst werden, wenn die Temperatur in einem Kühlmöbel einen bestimmten Grenzwert überschreitet beziehungsweise unterschreitet. Damit auf Alarme reagiert werden kann, wird die Anlagen überwacht. Dazu gibt es zwei Methoden, entweder aktive oder passive. Aktive sind Fernwarten, die etwa alle 15 Minuten, durch Polling die Alarmliste abrufen. Das System selbst verfügt über passive Mechanismen, wie die Möglichkeit der E-Mail oder der SMS Benachrichtigung. Zusätzlich ist im Marktrechner eine Hupe installiert, die auf Fehlfunktionen vor Ort aufmerksam macht. 
 
@@ -361,9 +382,7 @@ Der erste Punkt, ist aufgrund der selben Ökologischen Einschränkungen, sowohl 
 Die Sichtweise der Beschützer und der Angreifer haben jeweils ein Konzeptionelle Modell hervorgebracht, welches mit der Realen Welt verglichen wurde. Die jetzt noch praktikablen Inhalte werden nachfolgend in konkreten Maßnahmen formuliert. 
 
 \paragraph{Logging \& Audit}
-Das Verlangen nach \textit{Nachvollziehbarkeit} der Beschützer und das Verlangen der Angreifer unentdeckt zu bleiben, zieht sich durch alle Eigenschaften der Konzeptionellen Modelle. Daraus folgt die wichtigste Maßnahme der Beschützer einen \textit{Logging-Mechanismus} zu etablieren. Dieser soll in geeigneter Form alle Aktivitäten und Interaktionen des Systems protokolliert. Dazu gehören, beispielsweise, fehlgeschlagene Verbindungsversuche, da sich durch diese ein Angriffsversuch bemerkbar machen kann. Logging soll für alle folgenden Maßnahmen umgesetzt werden. Für den Fall, dass ein Angreifer Zugriff auf das System bekommt, ist es essentiell, dass die Logdateien von \textit{niemanden} verändert werden dürfen, um dadurch wichtige Spuren verwischen zu können. Niemand schließt ebenfalls den Administrator mit ein. Sollte dies nicht möglich sein, muss der administrative Zugang deaktiviert werden.
-
----WAS GENAU?---
+Das Verlangen nach \textit{Nachvollziehbarkeit} der Beschützer und das Verlangen der Angreifer unentdeckt zu bleiben, zieht sich durch alle Eigenschaften der konzeptionellen Modelle. Daraus folgt die wichtigste Maßnahme der Beschützer einen \textit{Logging- und Audit-Mechanismus} zu etablieren. Dieser soll in geeigneter Form alle Aktivitäten und Interaktionen des Systems protokolliert. Das Logging beinhaltet alle wesentlichen Informationen, die von Implementationsebene wichtig für die Nachvollziehbarkeit bestimmter Aktionen sind. Im Log tauchen jegliche Fehler und Warnungen auf, die während der Laufzeit auftreten. Der Audit hingegen beinhaltet Aktionen auf Informationsebene, beispielsweise erfolgreiche und fehlgeschlagene Verbindungsversuche oder Wer, Wann, Welche Ressource verändert hat. Logging soll für alle folgenden Maßnahmen umgesetzt werden. Für den Fall, dass ein Angreifer Zugriff auf das System bekommt, ist es essentiell, dass die Log-/Auditdateien von \textit{niemanden} verändert werden dürfen, um dadurch wichtige Spuren verwischen zu können. Niemand schließt ebenfalls den Administrator mit ein.
 
 \paragraph{Mediator} 
 Der Mediator (Mittler) ist für die Überprüfung von Berechtigungsnachweisen und deren Zuordnung zu Rollen zuständig. Die Verwaltung der Berechtigungsnachweisen kann vom Mediator durchaus delegiert werden. Die Anbindung an ein Unternehmens-LDAP (Lightweight Directory Access Protocol) ist denkbar. 
@@ -391,20 +410,44 @@ In der Bedrohungsanalyse wurden Gefährdungen aufgedeckt und Maßnahmen ergriffe
 
 In diesem Abschnitt werden die gefährdeten Informationen des Marktrechners mit Bezug auf das Thesis-Thema, die Authentifizierung und Autorisierung, identifiziert.
 
-\paragraph{Logdateien}
+\subsection{Log-/Auditdateien}
 
-In Abschnitt~\ref{sec:analysis_measures} wurden die Maßnahmen aus der Bedrohungsanalyse festgehalten. Eine der Wichtigsten ist der Logging-Mechnismus. Damit dieser korrekt funktioniert und nicht seinerseits zu Sicherheitslücke wird, dessen Informationsflüsse genau betrachtet werden.  In der Abbildung~\ref{fig:dfd_logs} sehen wir die einzige Möglichkeit Logdaten zu lesen. Ausschließlich Administratoren sollen in der Lage sein, über eine  Betrachtungsfunktion die Logs einzusehen, da diese sensitive Daten, wie etwa Passwörter, beinhalten können. Unter keinen Umständen soll es möglich sein die Logdaten zu verändern. Denn auf diese Weise kann ein Angreifer ganz einfach seine Spuren verwischen. Für die Inhalte der Logdaten ist anzunehmen, dass diese nur von vertrauenswürdigen Anwendungen des Systems geschrieben werden. Die Inhalte selbst können aber von nicht vertrauenswürdigen Quellen kommen, daher muss dort Schadcode gerechnet werden.
+In Abschnitt~\ref{sec:analysis_measures} wurden die Maßnahmen aus der Bedrohungsanalyse festgehalten. Eine der Wichtigsten ist der Logging-/Audit-Mechanismus. Damit dieser korrekt funktioniert und nicht seinerseits zur Sicherheitslücke wird, werden dessen Informationsflüsse genauer betrachtet.
+
+\paragraph{Informationsfluss}
+In der Abbildung~\ref{fig:dfd_logs} sehen wir den Informationsfluss von Log- und Auditdaten. Ausschließlich Administratoren sollen in der Lage sein, über eine  Betrachtungsfunktion die Daten einzusehen, da dort sensitive Daten, wie etwa Passwörter, beinhaltet sein können. Unter keinen Umständen soll es möglich sein die Daten zu verändern. Denn auf diese Weise kann ein Angreifer ganz einfach seine Spuren verwischen. Für die Inhalte ist anzunehmen, dass diese nur von vertrauenswürdigen Anwendungen des Systems geschrieben werden. Die Inhalte selbst können aber von nicht vertrauenswürdigen Quellen kommen, daher muss dort mit Schadcode gerechnet werden.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[scale=0.8]{images/dfd_logs.pdf}
+\includegraphics[scale=0.7]{images/dfd_logs.pdf}
 \caption{DFD Logdaten Auswertung}
 \label{fig:dfd_logs}
 \end{figure}
 
-\paragraph{HTTP-Anfrage}
+\paragraph{Gefährdungen identifizieren}
+Die Gefährdungen für Informationsflüsse können einfachheitshalber in fünf Kategorien gegliedert werden, wobei der Denial of Service nicht berücksichtigt wird, da er zu universell ist:
 
-Eingehende Verbindungen dürfen ausschließlich über HTTP/S erfolgen. Zu diesem Zweck können über das RestGateway auf den Marktrechner zugegriffen werden. In Abbildung~\ref{fig:dfd_http} wird der Informationsfluss über das RestGateway gezeigt. Dabei fließen die Daten durch drei Vertrauensgrenzen. Sowohl RestGateway, als auch LanGateway fungieren hierbei als Datenproxy. Deswegens muss darauf geachtet werden, dass ein Angreifer über diese kein Datenwäsche durchführen kann.
+\begin{table}[h] % htbp ~ here, top, bottom, page
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\textbf{Sabotage} & unentdeckt Daten modifizieren\\
+\textbf{Personifikation} & vorgeben jemand oder etwas Anderes zu sein\\
+\textbf{Informationspreisgabe} & unberechtigter Zugriff auf Informationen\\
+\textbf{Disput} & meiden der Verantwortung für ein Tun oder Nichttun\\
+\end{tabularx}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=1.2]{images/dfd_logs_threats.pdf}
+\caption{DFD Logdaten Gefährdungen}
+\label{fig:dfd_logs}
+\end{figure}
+
+Sabotage ist ein Aspekt der bei Log- und Audit-Dateien gegeben ist, den diese enthalten Informationen, die einen Angreifer entlarven können. Im Audit könnten beispielsweise, viele Fehlgeschlagene Authentifizierungsversuche zu sehen sein, die auf einen Bruteforce-Angriff hinweisen. Sollte dieser geglückt sein und dieser Benutzer hat Rechte das Audit zu verändern, könnte der Angreifer seine Spuren verwischen. Im Log könnten beispielsweise, zahlreiche Fehlermeldungen zu sehen sein, welche ein Angreifer absichtilich produziert, um eine Schwachstelle zu finden. Durch entfernen dieser kann er sicherstellen, dass die Sicherheitslücke unentdeckt bleibt. ....  Zudem können dort bereits angesprochene sensitive Daten enthalten sein, welche einem Angreifer nicht in die Hände fallen sollen. 
+
+\subsection{HTTP-Anfrage}
+
+Eingehende Verbindungen sollen ausschließlich über HTTP/S erfolgen. Zu diesem Zweck gibt es das RestGateway, über welches auf den Marktrechner zugegriffen werden kann. In Abbildung~\ref{fig:dfd_http} wird der Informationsfluss über das RestGateway gezeigt. Dabei fließen die Daten durch drei Vertrauensgrenzen. Sowohl RestGateway, als auch LanGateway fungieren hierbei als Datenproxy. Deswegen muss darauf geachtet werden, dass ein Angreifer über diese kein Datenwäsche durchführen kann.
 
 \begin{figure}[htbp]
 \centering
@@ -424,11 +467,6 @@ Eingehende Verbindungen dürfen ausschließlich über HTTP/S erfolgen. Zu diesem
 
 LDSWin -> HTTPWrapper -t-> RestGateway -t-> LanGateway -t-> LDS-Protokoll
 * no sanatize checking possible
-
-\paragraph{Alarme}
-
-Marktrechner -t-> SMS-Provider -t-> FSZ
-Marktrechner -t-> E-Mail-Provider -t-> FSZ
 
 \chapter{Entwurf oder Design} \label{chap:design}
 \epigraphhead[70]{\epigraph{The user's going to pick dancing pigs over security every time.}{\textit{Bruce Schneier}}}
