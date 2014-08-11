@@ -68,7 +68,7 @@ Viele Kälteanlagen benötigen viele Meter Leitungen, um die Leitungslänge zu o
 \subsection{Marktrechner} \label{sec:marktrechner} 
 Betrachtet man eine Kälteanlage, dann ist der Marktrechner ihr Herzstück. Über den CAN-Bus ist er in der Lage, Komponenten zentral zu parametrieren und zu überwachen. Sämtliche Betriebsdaten und Betriebszustände, Meldungen und Alarme aus der Überwachung werden auf seinem internen Speicher archiviert \cite{elds}.
 
-\paragraph{Hardware \& Software} Der Marktrechner verfügt über einen 32-Bit Prozessor mit ARM-Architektur. Als Datenspeicher ist eine SD-Karte fest verbaut. Zur Kommunikation notwendige Schnittstellen sind in Abbildung~\ref{fig:marktrechner_interfaces} zu sehen. Der Ethernet-Port wird zur Fernwartung eingesetzt. Über die drei RS232 COM-Schnittstellen kann ein PC vor Ort angeschlossen werden, die Fernwartung via Modem erfolgen, das M-Bus-Gateway zur Verbrauchsdatenerfassung verbunden werden oder Sonderfunktionen, beispielsweise, Gebäudeleittechnik oder sonstige Fremdsysteme bedient werden. Über die RS485 COM-Schnittstelle können Modbus-Regler hinzugefügt werden. Die USB-Host und USB-Slave Anschlüsse sind für zukünftig Benutzung vorgesehen. Einer der beiden CAN-Bus Anschlüsse wird benutzt, um mit den E*LDS Komponenten zu kommunizieren. Der zweite ist für zukünftige Benutzung vorgesehen. Und über die zwei Digitaleingänge können entweder Alarme entgegengenommen oder Energiezähler gelesen werden. Die Benutzerinteraktion wird über ein 7-Zoll Touch-Display realisiert.
+\paragraph{Hardware \& Software} Der Marktrechner verfügt über einen 32-Bit Prozessor mit ARM-Architektur. Als Datenspeicher ist eine SD-Karte fest verbaut. Zur Kommunikation notwendige Schnittstellen sind in Abbildung~\ref{fig:marktrechner_interfaces} zu sehen. Der Ethernet-Port wird zur Fernwartung eingesetzt. Über die drei RS232 COM-Schnittstellen kann ein PC vor Ort angeschlossen werden, die Fernwartung via Modem erfolgen, das M-Bus-Gateway zur Verbrauchsdatenerfassung verbunden werden oder Sonderfunktionen, beispielsweise Gebäudeleittechnik oder sonstige Fremdsysteme bedient werden. Über die RS485 COM-Schnittstelle können Modbus-Regler hinzugefügt werden. Die USB-Host und USB-Slave Anschlüsse sind für zukünftig Benutzung vorgesehen. Einer der beiden CAN-Bus Anschlüsse wird benutzt, um mit den E*LDS Komponenten zu kommunizieren. Der zweite ist für zukünftige Benutzung vorgesehen. Und über die zwei Digitaleingänge können entweder Alarme entgegengenommen oder Energiezähler gelesen werden. Die Benutzerinteraktion wird über ein 7-Zoll Touch-Display realisiert.
 
 \begin{figure}[htbp]
 \centering
@@ -180,7 +180,7 @@ Das vom BSI vorgeschlagene Konzept und damit verbundene Vorgehen, betrachtet ein
 \subsection{Soft Systems Methodology} \label{sec:ssm}
 
 Nachfolgend Erläuterungen beziehen sind auf \cite{gutmann9}. 
-Das Lösen von Sicherheitsproblemen ist ein kniffeliges Unterfangen, da die typische Vorgehensweise von vielen Informatikern, dass Problem mit Technologien zu bewerfen, nicht funktioniert. Fragt man diese beispielsweise, wie löst man das Problem, Benutzer sicher über das Internet zu authentifizieren? Dann werden Antworten wie OpenID, LDAP, SecurID oder ähnliches zu hören sein. Nur die wenigsten werden fragen: Wer soll, wo, wogegen authentifiziert werden, wie benutzerfreundlich (einfach) kann der Mechanismus sein und welches Budget steht zur Verfügung? Um das natürliche Verlangen, die Lieblingstechnologie verwenden zu wollen, zu unterdrücken, ist es sinnvoll Problem Structuring Methods (PSK) einzusetzen.
+Das Lösen von Sicherheitsproblemen ist ein kniffeliges Unterfangen, da die typische Vorgehensweise von vielen Informatikern, dass Problem mit Technologien zu bewerfen, nicht funktioniert. Fragt man diese, wie löst man das Problem, Benutzer sicher über das Internet zu authentifizieren? Dann werden Antworten wie OpenID, LDAP, SecurID oder ähnliches zu hören sein. Nur die wenigsten werden fragen: Wer soll, wo, wogegen authentifiziert werden, wie benutzerfreundlich (einfach) kann der Mechanismus sein und welches Budget steht zur Verfügung? Um das natürliche Verlangen, die Lieblingstechnologie verwenden zu wollen, zu unterdrücken, ist es sinnvoll Problem Structuring Methods (PSK) einzusetzen.
 
 \begin{figure}[htbp]
 \centering
@@ -189,7 +189,7 @@ Das Lösen von Sicherheitsproblemen ist ein kniffeliges Unterfangen, da die typi
 \label{fig:ssm}
 \end{figure}
 
-SSM wurde in den späten 60iger Jahren, an Universität von Lancaster, von Peter Checkland, begonnen zu entwickeln. Es war zunächst als Modellierungswerkzeug gedacht, wird aber hauptsächlich als Lern- und Bedeutungswerkzeug angesehen \cite{bobwill}. SSM kann prinzipielle immer dann eingesetzt werden, wenn jemand versucht zielgerichtet zu handeln \cite{checkland1}. Ein wichtiger Teil von SSM ist die Weltansicht, welche einem Vorgehen Sinn und Zweck verleiht. Beispielsweise, des einen Terrorist ist des anderen Freiheitskämpfer. Beide betrachten jedoch das Selbe. Durch mehrere zielgerichtete Vorgehen, unterschiedlicher Weltansichten, wird in SSM versucht die Reale Welt zu beschrieben. Diese ist jedoch viel zu komplex, um in irgendeiner Modellsprache erfasst zu werden. Daher wird das Vorgehen bewusst auf ein rein konzeptionelles Modell beschränkt. Diese Einschränkung verringert die Komplexität und vereinfacht dadurch die Problemlösung. Die Trennung zwischen Realer Welt und Systemmodell der Realen Welt findet zwischen Phase 1 und 2 statt. In der ersten Phase wird die gesamte Problemsituation der Realen Welt, aus Sicht aller Beteiligten, erörtert und unstrukturiert beschrieben. Anhand dieser Informationen werden in der zweiten Phase, die bereits genannten, konzeptuellen Modelle erstellt. Die Modelle dienen dazu Debatten über die Thematik zu strukturieren, indem sie mit der Realen Welt verglichen werden. In einem iterativen Prozess werden die ersten beiden Phasen wiederholt, bis die Thematik klar genug ist, um Ergebnisse zu treffen. Die Ergebnisse werden anschließend in konkrete Schritte formuliert, die ausgeführt werden sollen. 
+SSM wurde in den späten 60iger Jahren, an Universität von Lancaster, von Peter Checkland, begonnen zu entwickeln. Es war zunächst als Modellierungswerkzeug gedacht, wird aber hauptsächlich als Lern- und Bedeutungswerkzeug angesehen \cite{bobwill}. SSM kann prinzipielle immer dann eingesetzt werden, wenn jemand versucht zielgerichtet zu handeln \cite{checkland1}. Ein wichtiger Teil von SSM ist die Weltansicht, welche einem Vorgehen Sinn und Zweck verleiht. Beispielsweise des einen Terrorist ist des anderen Freiheitskämpfer. Beide betrachten jedoch das Selbe. Durch mehrere zielgerichtete Vorgehen, unterschiedlicher Weltansichten, wird in SSM versucht die Reale Welt zu beschrieben. Diese ist jedoch viel zu komplex, um in irgendeiner Modellsprache erfasst zu werden. Daher wird das Vorgehen bewusst auf ein rein konzeptionelles Modell beschränkt. Diese Einschränkung verringert die Komplexität und vereinfacht dadurch die Problemlösung. Die Trennung zwischen Realer Welt und Systemmodell der Realen Welt findet zwischen Phase 1 und 2 statt. In der ersten Phase wird die gesamte Problemsituation der Realen Welt, aus Sicht aller Beteiligten, erörtert und unstrukturiert beschrieben. Anhand dieser Informationen werden in der zweiten Phase, die bereits genannten, konzeptuellen Modelle erstellt. Die Modelle dienen dazu Debatten über die Thematik zu strukturieren, indem sie mit der Realen Welt verglichen werden. In einem iterativen Prozess werden die ersten beiden Phasen wiederholt, bis die Thematik klar genug ist, um Ergebnisse zu treffen. Die Ergebnisse werden anschließend in konkrete Schritte formuliert, die ausgeführt werden sollen. 
 
 Die Soft Systems Methodology ist zwar nicht als Methodik zur Erstellung eines Sicherheitskonzeptes gedacht, dennoch ist sie als Vorgehensweise für die Analyse, durch ihre Trennung von Realer Welt und deren Abstraktion, besser geeignet als das Modell des BSI. SSM nimmt bewusst Einfluss auf das menschliche Denken und Vorgehen, um dieses zu fokussieren und dadurch zu optimieren. Das bedeutet nicht, dass alles aus dem IT-Grundschutz des BSI unbrauchbar ist. Vor allem die Vorarbeit, die der BSI mit Gefährdungenkataloge und Maßnahmenkataloge geleistet hat, lässt sich in Kapitel~\ref{chap:threat_analysis} mit SSM verwenden.
 
@@ -206,6 +206,19 @@ Data Flow Diagrammen (DFD) gehen zurück auf die 70er Jahre. Ihre Aufgabe ist es
 \caption{Data Flow Diagramm Beispiel}
 \label{fig:dfd_intro}
 \end{figure}
+
+Anhand der Data Flow Diagramme werden Gefährdungen für Informationsflüsse gesucht. Diese werden zunächst einfachheitshalber in fünf Kategorien gegliedert werden, wobei der Denial of Service nicht berücksichtigt wird, da er zu universell ist:
+
+\begin{table}[h] % htbp ~ here, top, bottom, page
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\textbf{Sabotage} & unentdeckt Daten modifizieren\\
+\textbf{Personifikation} & vorgeben jemand oder etwas Anderes zu sein\\
+\textbf{Informationspreisgabe} & unberechtigter Zugriff auf Informationen\\
+\textbf{Disput} & meiden der Verantwortung für ein Tun oder Nichttun\\
+\end{tabularx}
+\end{table}
+
+Ausgehend von diesen vier findet je nach Anwendungsfall eine detailliertere Analyse statt.
 
 \chapter{Bedrohunganalyse} \label{chap:threat_analysis}
 \epigraphhead[70]{\epigraph{The only truly secure system is one that is powered off, cast in a block of concrete and sealed in a lead-lined room with armed guards.}{\textit{Gene Spafford}}}
@@ -304,7 +317,7 @@ Die folgende Beschreibung des Konzeptionellen Modells nimmt direkten Bezug auf d
 
 \subsection{Vergleich mit der Realen Welt}
 
-Der Vergleich des Konzeptionenellen Modells mit der Realen, soll schwächen auflegen die zunächst ignoriert werden konnten. Die Punkte 1-3 sagen aus, dass jeder Marktrechner alle zur Authentifizierung und Autorisierung nötigen Benutzer- und Rollen-Informationen haben muss. Während dies konzeptionell durchaus sinnvoll erscheint, ist das Konzept in der Praxis nahezu unmöglich zu realisieren. Nimmt man beispielsweise eine Fernservice-Zentrale, die 1000 Marktrechner mit 50 Mitarbeitern betreut und eine hohe Mitarbeiter Fluktuation hat. Dann müssen zunächst einmal alle 1000 Marktrechner die Berechtigungsnachweis der 50 Mitarbeiter erhalten. Fällt ein Mitarbeiter weg oder kommt ein neuer hinzu müssen jedes Mal alle 1000 Marktrechner aktualisiert werden. Initial sind dadurch 50000 Berechtigungsnachweis zu setzen, wobei 49950 redundant sind. Bei jeder Änderung müssen zudem erneut 1000 Berechtigungsnachweis aktualisiert werden, wovon 999 redundant sind. Das ganze sorgt für einen riesigen administrativen Aufwand, welcher zwangsläufig zu Fehlern und Schwachstellen führen muss. Stattdessen nehmen wir den Marktrechner aus der Pflicht, sich über alle Kunden mit Berechtigungsnachweis ständig aktualisiert zu werden und beschränken seine Funktion auf die Autorisierung der Zugriffsrechte. Für die Authentifizierung setzten wir stattdessen auf eine kleine Zahl an Mediatoren, vorzugsweise zwei wegen der Verfügbarkeit. Diese Mediatoren verwalten dann die Berechtigungsnachweis der 50 Mitarbeiter. Für zwei separat gepflegt Mediatoren macht dies initial 100 Berechtigungsnachweis, davon 50 redundant und bei neuem oder wegfallendem Mitarbeiter je zwei Änderungen, davon ist einer redundant. Das ganze ist ein Verbesserung, im Verhältnis:
+Der Vergleich des Konzeptionenellen Modells mit der Realen, soll schwächen auflegen die zunächst ignoriert werden konnten. Die Punkte 1-3 sagen aus, dass jeder Marktrechner alle zur Authentifizierung und Autorisierung nötigen Benutzer- und Rollen-Informationen haben muss. Während dies konzeptionell durchaus sinnvoll erscheint, ist das Konzept in der Praxis nahezu unmöglich zu realisieren. Nimmt man eine Fernservice-Zentrale, die 1000 Marktrechner mit 50 Mitarbeitern betreut und eine hohe Mitarbeiter Fluktuation hat. Dann müssen zunächst einmal alle 1000 Marktrechner die Berechtigungsnachweis der 50 Mitarbeiter erhalten. Fällt ein Mitarbeiter weg oder kommt ein neuer hinzu müssen jedes Mal alle 1000 Marktrechner aktualisiert werden. Initial sind dadurch 50000 Berechtigungsnachweis zu setzen, wobei 49950 redundant sind. Bei jeder Änderung müssen zudem erneut 1000 Berechtigungsnachweis aktualisiert werden, wovon 999 redundant sind. Das ganze sorgt für einen riesigen administrativen Aufwand, welcher zwangsläufig zu Fehlern und Schwachstellen führen muss. Stattdessen nehmen wir den Marktrechner aus der Pflicht, sich über alle Kunden mit Berechtigungsnachweis ständig aktualisiert zu werden und beschränken seine Funktion auf die Autorisierung der Zugriffsrechte. Für die Authentifizierung setzten wir stattdessen auf eine kleine Zahl an Mediatoren, vorzugsweise zwei wegen der Verfügbarkeit. Diese Mediatoren verwalten dann die Berechtigungsnachweis der 50 Mitarbeiter. Für zwei separat gepflegt Mediatoren macht dies initial 100 Berechtigungsnachweis, davon 50 redundant und bei neuem oder wegfallendem Mitarbeiter je zwei Änderungen, davon ist einer redundant. Das ganze ist ein Verbesserung, im Verhältnis:
 
 \[\frac{Anzahl der Marktrechner}{2}\]
  
@@ -394,7 +407,7 @@ Die nächste Maßnahme widmet sich dem Vertrauen zwischen Marktrechner, Mediator
 Für den Fall des Verbindungsausfalles zum Mediator, beispielsweise während eines Netzwerkausfalls oder einer Netzwerkstörung, muss weiterhin der Zugriff vor Ort auf das System gewährleistet werden. Dazu sollen nach Bedarf Einmal-Berechtigungsnachweise, vom Eigentümer oder von der Fernservice-Zentrale, ausgestellt werden.
 
 \paragraph{Autorisierung}
-Nicht jeder Benutzer soll vollen Zugriff auf alle Funktionen am System haben. Für einen Analyst, beispielsweise, genügt es, wenn er lesend auf Energie- und Temperaturdaten zugreifen kann. Der Mediator ist verantwortlich, die ihm bekannten Rollen eines Benutzers dem Marktrechner beim Verbindungsaufbau mitzuteilen. Der Marktrechner muss anhand der Rolleninformationen den Zugriff regulieren.
+Nicht jeder Benutzer soll vollen Zugriff auf alle Funktionen am System haben. Für einen Analyst, beispielsweise genügt es, wenn er lesend auf Energie- und Temperaturdaten zugreifen kann. Der Mediator ist verantwortlich, die ihm bekannten Rollen eines Benutzers dem Marktrechner beim Verbindungsaufbau mitzuteilen. Der Marktrechner muss anhand der Rolleninformationen den Zugriff regulieren.
 
 \paragraph{Verschlüsselung}
 Damit ein Angreifer nicht die Kommunikationsinhalte abhören kann, muss diese ausreichend verschlüsselt werden. Ausreichend nimmt Bezug auf Möglichkeit, welche der Marktrechner aufgrund seiner Hardware leisten kann. Des Weiteren muss erkannt werden, wenn verschlüsselte Nachrichten ein zweites mal (Replay-Attacke) eingespielt werden. Darüber hinaus muss die Kommunikation der Perfekt Forward Security (PFS) genügen. Dadurch wird verhindert, dass aufgenommene verschlüsselte Kommunikationsinhalte später entschlüsselt werden können.
@@ -408,7 +421,7 @@ In der Bedrohungsanalyse wurden Gefährdungen aufgedeckt und Maßnahmen ergriffe
 
 \section{Gefährdete Informationsflüsse}
 
-In diesem Abschnitt werden die gefährdeten Informationen des Marktrechners mit Bezug auf das Thesis-Thema, die Authentifizierung und Autorisierung, identifiziert.
+In diesem Abschnitt werden die gefährdeten Informationen des Marktrechners mit Bezug auf die Authentifizierung und Autorisierung, identifiziert.
 
 \subsection{Log-/Auditdateien}
 
@@ -425,29 +438,26 @@ In der Abbildung~\ref{fig:dfd_logs} sehen wir den Informationsfluss von Log- und
 \end{figure}
 
 \paragraph{Gefährdungen identifizieren}
-Die Gefährdungen für Informationsflüsse können einfachheitshalber in fünf Kategorien gegliedert werden, wobei der Denial of Service nicht berücksichtigt wird, da er zu universell ist:
-
-\begin{table}[h] % htbp ~ here, top, bottom, page
-\begin{tabularx}{\linewidth}{@{}lX@{}}
-\textbf{Sabotage} & unentdeckt Daten modifizieren\\
-\textbf{Personifikation} & vorgeben jemand oder etwas Anderes zu sein\\
-\textbf{Informationspreisgabe} & unberechtigter Zugriff auf Informationen\\
-\textbf{Disput} & meiden der Verantwortung für ein Tun oder Nichttun\\
-\end{tabularx}
-\end{table}
+Abbildung~\ref{fig:dfd_logs_threat} zeigt die Gefährdungen der einzelnen Beteiligten. Sabotage ist ein Aspekt der bei Log- und Audit-Dateien gegeben ist, den diese enthalten Informationen, die auf einen Angriff schließen lassen. Versucht ein Angreifer, beispielsweise per Bruteforce-Angriff das Passwort eines Benutzers herauszufinden, dann sind im Audit die fehlgeschlagenen Authentifizierungsversuche zu sehen. Sollte dieser geglückt sein und der Benutzer hat Rechte das Audit zu verändern, kann der Angreifer seine Spuren verwischen. Ein anderer Angreifer könnte versuchen Schwachstellen in der Implementierung zu finden. Im Log würden dadurch zahlreiche Fehlermeldungen entstehen. Durch entfernen dieser kann er sicherstellen, dass eine eventuelle Sicherheitslücke unentdeckt bleibt. Der zweite Aspekt für Log- und Audit-Daten ist die Informationspreisgabe, da in beiden sensitive Daten enthalten sein können, welche Unberechtigte nicht einsehen dürfen. Informationspreisgabe ist auch für den Betrachter zu berücksichtigen, dieser darf Daten nur für Administratoren anzeigen. Zudem unterliegt er der Personifikation, indem der eigentliche Betrachter mit Schadcode modifiziert wurde und nun vorgibt, der Ursprüngliche zu sein. Auch der Administrator unterliegt der Personifikation, indem es jemand schafft die Authentifizierung zu umgehen. Zusätzlich muss die Datenwäsche berücksichtigt werden. Zwar kommen Log- und Audit-Daten von vertrauenswürdigen Quellen, die Daten enthalten allerdings Inhalte aus nicht vertrauenswürdigen Quellen. Daher sollten diese auch mit Vorsicht betrachtet werden. Ist der Betrachter, beispielsweise eine Web-Anwendung, dann ist es wichtig in den Daten nach JavaScript-Inhalten zu suchen und diese von einem Sanitizer entfernen zu lassen \footnote{Angriff erfolgreich durchgeführt an https://github.com/nlaplante/syslogng-web}.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[scale=1.2]{images/dfd_logs_threats.pdf}
 \caption{DFD Logdaten Gefährdungen}
-\label{fig:dfd_logs}
+\label{fig:dfd_logs_threat}
 \end{figure}
 
-Sabotage ist ein Aspekt der bei Log- und Audit-Dateien gegeben ist, den diese enthalten Informationen, die einen Angreifer entlarven können. Im Audit könnten beispielsweise, viele Fehlgeschlagene Authentifizierungsversuche zu sehen sein, die auf einen Bruteforce-Angriff hinweisen. Sollte dieser geglückt sein und dieser Benutzer hat Rechte das Audit zu verändern, könnte der Angreifer seine Spuren verwischen. Im Log könnten beispielsweise, zahlreiche Fehlermeldungen zu sehen sein, welche ein Angreifer absichtilich produziert, um eine Schwachstelle zu finden. Durch entfernen dieser kann er sicherstellen, dass die Sicherheitslücke unentdeckt bleibt. ....  Zudem können dort bereits angesprochene sensitive Daten enthalten sein, welche einem Angreifer nicht in die Hände fallen sollen. 
+\paragraph{Maßnahmen}
+
+Aus den Gefährdungen ergeben sich folgende Maßnahmen, welche zur Sicherung der Informationsflüsse durchgeführt werden müssen. Log- und Audit-Daten dürfen in einer Datei oder Datenbank abgelegt werden, die ausschließlich vom Systembenutzer für Logging und Auditing beschrieben und modifiziert wird. Dabei wird angenommen, dass Datei-/Datenbankzugriffsmechanismus, sowie Systemauthentifizierung nicht komprimiert sind. Das Betrachten der Daten darf nur durch einen Administrator geschehen, dabei wird angenommen, dass der Betrachter nicht von einem Angreifer modifiziert wurde. Ist der Betrachter eine Web-Anwendung benötigt er eine Authentifizierung, die mit der Systemauthentifizierung integriert ist. Inhalte müssen vor der Darstellung durch einen Sanitizer von schadhaften Daten bereit werden. Wurden, solche Daten entfernt, muss der Administrator darauf hingewiesen werden. Der Administrator, weist sich durch seinen Berechtigungsnachweis aus, dieser wird vor fremden Zugriff geschützt. Weiterhin erfolgt erneut die Annahme, dass die Systemauthentifizierung nicht komprimiert wurde.
 
 \subsection{HTTP-Anfrage}
 
-Eingehende Verbindungen sollen ausschließlich über HTTP/S erfolgen. Zu diesem Zweck gibt es das RestGateway, über welches auf den Marktrechner zugegriffen werden kann. In Abbildung~\ref{fig:dfd_http} wird der Informationsfluss über das RestGateway gezeigt. Dabei fließen die Daten durch drei Vertrauensgrenzen. Sowohl RestGateway, als auch LanGateway fungieren hierbei als Datenproxy. Deswegen muss darauf geachtet werden, dass ein Angreifer über diese kein Datenwäsche durchführen kann.
+Eingehende Verbindungen sollen ausschließlich über HTTP/S erfolgen. Zu diesem Zweck wurde das RestGateway entwickelt, über welches auf den Marktrechner zugegriffen werden kann. 
+
+\paragraph{Informationsfluss}
+
+In Abbildung~\ref{fig:dfd_http} wird der Informationsfluss über das RestGateway gezeigt. Dabei fließen die Daten durch drei Vertrauensgrenzen. Sowohl RestGateway, als auch LanGateway fungieren hierbei als Datenproxy. Deswegen muss darauf geachtet werden, dass ein Angreifer über diese kein Datenwäsche durchführen kann.
 
 \begin{figure}[htbp]
 \centering
@@ -456,26 +466,23 @@ Eingehende Verbindungen sollen ausschließlich über HTTP/S erfolgen. Zu diesem 
 \label{fig:dfd_http}
 \end{figure}
 
+\paragraph{Gefährdungen identifizieren}
 
 
+\begin{comment}
 \begin{figure}[htbp]
 \centering
 \includegraphics[scale=0.24]{images/dfd_http_legacy.pdf}
 \caption{DFD HTTP-Anfrage Legacy-System}
 \label{fig:dfd_http_leg}
 \end{figure}
-
-LDSWin -> HTTPWrapper -t-> RestGateway -t-> LanGateway -t-> LDS-Protokoll
-* no sanatize checking possible
+\end{comment}
 
 \chapter{Entwurf oder Design} \label{chap:design}
 \epigraphhead[70]{\epigraph{The user's going to pick dancing pigs over security every time.}{\textit{Bruce Schneier}}}
 
 Aus dem Bedrohungsmodell Folgendes allgemeines Design des Sicherheitskonzeptes, ohne Bezug auf bestimmte Lösungen, wie WIBU oder Radius.
 
-\begin{comment}
-Im Rahmen des absolvierten Praktikums wurde eine neue Webservice-Schnittstelle geschrieben, welcher das weit verbreitete REST-Konzept für Webanwendungen zu Grunde liegt. Das RestGateway führt zur Zeit keine Authentifizierung und Autorisierung durch. Es wurde aber mit dem Hintergrund entwickelt, diese Funktionen zu integrieren.
-\end{comment}
 
 \chapter{Evaluation} \label{chap:evaluation}
 \epigraphhead[70]{\epigraph{Wisdom consists in being able to distinguish among dangers and make a choice of the least harmful.}{\textit{Niccolo Machiavelli, The Prince}}}

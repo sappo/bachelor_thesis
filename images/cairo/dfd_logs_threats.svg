@@ -8,9 +8,9 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="625.49213"
-   height="284.07483"
-   viewBox="0 0 500.3937 227.25986"
+   width="669.3598"
+   height="333.1304"
+   viewBox="0 0 535.48784 266.50432"
    version="1.1"
    id="svg3284"
    inkscape:version="0.48.3.1 r9886"
@@ -42,16 +42,16 @@
      inkscape:showpageshadow="false"
      showborder="false"
      inkscape:zoom="1.3109677"
-     inkscape:cx="172.66701"
-     inkscape:cy="122.09255"
+     inkscape:cx="216.78439"
+     inkscape:cy="171.88929"
      inkscape:window-x="65"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
      inkscape:current-layer="surface3995"
-     fit-margin-left="0"
-     fit-margin-top="0"
-     fit-margin-right="0"
-     fit-margin-bottom="0" />
+     fit-margin-left="1"
+     fit-margin-top="1"
+     fit-margin-right="1"
+     fit-margin-bottom="1" />
   <defs
      id="defs3286">
     <g
@@ -280,14 +280,7 @@
   </defs>
   <g
      id="surface3995"
-     transform="translate(1.8307076,44.54724)">
-    <rect
-       x="-1.8307076"
-       y="-44.547241"
-       width="500.39368"
-       height="227.25986"
-       style="fill:#ffffff;fill-opacity:1;stroke:none"
-       id="rect3357" />
+     transform="translate(37.124609,43.954278)">
     <path
        style="fill:none;stroke:#000000;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1"
        d="m 2.82178,13.403125 4.682812,0"

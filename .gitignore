@@ -93,3 +93,5 @@ sympy-plots-for-*.tex/
 
 #
 .upd_key
+*.bak
+images/CI_4000
