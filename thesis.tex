@@ -207,7 +207,7 @@ Data Flow Diagrammen (DFD) gehen zurück auf die 70er Jahre. Ihre Aufgabe ist es
 \label{fig:dfd_intro}
 \end{figure}
 
-Anhand der Data Flow Diagramme werden Gefährdungen für Informationsflüsse gesucht. Diese werden zunächst einfachheitshalber in fünf Kategorien gegliedert werden, wobei der Denial of Service nicht berücksichtigt wird, da er zu universell ist:
+Anhand der Data Flow Diagramme werden Gefährdungen für Informationsflüsse gesucht. Diese werden zunächst einfachheitshalber in fünf Kategorien gegliedert werden:
 
 \begin{table}[h] % htbp ~ here, top, bottom, page
 \begin{tabularx}{\linewidth}{@{}lX@{}}
@@ -215,6 +215,7 @@ Anhand der Data Flow Diagramme werden Gefährdungen für Informationsflüsse ges
 \textbf{Personifikation} & vorgeben jemand oder etwas Anderes zu sein\\
 \textbf{Informationspreisgabe} & unberechtigter Zugriff auf Informationen\\
 \textbf{Disput} & meiden der Verantwortung für ein Tun oder Nichttun\\
+\textbf{Denial of Service} & eine Service an seiner Ausübung hindern\\
 \end{tabularx}
 \end{table}
 
@@ -417,18 +418,14 @@ Ein firefallfreundlicher Umgang von E*LDS ist von Kundenseite wünschenswert. Da
 
 \chapter{Bedrohungsmodellierung} \label{chap:threat_modelling}
 
-In der Bedrohungsanalyse wurden Gefährdungen aufgedeckt und Maßnahmen ergriffen. Es wurde absichtlich darauf verzichtet die Implementierung und deren Informationsflüsse zu berücksichtigen. SSM ist sehr gut geeignet eine Problemstellung allgemein zu untersuchen, die konkrete Implementierung kann anhand von Data Flow Diagramm einfacher analysiert werden. Die in diesem Kapitel untersuchten gefährdeten Informationsflüsse werden auf Bedrohungen hin untersucht und anschließend werden entsprechende Maßnahmen ergriffen.
+In der Bedrohungsanalyse wurden Gefährdungen auf abstrakter, konzeptioneller Ebene mit dem PSM Vertreter SSM betrachtet. Es wurde absichtlich darauf verzichtet die eigentliche Implementierung zu berücksichtigen. Die konkrete Implementierung wird anhand von Data Flow Diagramm in diesem Kapitel analysiert. Dazu werden die gefährdeten Informationsflüsse auf Bedrohungen hin untersucht und anschließend werden entsprechende Maßnahmen festgelegt. Die Implementierung des Marktrechners wird, mit Bezug auf die durch Authentifizierung und Autorisierung zu schützenden Informationen analysiert.
 
-\section{Gefährdete Informationsflüsse}
-
-In diesem Abschnitt werden die gefährdeten Informationen des Marktrechners mit Bezug auf die Authentifizierung und Autorisierung, identifiziert.
-
-\subsection{Log-/Auditdateien}
+\section{Log-/Auditdateien}
 
 In Abschnitt~\ref{sec:analysis_measures} wurden die Maßnahmen aus der Bedrohungsanalyse festgehalten. Eine der Wichtigsten ist der Logging-/Audit-Mechanismus. Damit dieser korrekt funktioniert und nicht seinerseits zur Sicherheitslücke wird, werden dessen Informationsflüsse genauer betrachtet.
 
 \paragraph{Informationsfluss}
-In der Abbildung~\ref{fig:dfd_logs} sehen wir den Informationsfluss von Log- und Auditdaten. Ausschließlich Administratoren sollen in der Lage sein, über eine  Betrachtungsfunktion die Daten einzusehen, da dort sensitive Daten, wie etwa Passwörter, beinhaltet sein können. Unter keinen Umständen soll es möglich sein die Daten zu verändern. Denn auf diese Weise kann ein Angreifer ganz einfach seine Spuren verwischen. Für die Inhalte ist anzunehmen, dass diese nur von vertrauenswürdigen Anwendungen des Systems geschrieben werden. Die Inhalte selbst können aber von nicht vertrauenswürdigen Quellen kommen, daher muss dort mit Schadcode gerechnet werden.
+In der Abbildung~\ref{fig:dfd_logs} sehen wir den Informationsfluss von Log- und Auditdaten. Ausschließlich Administratoren sollen in der Lage sein, über eine  Betrachtungsfunktion die Daten einzusehen, da dort sensitive Daten, wie etwa Passwörter, beinhaltet sein können. Unter keinen Umständen soll es möglich sein die Daten zu verändern. Für die Inhalte ist anzunehmen, dass diese nur von vertrauenswürdigen Anwendungen des Systems geschrieben werden. Die Inhalte selbst können aber von nicht vertrauenswürdigen Quellen kommen, daher muss dort mit Schadcode gerechnet werden.
 
 \begin{figure}[htbp]
 \centering
@@ -438,7 +435,7 @@ In der Abbildung~\ref{fig:dfd_logs} sehen wir den Informationsfluss von Log- und
 \end{figure}
 
 \paragraph{Gefährdungen identifizieren}
-Abbildung~\ref{fig:dfd_logs_threat} zeigt die Gefährdungen der einzelnen Beteiligten. Sabotage ist ein Aspekt der bei Log- und Audit-Dateien gegeben ist, den diese enthalten Informationen, die auf einen Angriff schließen lassen. Versucht ein Angreifer, beispielsweise per Bruteforce-Angriff das Passwort eines Benutzers herauszufinden, dann sind im Audit die fehlgeschlagenen Authentifizierungsversuche zu sehen. Sollte dieser geglückt sein und der Benutzer hat Rechte das Audit zu verändern, kann der Angreifer seine Spuren verwischen. Ein anderer Angreifer könnte versuchen Schwachstellen in der Implementierung zu finden. Im Log würden dadurch zahlreiche Fehlermeldungen entstehen. Durch entfernen dieser kann er sicherstellen, dass eine eventuelle Sicherheitslücke unentdeckt bleibt. Der zweite Aspekt für Log- und Audit-Daten ist die Informationspreisgabe, da in beiden sensitive Daten enthalten sein können, welche Unberechtigte nicht einsehen dürfen. Informationspreisgabe ist auch für den Betrachter zu berücksichtigen, dieser darf Daten nur für Administratoren anzeigen. Zudem unterliegt er der Personifikation, indem der eigentliche Betrachter mit Schadcode modifiziert wurde und nun vorgibt, der Ursprüngliche zu sein. Auch der Administrator unterliegt der Personifikation, indem es jemand schafft die Authentifizierung zu umgehen. Zusätzlich muss die Datenwäsche berücksichtigt werden. Zwar kommen Log- und Audit-Daten von vertrauenswürdigen Quellen, die Daten enthalten allerdings Inhalte aus nicht vertrauenswürdigen Quellen. Daher sollten diese auch mit Vorsicht betrachtet werden. Ist der Betrachter, beispielsweise eine Web-Anwendung, dann ist es wichtig in den Daten nach JavaScript-Inhalten zu suchen und diese von einem Sanitizer entfernen zu lassen \footnote{Angriff erfolgreich durchgeführt an https://github.com/nlaplante/syslogng-web}.
+Abbildung~\ref{fig:dfd_logs_threat} zeigt die Gefährdungen der einzelnen Beteiligten. Sabotage ist ein Aspekt der bei Log- und Audit-Dateien gegeben ist, den diese enthalten Informationen, die auf einen Angriff schließen lassen. Versucht ein Angreifer, beispielsweise per Bruteforce-Angriff das Passwort eines Benutzers herauszufinden, dann sind im Audit die fehlgeschlagenen Authentifizierungsversuche aufgezeichnet. Sollte dieser geglückt sein und der Benutzer hat Rechte das Audit zu verändern, kann der Angreifer seine Spuren verwischen. Ein anderer Angreifer könnte versuchen Schwachstellen in der Implementierung zu finden. Im Log würden dadurch zahlreiche Fehlermeldungen entstehen. Durch entfernen dieser kann er sicherstellen, dass eine eventuelle Sicherheitslücke unentdeckt bleibt. Der zweite Aspekt für Log- und Audit-Daten ist die Informationspreisgabe, da in beiden sensitive Daten enthalten sein können, welche Unberechtigte nicht einsehen dürfen. Informationspreisgabe ist auch für den Betrachter zu berücksichtigen, dieser darf Daten nur für Administratoren anzeigen. Zudem unterliegt er der Personifikation, indem der eigentliche Betrachter mit Schadcode modifiziert wurde und nun vorgibt, der Ursprüngliche zu sein. Auch der Administrator unterliegt der Personifikation, indem ein Angreifer in Besitz der Berechtigungsnachweise kommt. Zusätzlich muss die Datenwäsche berücksichtigt werden. Zwar kommen Log- und Audit-Daten von vertrauenswürdigen Quellen, die Daten enthalten allerdings Inhalte aus nicht vertrauenswürdigen Quellen. Daher sollten diese mit Vorsicht betrachtet werden. Ist der Betrachter, beispielsweise eine Web-Anwendung, dann ist es wichtig in den Daten nach JavaScript-Inhalten zu suchen und diese von einem Sanitizer entfernen zu lassen \footnote{Angriff erfolgreich durchgeführt an https://github.com/nlaplante/syslogng-web}.
 
 \begin{figure}[htbp]
 \centering
@@ -449,15 +446,15 @@ Abbildung~\ref{fig:dfd_logs_threat} zeigt die Gefährdungen der einzelnen Beteil
 
 \paragraph{Maßnahmen}
 
-Aus den Gefährdungen ergeben sich folgende Maßnahmen, welche zur Sicherung der Informationsflüsse durchgeführt werden müssen. Log- und Audit-Daten dürfen in einer Datei oder Datenbank abgelegt werden, die ausschließlich vom Systembenutzer für Logging und Auditing beschrieben und modifiziert wird. Dabei wird angenommen, dass Datei-/Datenbankzugriffsmechanismus, sowie Systemauthentifizierung nicht komprimiert sind. Das Betrachten der Daten darf nur durch einen Administrator geschehen, dabei wird angenommen, dass der Betrachter nicht von einem Angreifer modifiziert wurde. Ist der Betrachter eine Web-Anwendung benötigt er eine Authentifizierung, die mit der Systemauthentifizierung integriert ist. Inhalte müssen vor der Darstellung durch einen Sanitizer von schadhaften Daten bereit werden. Wurden, solche Daten entfernt, muss der Administrator darauf hingewiesen werden. Der Administrator, weist sich durch seinen Berechtigungsnachweis aus, dieser wird vor fremden Zugriff geschützt. Weiterhin erfolgt erneut die Annahme, dass die Systemauthentifizierung nicht komprimiert wurde.
+Aus den Gefährdungen ergeben sich folgende Maßnahmen, welche zur Sicherung der Informationsflüsse durchgeführt werden müssen. Log- und Audit-Daten dürfen in einer Datei oder Datenbank abgelegt werden, die ausschließlich vom Systembenutzer für Logging und Auditing beschrieben und modifiziert wird. Dabei wird angenommen, dass Datei-/Datenbankzugriffsmechanismus, sowie Systemauthentifizierung nicht komprimiert sind. Das Betrachten der Daten darf nur durch einen Administrator geschehen, dabei wird angenommen, dass der Betrachter nicht von einem Angreifer modifiziert wurde. Ist der Betrachter eine Web-Anwendung, benötigt er eine Authentifizierung, die mit der Systemauthentifizierung integriert ist. Log- und Audit-Daten müssen vor der Darstellung, durch einen Sanitizer, von schadhaften Inhalten befreit werden. Wurden, solche Daten entfernt, muss der Administrator darauf hingewiesen werden. Der Administrator, weist sich durch seinen Berechtigungsnachweis aus, dieser wird, von Ihm, vor fremden Zugriff geschützt. Weiterhin erfolgt erneut die Annahme, dass die Systemauthentifizierung nicht komprimiert wurde. Für alle Maßnahmen wird zudem angenommen, dass die Implementierung vollständig und korrekt ist.
 
-\subsection{HTTP-Anfrage}
+\section{HTTP-Anfrage}
 
 Eingehende Verbindungen sollen ausschließlich über HTTP/S erfolgen. Zu diesem Zweck wurde das RestGateway entwickelt, über welches auf den Marktrechner zugegriffen werden kann. 
 
 \paragraph{Informationsfluss}
 
-In Abbildung~\ref{fig:dfd_http} wird der Informationsfluss über das RestGateway gezeigt. Dabei fließen die Daten durch drei Vertrauensgrenzen. Sowohl RestGateway, als auch LanGateway fungieren hierbei als Datenproxy. Deswegen muss darauf geachtet werden, dass ein Angreifer über diese kein Datenwäsche durchführen kann.
+In Abbildung~\ref{fig:dfd_http} wird der Informationsfluss über das RestGateway gezeigt. Dabei fließen die Daten durch drei Vertrauensgrenzen. Sowohl RestGateway, als auch LanGateway fungieren als Datenproxy. Beide leiten die Anfragedaten ohne Validierung der Inhalte weiter. Deswegen muss darauf geachtet werden, dass ein Angreifer kein Datenwäsche durchführen kann. Das RestGateway arbeitet weiterhin als Wrapper, unterschiedliche Abfragen werden anhand der URL unterschieden und in entsprechende TCP-CAN-Telegramme übersetzt. Die URL-Parameter einer Anfrage, werden vom RestGateway auf einen gültigen Wertebereich überprüft. Die Antwort auf eine solche Anfrage sind menschenlesebare interpretierte Inhalte.
 
 \begin{figure}[htbp]
 \centering
@@ -468,7 +465,19 @@ In Abbildung~\ref{fig:dfd_http} wird der Informationsfluss über das RestGateway
 
 \paragraph{Gefährdungen identifizieren}
 
+In Abbildung~\ref{fig:dfd_http_threat} sind die Bedrohungen, in den vier Kategorien, aufgezeigt. Der Benutzer unterliegt der Gefahr der Personifizierung, durch stehlen der Berechtigungsnachweise. Dazu werden Phishing-Attacken genutzt, wobei versucht wird Benutzern, durch Personifikation eines legitimen Service, die Berechtigungsnachweise zu entwenden. Diese Angriffe geschehen meist per E-Mail oder Telefon. Da kein Nutzer die Log- und Audit-Daten verändern darf, besteht hierdurch keine Gefährdung durch Disput, da der Zugriff im Audit dokumentiert ist und später nachvollzogen werden kann. Ebenso unterliegen RestGateway und LanGateway der Personifikation, indem an ein Angreifer die Anfrage, über DNS-Spoofing, abfängt und weiterleitet. Dadurch wird er zum Man-in-the-Middle und kann die Unterhaltung mitverfolgen. Gleichzeitig ist dadurch die Informationspreisgabe gegeben. Der Angreifer kann, als Man-in-the-Middle, zum Saboteur werden. In dieser Funktion hat er die Möglichkeit Daten zum Marktrechner oder zum Kunden zu sabotieren. Die vierte Bedrohung, welche durch die Netzwerkkommunikation gegen ist, ist der Denial of Service. Diese Gefährdung kann den Marktrechner komplett außer Gefecht setzten, indem der RestGateway oder LanGateway Prozess dauerhaft mit Anfragen überlastet wird.
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=1]{images/dfd_http_threat.pdf}
+\caption{DFD HTTP-Gefährdungen}
+\label{fig:dfd_http_threat}
+\end{figure}
+
+\paragraph{Maßnahmen}
+
+An Berechtigungsnachweise von Benutzern zu gelangen, ist für einen motivierten Angreifer,durch Phishing-Attacken möglich. Unter dieser Annahme, wird festgelegt, dass ungewöhnliche Login-Muster, in den Audit-Daten erkannt werden müssen. Zum Beispiel, wenn sich ein Benutzer, innerhalb weniger Minuten, von unterschiedlichen physikalischen Orten verbindet. Ebenso ist es keine Seltenheit, dass Benutzer ihren Berechtigungsnachweis vergessen, daher muss es eine Möglichkeit geben diesen sicher, schnell zurückzusetzen. Die Zurücksetzung per Telefon ist, beispielsweise nicht sicher, da man den Gesprächspartner nicht authentifizieren kann. Um RestGateway und LanGateway durch einen Man-in-the-Middle zu schützen, empfiehlt der BSI, statt DNS-Namen, IP-Adressen zu verwenden \cite{bsi_m559} und eine Ende-zu-Ende Verschlüsselung der Kommunikationsinhalte soll für weitere Authentizität sorgen. Die Verschlüsselung beziehungsweise Entschlüsselung, darf nicht dazu führen, dass der Marktrechner für längere Zeit ausgelastet wird. Da eine Denial of Service Attacke genau dies beabsichtigt, darf der Marktrechner, aus dem Internet, nur über einen Reverse Proxy erreichbar sein. Die Authentifizierung, welche in Abschnitt~\ref{sec:analysis_measures} gefordert wird, muss über drei Vertrauensgrenzen sichergestellt werden. Um die Gefährdungen, die durch die Schnittstellen und genutzten Protokolle entstehen zu reduzieren, sollten die Funktionen des LanGateway in das RestGatway integriert werden. Ein externes RestGateway würde, anstatt des LanGateway, mit dem internen RestGateway kommunizieren, welches dann lediglich als Proxy fungiert. Alternativ muss sichergestellt werden, dass das LanGateway ausschließlich lokal, über die Loopback-Addresse (127.0.0.1), erreichbar ist. 
+... Laundering/Tunneling
 \begin{comment}
 \begin{figure}[htbp]
 \centering
