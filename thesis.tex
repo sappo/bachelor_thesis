@@ -152,17 +152,37 @@ Extern bietet das RestGateway die Möglichkeit, über eine Schnittstelle mehrere
 
 \subsection{Offline-Konfiguration} Eine an den Markt angepasste Konfiguration der Kälteanlage, welche vor Inbetriebnahme erstellt wurde. Ein Teil ist die genaue Parametrierung der Kühlgeräte und Kühlmöbel, unter Berücksichtigung der darin zu lagernden Ware.
 
-\section{Sicherheitskonzept}
+\section{Sicherheit}
+
+\section{Authentifizierungsverfahren}
+
+\paragraph{Passwörter}
+
+Bei Passwort basierter Authentifizierung weist sich ein Kommunikationspartner über einen Namen und ein Passwort gegenüber einem anderen Kommunikationspartner aus. Diese Art der Authentifizierung ist strikt einseitig. Zudem muss diese Art der Authentifizierung durch Verschlüsselung ergänzt werden, damit das Passwort nicht unterwegs von einem Man-in-the-Middle (MITM) abgehört werden kann.
+
+\paragraph{Symmetrisch}
+
+Symmetrische Verfahren arbeiten mit einem Schlüssel der beiden Kommunikationspartnern bekannt ist. Dieser muss vor der Kommunikation über einen zweiten Kanal, etwas persönlich, ausgetauscht werden. Unter der Annahme, dass nur der Kommunikationspartner den Schlüssel kennt und dieser nicht kompromittiert wurde, wird eine Vertrauensverhältnis zwischen den beiden aufgebaut.
+
+\paragraph{Asymmetrisch}
+
+Asymmetrische Verfahren arbeiten mit zwei Schlüsseln. Einer ist Öffentlich und für den Kommunikationspartner bestimmt, der andere ist Private und dient zur Entschlüsselung der mit dem Öffentlichen verschlüsselten Nachrichten. Der Öffentliche Schlüssel kann bei diesen Verfahren über einen unsicheren Kanal geteilt werden, da er lediglich zum Verschlüsseln genutzt wird. Dadurch bleibt allerdings das Problem, dass ich nicht weiß, ob der Schlüssel von demjenigen ist, der der Kommunikationspartner vorgibt zu sein. Eine Möglichkeit dieses Problem zu lösen, ist ein dritter dem beide Vertrauen, der die jeweilige Identität hinter einem Öffentlichen Schlüssel kennt.
+
+\section{Key Continuity Management}
+
+
+
+\subsection{Sicherheitskonzept} \label{sec:security_conzept}
 
 Viele Sicherheitssysteme heutzutage sind \textit{"sicher"}, da niemand sich die Mühe gemacht hat, diese anzugreifen \cite{gutmann0}. Ein Großteil an Problemen von Sicherheitskonzepten entsteht, weil die Anforderungen an Sicherheit erst im Nachhinein aufkommen, wenn das eigentliche System schon fertig konzipiert und/oder implementiert ist. Meist wird dann versucht die Sicherheit irgendwie noch an das System anzuheften. Sicherheit wirkt in diesen Fällen oft wie ein fünftes Rad am Wagen, dadurch resultieren Systeme, die in der Benutzung extrem mühselig für Anwender sind. Hierbei sollte beachtet werden, dass Benutzer Sicherheit lieber ausschalten oder umgehen als sich damit auseinanderzusetzen \cite{gutmann5}. Bevor man über potentielle Eigenschaften eines Sicherheitssystems nachdenkt sollte man daher zunächst das Umfeld betrachten, in welcher das System eingesetzt werden soll \cite{gutmann4}. Wenn heutzutage über Sicherheit diskutiert wird, wird meistens ausschließlich über Kryptographie gesprochen. Auch wenn Kryptographie Hauptbestandteil jedes Sicherheitssystems ist, ignorieren praktisch alle Angriffe auf ein Sicherheitssystem die Kryptographie und attackieren den Weg wie sie genutzt wird \cite{gutmann1}. Ein bekanntes Beispiel ist der Heartbleed-Bug\footnote{(Q2/2014) weitere Informationen unter http://heartbleed.com}, der eine Lücke in der Heartbeat-Implementierung, der OpenSSL Bibliothek, ausnutzt, um sich Zugriff auf den Privaten Kommunikationsschlüssel zu verschaffen. Es macht also wenig Sinn die Kryptographischen Mittel aufzureizen, wenn kein Angreifer diese versucht zu attackieren. Zudem wird durch Verschlüsselung das Hauptproblem eines Sicherheitssystems, nämlich \textit{"Vertrauen"}, nur unzureichend betrachtet. Vertrauen wird geschaffen durch Authentifizierung. Drei beliebte Konzepte für die Authentifizierung sind Passwörter, Pre-Shared-Keys (PSK) und Public-Key-Verfahren. Passwörter haben das Problem, dass sie einen Teil der Sicherheit auf den Benutzer abgehen, indem angenommen wird, dass Benutzer immer sichere Passwörter wählen. Da dies in der Realität nicht der Fall ist, wird versucht, mit absurden Passwortregeln Benutzer zu zwingen, Passwörter zu wählen, die sie sich nicht merken können. Darüber hinaus können Passwörter lediglich ein einseitiges Vertrauen schaffen, wie etwa eine Anmeldung bei einem E-Mail Provider. Durch Angabe des Passwort weiß der Server, welchem Client er vor sich hat und kann diesem seine Mails anvertrauen. Der Client kann nur die Domain überprüfen und hoffen, dass diese korrekt aufgelöst wird. Zwar versucht man über Zertifikate und Zertifikat-Autoritäten Vertrauen aufzubauen, aber das einzige was ein Zertifikat bescheinigt ist der Geldaustausch zwischen dem Zertifikat-Halter und der Zertifikat-Autorität. Vertrauen wird allerdings ausschließlich durch eine Identitätsprüfung geschaffen \cite{gutmann8}. Beim Austausch von PSKs geschieht Vertrauen implizit, denn bei PSKs wird ein Austauschkanal benötigt, der nicht der unsichere Kommunikationskanal ist. Zum Beispiel über den traditionellen Postweg. Dadurch das man darauf vertraut, dass die Post eine Identitätsprüfung durchführt, indem Sie den Schlüssel nur dem Empfänger übergibt, wird Vertrauen aufbaut. Bei Public-Key Verfahren hat man die Notwendigkeit für einen Austauschkanal eliminiert, da der Schlüsselaustausch, über einen unsicheren Kanal erfolgen kann. Allerdings hat man dadurch das Bedürfnis nach einen Authentifizierungskanal geschaffen, denn nur der Schlüssel alleine bescheinigt nicht, dass er von dem Absender kommt, von dem es erwartet wurde. Das Problem, die Authentifizierung effizient und zuverlässig über einen Kommunikationskanal zu lösen besteht bis heute, ohne das es eine geeignete Lösung dafür gibt. 
 
 Teil des Sicherheitskonzeptes dieser Arbeit wird es sein, dieses Authentifizierungsproblem auf geeignete Weise zu berücksichtigen, ohne das durch den Einsatz einer bestimmten Technologie im Extremfall enorme Kosten entstehen können. Ein solcher Extremfall würde eintreten, wenn durch die Kompromittierung in der Software alle Berechtigungsnachweise manuelle auf sämtlichen Marktrechnern ausgetauscht werden müssen. 
 
-\section{Sicherheitsmodell}
+\subsection{Sicherheitsmodell}
 
 Ein Sicherheitsmodell bietet einen Leitfaden zur Erstellung eines Sicherheitskonzeptes. Ein ganzheitliches Modell stellt das Bundesamt für Sicherheit in der Informationstechnik (BSI) in seinem IT-Grund\-schutz.  
 
-\subsection{BSI Sicherheitsmodell}
+\subsubsection{BSI Sicherheitsmodell}
 
 Folgende Ausführungen sind dem BSI IT-Grundschutz Empfehlungen entnommen \cite{bsi_standard1,bsi_standard2,bsi_standard3,bsi_standard4}.
 Das BSI stellt im Rahmen seiner IT-Grundschutz Empfehlungen auch ein Modell zur Entwicklung von Sicherheitskonzepten dar. In Abbildung~\ref{fig:bsi_sicherheit} sind die empfohlenen Schritte gezeigt. Schritt eins, verlangt die Erfassung aller Komponenten im Geltungsbereich. Dazu soll das Zusammenspiel zwischen Geschäftsprozessen und Anwendungen herausgearbeitet werden. Als nächstes soll der Schutzbedarf, der Komponenten aus Schritt eins, ermittelt werden. Der ermittelte Schutz soll gemäß der eingesetzte Informationstechnik ausreichend beziehungsweise angemessen sein. Anhand dieser Informationen werden, für die Zielobjekte aus Strukturanalyse und Schutzbedarf, Bausteine aus dem IT-Grundschutz gewählt. Der anschließende Basis-Sicherheitscheck soll das aktuelle Sicherheitsniveau einschätzen und liefert als Ergebnis eine Liste der relevanten Maßnahmen und ihr Umsetzungsstatus "entbehrlich", "ja", "teilweise" oder "nein". Dafür sollen Gefährdungenkataloge und Maßnahmenkataloge des BSI genutzt werden. In Schritt vier wird geprüft, ob die Standard-Sicherheitsmaßnahmen ausreichend sind, was für die meisten typischen Geschäftsfelder der Fall seinen sollte. Sollten erweitere Sicherheitsmaßnahmen nötig werden muss für diese eine Risikoanylse durchgeführt werden. Bei den Standard-Sicherheitsmaßnahmen ist dies bereits durch die IT-Grundschutz-Kataloge abgedeckt. 
@@ -177,7 +197,7 @@ Ab Schritt sechs erfolgt die Durchführung der Maßnahmen. Bei der Konsolidierun
 
 Das vom BSI vorgeschlagene Konzept und damit verbundene Vorgehen, betrachtet ein Sicherheitsmodell ausgiebig aus technischer Sicht. Es wurde entwickelt, um als internationaler Standard genutzt zu werden, hat dort jedoch, nicht zuletzt wegen schlechter englischer Übersetzung, keinerlei Verbreitung. Die komplette Umsetzung ist sehr komplex, da es für Sicherheitskonzepte kompletter Unternehmen ausgelegt ist, die eine teure Zertifizierung, als "Qualitätsmerkmal", durch den BSI anstreben. Insbesondere bei der Analyse der Bedrohungen wird keinen Einfluss auf das menschliche Vorgehen und dessen Fokussierung genommen. Eine deutlich besser geeignete Methode dafür ist die Soft Systems Methodology.
 
-\subsection{Soft Systems Methodology} \label{sec:ssm}
+\subsubsection{Soft Systems Methodology} \label{sec:ssm}
 
 Nachfolgend Erläuterungen beziehen sind auf \cite{gutmann9}. 
 Das Lösen von Sicherheitsproblemen ist ein kniffeliges Unterfangen, da die typische Vorgehensweise von vielen Informatikern, dass Problem mit Technologien zu bewerfen, nicht funktioniert. Fragt man diese, wie löst man das Problem, Benutzer sicher über das Internet zu authentifizieren? Dann werden Antworten wie OpenID, LDAP, SecurID oder ähnliches zu hören sein. Nur die wenigsten werden fragen: Wer soll, wo, wogegen authentifiziert werden, wie benutzerfreundlich (einfach) kann der Mechanismus sein und welches Budget steht zur Verfügung? Um das natürliche Verlangen, die Lieblingstechnologie verwenden zu wollen, zu unterdrücken, ist es sinnvoll Problem Structuring Methods (PSK) einzusetzen.
@@ -193,7 +213,7 @@ SSM wurde in den späten 60iger Jahren, an Universität von Lancaster, von Peter
 
 Die Soft Systems Methodology ist zwar nicht als Methodik zur Erstellung eines Sicherheitskonzeptes gedacht, dennoch ist sie als Vorgehensweise für die Analyse, durch ihre Trennung von Realer Welt und deren Abstraktion, besser geeignet als das Modell des BSI. SSM nimmt bewusst Einfluss auf das menschliche Denken und Vorgehen, um dieses zu fokussieren und dadurch zu optimieren. Das bedeutet nicht, dass alles aus dem IT-Grundschutz des BSI unbrauchbar ist. Vor allem die Vorarbeit, die der BSI mit Gefährdungenkataloge und Maßnahmenkataloge geleistet hat, lässt sich in Kapitel~\ref{chap:threat_analysis} mit SSM verwenden.
 
-\subsection{Security Development Lifecycle}
+\subsubsection{Security Development Lifecycle}
 
 Nachfolgender Paragraph bezieht sich auf \cite{gutmann10}.
 Durch die Bedrohungsanalyse (Kapitel~\ref{chap:threat_analysis}) mittels SSM wird geklärt, gegen welche Bedrohungen geschützt werden soll und welche Maßnahmen dafür notwendig sind. Der nächste Schritt ist die Bedrohungsmodellierung der Implementierung, unter Verwendung von Data Flow Diagrammen. Der Security Development Lifecycle (SDL) von Microsoft bietet für die Modellierung einen einfachen Prozess, welcher schnell und leicht zu verstehen ist. SDL entspringt keinem theoretischen oder akademischen Modell, es ist beim lösen echter Problemen entstanden und gewachsen über Zeit. Zu beachten ist, dass die Bedrohungsmodellierung nur ein Teil von SDL ist. 
@@ -490,8 +510,18 @@ An Berechtigungsnachweise von Benutzern zu gelangen, ist für einen motivierten 
 \chapter{Entwurf oder Design} \label{chap:design}
 \epigraphhead[70]{\epigraph{The user's going to pick dancing pigs over security every time.}{\textit{Bruce Schneier}}}
 
-Aus dem Bedrohungsmodell Folgendes allgemeines Design des Sicherheitskonzeptes, ohne Bezug auf bestimmte Lösungen, wie WIBU oder Radius.
 
+
+
+\section{Kryptographie}
+
+Kryptographie ist für die Authentifizierung und die Verschlüsselung der Daten unerlässlich. Dabei spielt der eingesetzte Algorithmus keine Rolle, solange dieser ordentlich entwickelt und unabhängig geprüft wurde, denn kein Angreifer wird die Kryptographie als Angriffsziel wählen [\ref{sec:security_conzept}]. Stattdessen werden dies versuchen, alle anderen Komponenten des Systems zu attackieren. Bei der Auswahl eines Algorithmus sollte darauf geachtet werden, dass dieser Effizient auf dem Marktrechner zu benutzen ist.
+
+\section{Authentifizierung}
+
+Die Authentifizierung wird an zwei Stellen benötigt. Zum einen damit sich der Benutzer dem Mediator gegenüber ausweisen kann und zum anderen, damit Mediator und Marktrecher gegenseitig ein Vertrauensverhältnis aufbauen können. Die gegenseitige Authentifizierung von Mediator und Marktrechner, sollte nicht durch Passwörter gesehen, da diese zwangsläufig im Klartext, in einer Konfigurationdatei gespeichert werden müssen. Bei der Maschine-to-Maschine (M2M) Kommunikation ist es daher sinnvoll asymmetrische Kryptosysteme zu nutzen. Deren Öffentliche Schlüssel können über einen unsicheren Kommunikationskanal übertragen werden. Da der Schlüssel durch einen Man-in-the-Middle ausgetauscht worden sein konnte, schafft dies kein Vertrauen zwischen den Kommunikationspartnern. Daher dürfen die Schlüssel ausschließlich über eine zweiten sicheren Kanal eingespielt werden, um eine MITM-Attacke auszuschließen. Dieses Verfahren ist zwar aufwendig, da die Marktrechner allenfalls einer sehr Fluktuation unterliegen, ist der Aufwand realistisch und bezahlbar. Die einseitige Authentifizierung gegenüber mit dem Benutzer hat administrative Gründe. Den obwohl der Einsatz einer gegenseitigen Authentifizierung aus Sicherheitstechnischen Gründen durchaus ratsam ist, so ist die Administration von sich bewegenden Objekten, die einer hohen Fluktuation unterliegen, schwierig und dadurch sehr kostenintensiv.
+
+\subsection{Key Continuity Management}
 
 \chapter{Evaluation} \label{chap:evaluation}
 \epigraphhead[70]{\epigraph{Wisdom consists in being able to distinguish among dangers and make a choice of the least harmful.}{\textit{Niccolo Machiavelli, The Prince}}}
