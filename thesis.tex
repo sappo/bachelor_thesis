@@ -152,25 +152,29 @@ Extern bietet das RestGateway die Möglichkeit, über eine Schnittstelle mehrere
 
 \subsection{Offline-Konfiguration} Eine an den Markt angepasste Konfiguration der Kälteanlage, welche vor Inbetriebnahme erstellt wurde. Ein Teil ist die genaue Parametrierung der Kühlgeräte und Kühlmöbel, unter Berücksichtigung der darin zu lagernden Ware.
 
-\section{Sicherheit}
-
 \section{Authentifizierungsverfahren}
+
+Für die Authentifizierung gibt es verschiedene Möglichkeiten, diese Unterscheiden sich sowohl in ihrem Aufwand, als auch ihrem Nutzen für bestimmte Zwecke.
+
+\paragraph{Vertrauen}
+
+Vertrauen ist der Zustand, der durch Authentifizierung erreicht werden soll. Dabei unterscheidet man einseitiges und zweiseitiges Vertrauen. Bei letzteren haben sich beide Teilnehmer gegeneinander ausgewiesen und die Identität des jeweils Anderen bestätigt. 
 
 \paragraph{Passwörter}
 
-Bei Passwort basierter Authentifizierung weist sich ein Kommunikationspartner über einen Namen und ein Passwort gegenüber einem anderen Kommunikationspartner aus. Diese Art der Authentifizierung ist strikt einseitig. Zudem muss diese Art der Authentifizierung durch Verschlüsselung ergänzt werden, damit das Passwort nicht unterwegs von einem Man-in-the-Middle (MITM) abgehört werden kann.
+Bei passwortbasierter Authentifizierung weist sich ein Kommunikationspartner über einen eindeutigen Namen und ein Passwort, gegenüber einem anderen Kommunikationspartner, aus. Diese Art der Authentifizierung ist strikt einseitig. Zudem muss die Authentifizierung durch Verschlüsselung ergänzt werden, damit das Passwort nicht unterwegs von einem Man-in-the-Middle (MITM) abgehört werden kann. Dazu wird meistens eine asymmetrische Verschlüsselung genutzt, da zum Austausch des Schlüssels der Kommunikationskanal genutzt werden kann.
 
 \paragraph{Symmetrisch}
 
-Symmetrische Verfahren arbeiten mit einem Schlüssel der beiden Kommunikationspartnern bekannt ist. Dieser muss vor der Kommunikation über einen zweiten Kanal, etwas persönlich, ausgetauscht werden. Unter der Annahme, dass nur der Kommunikationspartner den Schlüssel kennt und dieser nicht kompromittiert wurde, wird eine Vertrauensverhältnis zwischen den beiden aufgebaut.
+Symmetrische Verfahren arbeiten mit einem Schlüssel, der beiden Kommunikationspartnern bekannt ist. Dieser muss vor der Kommunikation, über einen zweiten Kanal, etwa persönlich, ausgetauscht werden. Unter der Annahme, dass nur der Kommunikationspartner den Schlüssel kennt und dieser nicht kompromittiert wurde, wird eine Vertrauensverhältnis zwischen den beiden aufgebaut. Bei steigender Anzahl der Beteiligten wird dieses System unbrauchbar, da es nicht ohne weiteres möglich ist den Zugriff auf Nutzerbasis zu regulieren.
 
 \paragraph{Asymmetrisch}
 
-Asymmetrische Verfahren arbeiten mit zwei Schlüsseln. Einer ist Öffentlich und für den Kommunikationspartner bestimmt, der andere ist Private und dient zur Entschlüsselung der mit dem Öffentlichen verschlüsselten Nachrichten. Der Öffentliche Schlüssel kann bei diesen Verfahren über einen unsicheren Kanal geteilt werden, da er lediglich zum Verschlüsseln genutzt wird. Dadurch bleibt allerdings das Problem, dass ich nicht weiß, ob der Schlüssel von demjenigen ist, der der Kommunikationspartner vorgibt zu sein. Eine Möglichkeit dieses Problem zu lösen, ist ein dritter dem beide Vertrauen, der die jeweilige Identität hinter einem Öffentlichen Schlüssel kennt.
+Asymmetrische Verfahren arbeiten mit zwei Schlüsseln. Einer ist Öffentlich und für den Kommunikationspartner bestimmt, der andere ist Private und dient zur Entschlüsselung, der mit dem Öffentlichen verschlüsselten Nachrichten. Der Öffentliche Schlüssel kann bei diesen Verfahren über einen unsicheren Kanal geteilt werden, da er lediglich zum Verschlüsseln genutzt wird. Dadurch bleibt allerdings das Problem, des Vertrauens. Den ob der Schlüssel von demjenigen ist, der der Kommunikationspartner vorgibt zu sein, ist dadurch nicht garantiert. Eine Möglichkeit dieses Problem zu lösen, ist ein Dritter, dem beide Vertrauen, der die jeweilige Identität hinter einem Öffentlichen Schlüssel kennt.
 
 \section{Key Continuity Management}
 
-
+\section{Sicherheit}
 
 \subsection{Sicherheitskonzept} \label{sec:security_conzept}
 
@@ -514,13 +518,24 @@ In diesem Kapitel werden die Erkenntnisse und Maßnahmen aus den Kapiteln Bedroh
 
 \section{Kryptographie}
 
-Kryptographie ist für die Authentifizierung und die Verschlüsselung der Daten unerlässlich. Dabei spielt der eingesetzte Algorithmus keine Rolle, solange dieser ordentlich entwickelt und unabhängig geprüft wurde, denn kein Angreifer wird die Kryptographie als Angriffsziel wählen [\ref{sec:security_conzept}]. Stattdessen werden dies versuchen, alle anderen Komponenten des Systems zu attackieren. Bei der Auswahl eines Algorithmus sollte darauf geachtet werden, dass dieser Effizient auf dem Marktrechner zu benutzen ist.
+Kryptographie ist für die Authentifizierung und die Verschlüsselung der Daten unerlässlich. Dabei spielt der eingesetzte Algorithmus keine Rolle, solange dieser ordentlich entwickelt und unabhängig geprüft wurde, denn kein Angreifer wird die Kryptographie als Angriffsziel wählen [\ref{sec:security_conzept}]. Stattdessen werden diese versuchen, alle anderen Komponenten des Systems zu attackieren. Bei der Auswahl eines Algorithmus sollte darauf geachtet werden, dass dieser Effizient auf dem Marktrechner zu benutzen ist. Als zusätzliche Anforderung sollen die Algorithmen Perfect Forward Security (PFS) bieten, damit aufgenommene Inhalte nicht zu einem später Zeitpunkt, durch erlangen des Schlüssels, kompromittiere werden können. Des Weiteren soll Ende-zu-Ende Verschlüsselung Möglich sein, damit der Mediator nicht zur Schwachstelle wird.
 
 \section{Authentifizierung}
 
-Die Authentifizierung wird an zwei Stellen benötigt. Zum einen damit sich der Benutzer dem Mediator gegenüber ausweisen kann und zum anderen, damit Mediator und Marktrecher gegenseitig ein Vertrauensverhältnis aufbauen können. Die gegenseitige Authentifizierung von Mediator und Marktrechner, sollte nicht durch Passwörter gesehen, da diese zwangsläufig im Klartext, in einer Konfigurationdatei gespeichert werden müssen. Bei der Maschine-to-Maschine (M2M) Kommunikation ist es daher sinnvoll asymmetrische Kryptosysteme zu nutzen. Deren Öffentliche Schlüssel können über einen unsicheren Kommunikationskanal übertragen werden. Da der Schlüssel durch einen Man-in-the-Middle ausgetauscht worden sein konnte, schafft dies kein Vertrauen zwischen den Kommunikationspartnern. Daher dürfen die Schlüssel ausschließlich über eine zweiten sicheren Kanal eingespielt werden, um eine MITM-Attacke auszuschließen. Dieses Verfahren ist zwar aufwendig, da die Marktrechner allenfalls einer sehr Fluktuation unterliegen, ist der Aufwand realistisch und bezahlbar. Die einseitige Authentifizierung gegenüber mit dem Benutzer hat administrative Gründe. Den obwohl der Einsatz einer gegenseitigen Authentifizierung aus Sicherheitstechnischen Gründen durchaus ratsam ist, so ist die Administration von sich bewegenden Objekten, die einer hohen Fluktuation unterliegen, schwierig und dadurch sehr kostenintensiv.
+Die Authentifizierung wird an zwei Stellen benötigt. Zum einen damit sich der Benutzer dem Mediator gegenüber ausweisen kann und zum anderen, damit Mediator und Marktrecher gegenseitig ein Vertrauensverhältnis aufbauen können. Die gegenseitige Authentifizierung von Mediator und Marktrechner, sollte nicht durch Passwörter geschehen, da diese zwangsläufig im Klartext, in einer Konfigurationsdatei gespeichert werden müssen. Bei der Maschine-to-Maschine (M2M) Kommunikation ist es daher sinnvoll asymmetrische Kryptosysteme zu nutzen. Deren Öffentliche Schlüssel können über einen unsicheren Kommunikationskanal übertragen werden. Da der Schlüssel durch einen Man-in-the-Middle ausgetauscht worden sein könnte, wird dadurch kein Vertrauen zwischen den Kommunikationspartnern hergestellt. Daher dürfen die Schlüssel ausschließlich über eine zweiten sicheren Kanal getauscht werden, um eine MITM-Attacke auszuschließen. Weiterhin müssen diese vor Fremden Zugriff geschützt werden. Dieses Verfahren ist zwar aufwendig, da die Marktrechner allenfalls einer sehr Fluktuation unterliegen, ist der Aufwand realistisch und bezahlbar. Die einseitige Authentifizierung gegenüber mit dem Benutzer hat administrative Gründe. Den obwohl der Einsatz einer gegenseitigen Authentifizierung aus Sicherheitstechnischen Gründen durchaus ratsam ist, so ist die Administration von sich bewegenden Objekten, die einer hohen Fluktuation unterliegen, schwierig und dadurch sehr kostenintensiv.
 
-\subsection{Key Continuity Management}
+\section{Architektur}
+
+Die Architektur ...
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=0.66]{images/design_architekture.pdf}
+\caption{Architektur-Design}
+\label{fig:dfd_http_leg}
+\end{figure}
+
+\section{Key Continuity Management}
 
 \chapter{Evaluation} \label{chap:evaluation}
 \epigraphhead[70]{\epigraph{Wisdom consists in being able to distinguish among dangers and make a choice of the least harmful.}{\textit{Niccolo Machiavelli, The Prince}}}
