@@ -141,14 +141,14 @@ Proxy<y:LabelModel>
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
             <y:GroupNode>
-              <y:Geometry height="258.68387603759766" width="286.75002670288086" x="0.0" y="0.0"/>
+              <y:Geometry height="188.52700233459473" width="286.75002670288086" x="0.0" y="0.0"/>
               <y:Fill color="#FFFFFF" color2="#FFFFFF" transparent="false"/>
               <y:BorderStyle color="#808080" type="line" width="1.0"/>
               <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#808080" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="21.4609375" modelName="internal" modelPosition="t" textColor="#FFFFFF" visible="true" width="286.75002670288086" x="0.0" y="0.0">Fernservicenetzwerk</y:NodeLabel>
               <y:Shape type="rectangle"/>
               <y:State closed="false" closedHeight="50.0" closedWidth="50.0" innerGraphDisplayEnabled="false"/>
               <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="15" topF="15.0"/>
-              <y:BorderInsets bottom="0" bottomF="0.0" left="0" leftF="0.0" right="16" rightF="16.0" top="53" topF="53.03243827819824"/>
+              <y:BorderInsets bottom="4" bottomF="3.6838760375976562" left="0" leftF="0.0" right="16" rightF="16.0" top="53" topF="53.03243827819824"/>
             </y:GroupNode>
             <y:GroupNode>
               <y:Geometry height="50.0" width="50.0" x="1075.0" y="207.0"/>
@@ -203,23 +203,6 @@ Proxy<y:LabelModel>
             </y:ShapeNode>
           </data>
         </node>
-        <node id="n2::n2">
-          <data key="d6">
-            <y:ShapeNode>
-              <y:Geometry height="58.38100051879883" width="117.0" x="138.75002670288086" y="185.30287551879883"/>
-              <y:Fill color="#C0C0C0" color2="#C0C0C0" transparent="false"/>
-              <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="14" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="20.296875" modelName="custom" textColor="#000000" visible="true" width="91.5615234375" x="12.71923828125" y="19.042062759399414">LDAP-Server<y:LabelModel>
-                  <y:SmartNodeLabelModel distance="4.0"/>
-                </y:LabelModel>
-                <y:ModelParameter>
-                  <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
-                </y:ModelParameter>
-              </y:NodeLabel>
-              <y:Shape type="rectangle"/>
-            </y:ShapeNode>
-          </data>
-        </node>
       </graph>
     </node>
     <edge id="n2::e0" source="n2::n0" target="n2::n1">
@@ -236,26 +219,6 @@ Proxy<y:LabelModel>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="delta"/>
-          <y:BendStyle smoothed="false"/>
-        </y:PolyLineEdge>
-      </data>
-    </edge>
-    <edge id="n2::e1" source="n2::n1" target="n2::n2">
-      <data key="d10">
-        <y:PolyLineEdge>
-          <y:Path sx="-10.0" sy="0.0" tx="-10.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="delta"/>
-          <y:BendStyle smoothed="false"/>
-        </y:PolyLineEdge>
-      </data>
-    </edge>
-    <edge id="n2::e2" source="n2::n2" target="n2::n1">
-      <data key="d10">
-        <y:PolyLineEdge>
-          <y:Path sx="10.0" sy="0.0" tx="10.0" ty="10.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="delta"/>
           <y:BendStyle smoothed="false"/>
