@@ -569,28 +569,51 @@ Die gegenseitige Authentifizierung von Mediator und Marktrechner, sollte nicht d
 
 \subsubsection{Key Continuous Management}
 
-Die Kryptographie von Authentifizierungslösungen wurde vor Jahrzehnten entworfen und ist dementsprechend erprobt. In Abschnitt~\ref{sec:design_crypto} wurde bereits erläutert, dass diese keine Schwachstelle in der Authentifizierungskette darstellt. Damit die Kryptographie funktioniert, werden Schlüssel benötigt. Die primäre Problemstellung bei der Schlüsselverwaltung ist, wie gelangt ein Schlüssel vom Erzeuger zu den vorgesehenen Empfängern. Das populärste Modell der Schlüsselverteilung das "Schlüssel fallen aus dem Himmel"-Modell. Es ist deshalb so weit verbreitet, weil durch die Komplexität des Problems, Entwickler von Sicherheitsprotokollen es gerne ignorieren und jemand anderem zuschieben können. Ein Konzept das nicht dem "Schlüssel fallen aus dem Himmel"-Modell unterliegt ist das der Schlüsselkontinuität. Ihm zugrunde liegt das Konzept der Beständigkeit, das bedeutet anhand des Schlüssel kann überprüft werden, ob die Entität, mit welcher gestern kommuniziert wurde auch heute noch dieselbe ist. Die Schlüsselkontinuität unterliegt allerdings einer Schwachstelle, den beim initialen Austausch ist eine MITM-Attacke möglich. Der Angreifer hat also exakt eine Chance die Verbindung zu kompromittieren. Wenn er zu diesem Zeitpunkt die Attacke nicht durchführen kann, hat er seine Chance vertan. Dadurch ist diese Schwachstelle nicht Wahrscheinlich und daher ein akzeptables Risiko.
+Die Kryptographie von Authentifizierungslösungen wurde vor Jahrzehnten entworfen und ist dementsprechend erprobt. In Abschnitt~\ref{sec:design_crypto} wurde bereits erläutert, dass diese keine Schwachstelle in der Authentifizierungskette darstellt. Damit die Kryptographie funktioniert, werden Schlüssel benötigt. Die primäre Problemstellung bei der Schlüsselverwaltung ist---Wie gelangt ein Schlüssel vom Erzeuger zu den vorgesehenen Empfängern? Das populärste Modell der Schlüsselverteilung ist das "Schlüssel fallen aus dem Himmel"-Modell. Es ist deshalb so weit verbreitet, weil durch die Komplexität des Problems, Entwickler von Sicherheitsprotokollen es gerne ignorieren und jemand anderem zuschieben. Ein Konzept, das nicht dem "Schlüssel fallen aus dem Himmel"-Modell unterliegt, ist das der Schlüsselkontinuität. Ihm zugrunde liegt das Konzept der Beständigkeit, dass bedeutet anhand des Schlüssel kann überprüft werden, ob die Entität, mit welcher gestern kommuniziert wurde auch heute noch dieselbe ist. Die Schlüsselkontinuität unterliegt allerdings einer Schwachstelle, den beim initialen Austausch ist eine MITM-Attacke möglich. Ein Angreifer hat dementsprechend exakt eine Chance die Verbindung zu kompromittieren. Wenn er zu diesem Zeitpunkt die Attacke nicht durchführen kann, hat er seine Chance vertan. Ein derartiger Angriff ist nicht auszuschließen, jedoch ist das Wahrscheinlichkeit sehr gering und daher das Risiko akzeptable.
 
-\subsubsection{Authentifizierung}
+\subsubsection{Authentifizierungsprozess}
 
-Bei der asymmetrische Authentifizierung, ist es möglich den Öffentlichen Schlüssel oder ein selbst-signiertes Zertifikat, über einen unsicheren Kommunikationskanal auszutauschen. Dieser initiale Austausch unterliegt dem erwähnten Risiko einer MITM-Attacke, deshalb empfiehlt die Schlüsselkontinuität einen Fingerprint zu erstellen und diesen über einen zweiten Kanal auszutauschen. Anhand des Fingerprints kann festgestellt  worden, ob der Schlüssel unterwegs ausgetauscht wurde.  Nachdem der Schlüssel durch den Fingerprint verifiziert wurde, muss er mit einer ID, die die Entität des Schlüsselerzeugers eindeutig nachweist, abspeichern werden. Die ID besteht, beispielsweise, aus Domain und Port. Als weitere Sicherheitsmaßnahme muss die ID als Hash mit dem Schlüssel oder Zertifikat gespeichert. 
+Bei der asymmetrische Authentifizierung, ist es möglich den Öffentlichen Schlüssel oder ein selbst-signiertes Zertifikat, über einen unsicheren Kommunikationskanal auszutauschen. In Abbildung~\ref{fig:design_authm2m} ist das Vorgehen einer Authentifizierung, die der Schlüsselkontinuität genügt, gezeigt. Der initiale Austausch unterliegt dem erwähnten Risiko einer MITM-Attacke, deshalb empfiehlt die Schlüsselkontinuität einen Fingerprint zu erstellen und diesen über einen zweiten Kanal auszutauschen. Anhand des Fingerprints kann festgestellt  werden, ob der Schlüssel während des Austausches manipuliert wurde. Nachdem der Schlüssel durch den Fingerprint verifiziert wurde, muss dieser mit einem Identifikator (ID), welcher die Entität des Schlüsselerzeugers eindeutig nachweist, abspeichern werden. Die ID besteht, beispielsweise aus Domain und Port. Als weitere Sicherheitsmaßnahme dürfen IDs für den Fall, dass ein Angreifer lesenden Zugriff erhält, nur als Hash mit dem Schlüssel oder Zertifikat gespeichert. Der Fingerprint dient lediglich der Verifizierung und wird nicht mit abgespeichert.
+Bei einer erneuten Verbindung überprüfen beide Teilnehmer, ob die Entität des Anderen mit dem bekannten Schlüssel übereinstimmt. Eine Authentifizierung ist, in diesem Fall, erfolgreich. 
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[scale=0.44]{images/design_architecture_auth_m2m.pdf}
-\caption{Komponentenarchitektur}
+\includegraphics[scale=0.7]{images/design_architecture_auth_m2m_h.pdf}
+\caption{M2M-Authentifizierung}
 \label{fig:design_authm2m}
 \end{figure} 
 
-Bei einer erneuten Verbindung überprüfen beide Teilnehmer, ob die Entität des Anderen mit dem bekannten Schlüssel übereinstimmt. Eine Authentifizierung ist in diesem Fall erfolgreich. Dadurch wird Vertrauensverhältnis mit booleschen Zuständen, nämlich Vertrauen und kein Vertrauen, erreicht. In der realen Welt ist Vertrauen allerdings selten boolesch, sondern baut sich langsam auf, beziehungsweise ab. Um ein solches gestaffeltes Vertrauensverhältnis herzustellen kann, beispielsweise angenommen werden, je öfter man mit der selben Entität bereits verbunden war, desto vertrauenswürdiger ist diese. Auf diese Art können Angreifer, welche nur kurzweilig das Netzwerk kompromittieren, davon abgehalten werden vollen Zugriff das System zu erlangen, da beispielsweise das Recht Änderungen zu tätigen einen Vertrauenswert benötigt, der erst nach einer Woche erreicht werden kann.
+Protokolle die Ansätze des Key Continuous Management implementieren sind Secure Shell (SSH) und Pretty Good Privacy (PGP). SSH führt eine auf dem Öffentlichen Schlüssel basierenden Vergleich, der jedem Verbindungsaufbau durchgeführt wird. Bei jeder neuen SSH Verbindung wird auch ein Fingerprint generiert, welcher getauscht werden kann. Allerdings besitzt SSH kein Konzept Schlüssel auf geeignete Weise zu sichern und wieder einzuspielen, beispielsweise beim neu aufsetzen eines Servers. Zudem verbieten die meisten Firewalls SSH-Zugriffe aus dem Internet, weshalb es nicht als Protokoll in Frage kommt. PGP hingegen erfüllt alle Anforderungen an Key Continuous Management, wird jedoch fast ausschließlich für E-Mail Kommunikation genutzt. Für den Marktrechner soll HTTP beziehungsweise HTTPS genutzt werden, dieses verfügt jedoch nicht über ein Konzept zur Schlüsselkontinuität. Vielmehr vertraut es auf den Einsatz von Zertifizierungsstellen, welche ein Single-Point-of-Failure in der Authentifizierungskette sind. Des Weiteren ist für die Authentifizierung wichtig, dass leidlich der Zertifikatsinhaber und die Zertifizierungsstelle miteinander bekannt sind. Der Client, welcher die Zertifizierungsstelle zu Überprüfung des Zertifikates konsultiert, hat zu dieser keine Beziehung. Damit HTTP(S) Schlüsselkontinuität unterstützt, gibt es zwei Möglichkeiten, zum einen anpassen des HTTP-Protokolls. Da HTTP weltweit auf allen Webservern eingesetzt wird, wäre dies eine extrem langwieriger Prozess mit sehr geringer Umsetzungswahrscheinlichkeit. Zum anderen bietet sich die Möglichkeit ein weiteres Protokoll auf HTTP zu implementieren. Dies ist nicht optimal, jedoch durchaus umsetzbar.
+
+\section{Autorisierung}
+
+Die Autorisierung der Benutzer erfolgt am Mediator und ist rollenbasiert. Von der verknüpften Benutzerverwaltung bekommt der Mediator mitgeteilt, welche Rollen ein Benutzer inne hat. Die Rollen für die Autorisierung wurden in Abschnitt~\ref{sec:roles} benannt und sollen so umgesetzt werden. Für die verschiedenen Rollen gelten bestimmte Einschränkungen, die im Folgenden erläutert werden.
+
+\subsection{Rollen}
+
+Der Inbetriebnehmer und der Projektierter sorgen dafür, dass eine Kälteanlage ihren Betrieb aufnehmen kann. Während der Inbetriebnahme dürfen ausschließlich diese beiden Rollen auf den Marktrechner zugreifen. Ist ihre Tätigkeit abgeschlossen erhalten die anderen Rollen Zugriff. Für den System-Analyst und den Eigentümer beziehungsweise das Marktpersonal soll es möglich sein den Zugriff auf die Geschäftszeiten zu beschränken. Die für Überwachung und Wartung zuständigen Rollen Service-Monteur und Fernservice-Mitarbeiter benötigen hingegen zeitlich uneingeschränkten Zugriff. Die Rolle des Herstellers ist eine Ausnahme, sie soll immer Zugriff erhalten können, jedoch ausschließlich wenn dieser vorher durch die Fernservice-Zentrale oder den Besitzer freigegeben wurde. Außerdem soll der Zugriff des Herstellers immer zeitlich begrenzt sein, beispielsweise für 24 Stunden.
+
+Durch die Authentifizierung wird ein Vertrauensverhältnis mit booleschen Zuständen, nämlich Vertrauen und kein Vertrauen, erreicht. In der realen Welt ist Vertrauen allerdings selten boolesch, sondern baut sich langsam auf, beziehungsweise ab. Um ein derartiges gestaffeltes Vertrauensverhältnis herzustellen kann, beispielsweise angenommen werden, je öfter man mit derselben Entität bereits verbunden war, desto vertrauenswürdiger ist diese. Die Autorisierung könnte über ein mehrstufiges Vertrauen, beispielsweise das Recht Änderungen an der Anlage zu tätigen von einen Vertrauenswert abhängig machen, der erst nach drei Tagen erreicht werden kann. Ein Angreifer, der es schafft sich als Mediator auszugeben, müsste dann mehrere Tage aktiv das Netzwerk kompromittieren, bevor er das System manipulieren kann. Dadurch ist das Risiko entdeckt zu werden und die Wahrscheinlichkeit, dass die Beschützer den Angreifer enttarnen deutlich erhöht.
+
+\section{Audit}
+
+
 
 \chapter{Evaluation} \label{chap:evaluation}
 \epigraphhead[70]{\epigraph{Wisdom consists in being able to distinguish among dangers and make a choice of the least harmful.}{\textit{Niccolo Machiavelli, The Prince}}}
 
-Vorstellung und Evaluation der beiden Systeme WIBU und Radius anhand des Entwurfs oder Designs in Kapitel \ref{chap:design}.
+Vorstellung und Evaluation der beiden Systeme WIBU und Radius anhand des Entwurfs oder Designs in Kapitel~\ref{chap:design}.
 
 ... genauen Plan erstellen bis Dienstag ...
 
+Sicherheitsdesign dient als Grundlage, an welcher die Produkte gemessen werden.
+
+Kriterien:
+* Installation - Voraussetzungen, Software, Hardware, Dokumentation
+* Wartung - Hinzufügen, ändern oder löschen von Benutzern, Marktrechnern, (Mediatoren)
+* Sicherheit - Eingesetzte Authentifizierung, Algorithmus geprüft? --- Verschlüsselung der Daten, Algorithmus geprüft?
+* Effizienz - Mechanismus 
+                                            
 \section{WIBU Systems}
 
 \section{Radius}
@@ -600,6 +623,9 @@ Vorstellung und Evaluation der beiden Systeme WIBU und Radius anhand des Entwurf
 \chapter{Implementierung} \label{chap:implementation}
 
 Beschreibung der Implementierung, der aus der Evaluation gewählten Lösung. Was wenn keine der beiden Lösungen passt?
+
+* Performance von bestimmten Algorithmen testen---libsodium als Testlibrary 
+* Prototyp---Implementierung von WIBU oder Radius, alternative KCM mit libsodium
 
 \chapter{Fazit}
 
