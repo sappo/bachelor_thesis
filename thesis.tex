@@ -55,7 +55,7 @@ Platzhalter ... bis mir etwas einfällt
 
 \section{Kälteanlagen}
 
-Die genaue Funktionsweise einer Kälteanlage ist für diese Arbeit weniger relevant. Dennoch gibt es einige Aspekte die ein Sicherheitskonzept beeinflussen können. Ein Aspekt ist die Trägheit. Beim Einsatz von Kälte geschieht nichts in Bruchteilen von Sekunden. Das Kühlen von Waren ist ein langsamer Prozess, ebenso verhält es sich beim Erwärmen. Im Folgenden befindet sich eine Auflistung von Komponenten einer Kälteanlage, welche für das Sicherheitskonzept Relevanz haben.
+Die genaue Funktionsweise einer Kälteanlage ist für diese Arbeit weniger relevant. Dennoch gibt es einige Aspekte die ein Sicherheitskonzept beeinflussen können. Ein Aspekt ist die Trägheit. Beim Einsatz von Kälte geschieht nichts in Bruchteilen von Sekunden. Das Kühlen von Waren ist ein langsamer Prozess, ebenso verhält es sich beim Erwärmen. Im Folgenden befindet sich eine Auflistung von Komponenten einer Kälteanlage, welche für das Sicherheitskonzept Relevanz haben. Die Beschreibungen der Komponenten einer Kältekälteanlage bezieht sich auf die Firma ECKELMANN und kann von Systemen anderer Hersteller abweichen.
 
 \subsection{E*LDS} ist die Produktreihe, die von der Eckelmann AG zur Steuerung und Verwaltung von Kälteanlagen entwickelt wird. Abbildung~\ref{fig:kaelteanlage} zeigt die typische Vernetzung der Komponenten. Diese beinhaltet Verbundsteuerungen zur Kälteerzeugung, Kühlstellenregler zur temperaturgenauen Reglung aller Arten von Kühlmöbeln und Kühlräumen, Funk-Temperatursensoren und den Marktrechner als zentrale Intelligenz einer Kälteanlage \cite{elds}. Über das serielle Bussystem Controller Area Network (CAN) sind sämtlichen Komponenten der Anlage verbunden. Zusätzlich können über eine Modbus-Schnittstelle Fremdsysteme anderer Hersteller angebunden werden. Für die Vorort-Bedienung kann der Touch-Screen des Marktrechners genutzt werden. Alternativ kann ein PC mit einem CAN-Bus-PC-Adapter verbunden werden und über die Software LDSWin zugreifen. Der Fernzugriff kann über eine Wählverbinung (Modem) oder über VPN, je nach Verfügbarkeit, geschehen. Auch hier wird der Zugriff durch die Software LDSWin ermöglicht.
 
@@ -69,7 +69,7 @@ Die genaue Funktionsweise einer Kälteanlage ist für diese Arbeit weniger relev
 \subsection{Marktrechner} \label{sec:marktrechner} 
 Betrachtet man eine Kälteanlage, dann ist der Marktrechner ihr Herzstück. Über den CAN-Bus ist er in der Lage, Komponenten zentral zu parametrieren und zu überwachen. Sämtliche Betriebsdaten und Betriebszustände, Meldungen und Alarme aus der Überwachung werden auf seinem internen Speicher archiviert \cite{elds}.
 
-\paragraph{Hardware} Der Marktrechner verfügt über einen 32-Bit-Prozessor mit ARM-Architektur. Als Datenspeicher ist eine SD-Karte fest verbaut. Zur Kommunikation notwendige Schnittstellen sind in Abbildung~\ref{fig:marktrechner_interfaces} zu sehen. Der Ethernet-Port wird zur Fernwartung eingesetzt. Über die drei RS232 COM-Schnittstellen kann ein PC vor Ort angeschlossen werden, die Fernwartung via Modem erfolgen, das M-Bus-Gateway zur Verbrauchsdatenerfassung verbunden werden oder Sonderfunktionen, beispielsweise Gebäudeleittechnik oder sonstige Fremdsysteme, bedient werden. Über die RS485 COM-Schnittstelle können Modbus-Regler hinzugefügt werden. Die USB-Host- und USB-Slave-Anschlüsse sind für zukünftige Benutzung vorgesehen. Einer der beiden CAN-Bus-Anschlüsse wird benutzt, um mit den E*LDS Komponenten zu kommunizieren. Der zweite ist für zukünftige Benutzung vorgesehen. Und über die zwei Digitaleingänge können entweder Alarme entgegengenommen oder Energiezähler gelesen werden. Die Benutzerinteraktion wird über ein 7-Zoll Touch-Display realisiert.
+\paragraph{Hardware} Der Marktrechner verfügt über einen 32-Bit-Prozessor mit ARM-Archi\-tektur. Als Datenspeicher ist eine SD-Karte fest verbaut. Zur Kommunikation notwendige Schnittstellen sind in Abbildung~\ref{fig:marktrechner_interfaces} zu sehen. Der Ethernet-Port wird zur Fernwartung eingesetzt. Über die drei RS232 COM-Schnittstellen kann ein PC vor Ort angeschlossen werden, die Fernwartung via Modem erfolgen, das M-Bus-Gateway zur Verbrauchsdatenerfassung verbunden werden oder Sonderfunktionen, beispielsweise Gebäudeleittechnik oder sonstige Fremdsysteme, bedient werden. Über die RS485 COM-Schnittstelle können Modbus-Regler hinzugefügt werden. Die USB-Host- und USB-Slave-Anschlüsse sind für zukünftige Benutzung vorgesehen. Einer der beiden CAN-Bus-Anschlüsse wird benutzt, um mit den E*LDS Komponenten zu kommunizieren. Der zweite ist für zukünftige Benutzung vorgesehen. Und über die zwei Digitaleingänge können entweder Alarme entgegengenommen oder Energiezähler gelesen werden. Die Benutzerinteraktion wird über ein 7-Zoll Touch-Display realisiert.
 
 \begin{figure}[htbp]
 \centering
@@ -80,7 +80,7 @@ Betrachtet man eine Kälteanlage, dann ist der Marktrechner ihr Herzstück. Übe
 
 \paragraph{Software}
 
-Das Betriebssystem auf dem Marktrechner ist eine eigene Linux-Distribution, welche mit der Software ptxdist der  Pengutronix e.K. erstellt wird. Ptxdist bringt einige hundert Module und Bibliotheken mit, welche über einen einfachen Dialog an- und abgewählt werden können. Mit ein wenig Konfigurationsaufwand können auch eigene Module mit aufgenommen werden. Dadurch kann eine sehr schlanke Distribution erzeugt werden, die  auf den eigenen Software-Stack zugeschnitten ist. Die eigenen Softwaremodule sind in C++ und mit dem Qt-Framework geschrieben. 
+Das Betriebssystem auf dem Marktrechner ist eine eigene Linux-Distribu\-tion, welche mit der Software ptxdist der  Pengutronix e.K. erstellt wird. Ptxdist bringt einige hundert Module und Bibliotheken mit, welche über einen einfachen Dialog an- und abgewählt werden können. Mit ein wenig Konfigurationsaufwand können auch eigene Module mit aufgenommen werden. Dadurch kann eine sehr schlanke Distribution erzeugt werden, die  auf den eigenen Software-Stack zugeschnitten ist. Die eigenen Softwaremodule sind in C++ und mit dem Qt-Framework geschrieben. 
 
 \paragraph{Funktionen} \label{para:architektur}
 
@@ -121,14 +121,14 @@ UA - [Marktrechner 1]
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[scale=0.2]{images/problemfeld.pdf}
+\includegraphics[scale=0.19]{images/problemfeld.pdf}
 \caption{Aktuelle Architektur}
 \label{fig:current_setup}
 \end{figure}
 
 Beim Einsatz von VPN ist die Kommunikation von der Fernservice-Zentrale bis zum Unternehmensnetzwerk abgesichert. Im Lokal Area Network (LAN) des Unternehmens ist der gesamte Datenverkehr zu und von den Marktrechnern allerdings unverschlüsselt. Aktuell gibt es zwei Arten von Datenverkehr zwischen Marktrechner und FSZ, zum einen über das proprietäre Protokoll des Herstellers und zum anderen über Webservices auf Basis von einfachen XML-RPCs.
 
---> nach Analyse
+--> nach Analyse verschieben
 
 Ein Angreifer mit Zugriff auf das LAN und Kenntnisse des Hersteller-Protokolls hätte die Möglichkeit, den Datenverkehr zwischen Fernservice-Zentrale und Marktrechner mitzulesen. Viel schwerwiegender als das Mitlesen der Kommunikation ist, dass ein solcher Angreifer über das Protokoll vollen lesenden und schreibenden Zugriff, auf das System erhalten kann, da es keine geeignete Autorisierung und Authentifizierung gibt. Die Anzahl an Personen mit Wissen über das Hersteller-Protokoll schränkt allerdings den Kreis der möglichen Angreifer ein. Viel wahrscheinlicher ist ein Angreifer mit Zugriff auf das LAN ohne Kenntnisse des Hersteller-Protokolls. Dieser kann den Datenverkehr zwischen XML-RPC und Fernservice-Zentrale mithören. Da in der XML die Daten interpretierbar aufbereitet wurden, ist es ein Leichtes, diese Daten auszuwerten. Auch hier sind keine geeignete Autorisierungs- und Authentifizierungstechniken eingesetzt, wodurch der Angreifer statt mitzulesen, den XML-RPC selbst befragen könnte. Dadurch erlangt er zwar keine vollen Zugriff auf das System, kann jedoch einige wichtige Schnittstellen auslesen und zum Teil auch neu konfigurieren. 
 
@@ -169,14 +169,13 @@ Viele Sicherheitssysteme heutzutage sind \textit{"sicher"}, da niemand sich die 
 
 Teil des Sicherheitskonzeptes dieser Arbeit wird es sein, dieses Authentifizierungsproblem auf geeignete Weise zu berücksichtigen, ohne dass durch den Einsatz einer bestimmten Technologie im Extremfall enorme Kosten entstehen können. Ein solcher Extremfall würde eintreten, wenn durch die Kompromittierung der Software oder Hardware alle Berechtigungsnachweise manuelle ausgetauscht werden müssen.
 
-
 \subsection{Sicherheitsstandards}
 
-Sicherheitsstandards sind von Staaten festgelegte Anforderungen an Systeme. Die Standards klassifizieren sichere Systeme anhand von Stufen, je höher die Stufe desto mehr Aufwand ist nötig, um diesen zu erreichen. Der erste Sicherheitsstandard mit hohem Verbreitungsgrad ist der Trusted Computer System Evaluation Criteria (TCSEC) und wurde 1983 vom Amerikanischen Department of Defense (DOD) veröffentlicht. Vor 1990 veröffentlichten auch andere Regierungen, unter anderen Kanada, Westdeutschland, Frankreich und Großbritannien eigene Standards. Da diese Standards nur in den jeweiligen Ländern verwendet wurden und es keine Internationale Annerkennung gab, hat die EU 1990 den Standard Information Technology Security Evaluation Criteria (ITSEC) für Europäische Staaten veröffentlicht. Dieser Standard war jedoch auf Europa begrenzt, weshalb 1996 mit den Common Criteria (CC) ein weltweit anerkannt Standard gebildet wurde. Beteiligte Staaten an den CC sind Australia/Neu Seeland, Kanada, Frankreich, Deutschland, Japan, Niederlande, Spanien, Großbritanien und die USA.
+Sicherheitsstandards sind von Staaten festgelegte Anforderungen an sichere Systeme. Die Standards klassifizieren sichere Systeme anhand von Stufen, je höher die Stufe, desto mehr Aufwand ist nötig, um diesen zu erreichen. Der erste Sicherheitsstandard mit hohem Verbreitungsgrad war der Trusted Computer System Evaluation Criteria (TCSEC) und wurde 1983 vom amerikanischen Department of Defense (DOD) veröffentlicht. Vor 1990 veröffentlichten auch andere Regierungen, unter anderen Kanada, Westdeutschland, Frankreich und Großbritannien eigene Standards. Da diese Standards nur in den jeweiligen Ländern verwendet wurden und es keine internationale Anerkennung gab, hat die EU 1990 den Standard Information Technology Security Evaluation Criteria (ITSEC) für Europäische Staaten veröffentlicht. Dieser Standard war jedoch auf Europa begrenzt, weshalb 1996, mit den Common Criteria (CC), ein weltweit anerkannt Standard gebildet wurde. Beteiligte Staaten an den CC sind Australien/Neuseeland, Kanada, Frankreich, Deutschland, Japan, Niederlande, Spanien, Großbritannien und die USA.
 
 \subsubsection{Common Criteria}
 
-Die Common Criteria sieht 7 Sicherheitsstufen für die Klassifizierung vor. Diese Evaluation Assurance Level (EAL) sind bis Stufe 4 international anerkannt. Der Aufwand ,der für höhere Stufen betrieben werden muss, ist so umfangreich, dass er nur für eine Minderheit an Unternehmen zutrifft. Die aktuelle Version der CC ist 3.1. Release 4 und wurde im September 2012 veröffentlicht. Alle weiteren Erläuterungen beziehen sich auf diese Version und sind aus den Quellen \cite{ccp1, ccp2, ccp3, bsi_ccguide} entnommen.
+Die Common Criteria sieht 7 Sicherheitsstufen für die Klassifizierung vor. Diese Evaluation Assurance Level (EAL) sind bis Stufe 4 international anerkannt. Der Aufwand, der für höhere Stufen betrieben werden muss, ist so umfangreich, dass er nur für eine Minderheit an Unternehmen in Frage kommt. Die aktuelle Version der CC ist 3.1. Release 4 und wurde im September 2012 veröffentlicht. Alle weiteren Erläuterungen beziehen sich auf diese Version und sind den Quellen \cite{ccp1, ccp2, ccp3, bsi_ccguide} entnommen.
 
 \paragraph{Klassifizierung}
 
@@ -191,7 +190,7 @@ Die 7 EAL-Stufen haben Anforderungen in 6 Assurance-Klassen, wobei eine Assuranc
 
 \paragraph{Vorgehen}
 
-Die Common Criteria sieht zwei Möglichen Vorgehen vor. Zum einen kundengetrieben zum anderen entwicklergetrieben. Bei der ersten Möglichkeit stellt der Kunde seine Anforderungen an Hardware und Software in einem Protection Profile (PP) zusammen. Anhand dessen kann er in sein gewünschtes System/Produkt entwickeln lassen. Die Entwickler müssen mit dem Security Target (ST) nachweisen, dass das entwickelte System/Produkt den Anforderungen aus dem Protection Profile genügt. Mit Hilfe von PP und ST kann von einer unabhängigen Prüfstelle evaluiert und zertifiziert werden, ob die Informationen in der Dokumenten der Wahrheit entsprechen.
+Für die Zertifizierung sieht die Common Criteria zwei Möglichkeiten vor. Zum einen kundengetrieben, zum anderen entwicklergetrieben. Bei der ersten Möglichkeit stellt der Kunde seine Anforderungen an Hardware und Software in einem Protection Profile (PP) zusammen. Anhand dessen kann er das im PP beschriebene System oder Produkt in Auftrag geben. Alternativ kann er anhand dessen existierende Lösungen evaluieren. Die Entwickler müssen mit dem Security Target (ST) nachweisen, dass das entwickelte System/Produkt den Anforderungen aus dem Protection Profile genügt. Mit Hilfe von PP und ST kann von einer unabhängigen Prüfstelle zertifiziert werden, dass die Inhalte der beiden Dokumente der Wahrheit entsprechen.
 
 \begin{figure}[htbp]
 \centering
@@ -200,21 +199,28 @@ Die Common Criteria sieht zwei Möglichen Vorgehen vor. Zum einen kundengetriebe
 \label{fig:cc_prozess}
 \end{figure}
 
-Die Inhalte aus PP und ST sind zunächst identisch, wobei das ST explizit auf die Umsetzung eingeht. Da eine Umsetzung nicher zweiten Möglichkeit fällt der Kunden weg und die Entwickler schreiben ein Security Target, um von einer Prüfstelle ein Zertifikat zu erhalten, welches als Qualitätsmerkmal ihres Produktes beworben werden kann.
-t im Rahmen dieser Thesis ist, wird das ST nicht weiter beschrieben.
+Die Inhalte aus PP und ST sind großteils identisch, wobei das ST zusätzlich die technische Umsetzung beschreiben muss. Bei der zweiten Möglichkeit fällt der Kunden weg und die Entwickler schreiben ein Security Target, um von einer Prüfstelle ein Zertifikat zu erhalten, welches als Qualitätsmerkmal ihres Produktes beworben werden kann. Im Rahmen dieser Thesis sind die expliziten Inhalte des ST nicht von Interesse.
 
 \paragraph{Protection Profile}
 
-Die Erstellung eines Protection Profiles, wird im Folgenden mit der Erklärungs-Methode beschrieben. Diese besteht aus insgesamt sieben Teilen. Die Informationen darüber stammen aus \cite{bsi_ccguide}. Als erstes werden Konformitätsansprüche beschrieben. Darunter fallen Verweise auf die Version des CC, abhängige Protection Profile und welche EAL-Pakete genutzt werden. Abschließend wird noch beschrieben, wie strikt sich PPs und STs and dieses PP halten müssen. Im zweiten Schritt werden die Sicherheitsprobleme definiert. Dabei werden in Bezug auf das zu evaluierende Ziel (Target of Evaluation--TOE) Gesetze, sonstige Regulierungen und Bedrohungen analysiert. Bei den Bedrohungen liegt der Fokus auf den zu schützenden Gütern. Im dritten Schritt werden zu den Sicherheitsproblemen aus den vorherigen Schritt eine abstrakte, präzise Lösungsvorschläge gemacht. Dabei soll sich auf das Was konzentriert werden und nicht beschrieben werden Wie etwas zu lösen ist. Im CC-Kontext hießen diese Lösungsvorschläge Secrurity Objects. Im vierten Schritt werden aus den Security-Objects detailliertere Security Functional Requirements (SFRs). Die SFRs werden dabei an relevante, thematische Gruppen gekoppelt, welche im CC Standard vorgegeben sind. Die Beschreibung als SFR umfasst die Beteiligten, die Informationsflüsse, die OperationenEin Protection Profile besteht aus sechs Hauptteilen die im Folgenden beschrieben werden. Die Informationen darüber stammen aus \cite{bsi_ccguide}. Als erstes werden Konformitätsansprüche beschrieben. Darunter fallen Verweise auf die Version des CC, abhängige Protection Profile und welche EAL-Pakete genutzt werden. Abschließend wird noch beschrieben, wie strikt sich PPs und STs and dieses PP halten müssen. Im zweiten Schritt werden die Sicherheitsprobleme definiert. Dabei werden in Bezug auf das zu evaluierende Ziel (Target of Evaluation--TOE) Gesetze, sonstige Regulierungen und Bedrohungen analysiert. Bei den Bedrohungen liegt der Fokus auf den zu schützenden Gütern. Im dritten Schritt werden zu den Sicherheitsproblemen aus den vorherigen Schritt eine abstrakte, präzise Lösungsvorschläge gemacht. Dabei soll sich auf das Was konzentriert werden und nicht beschrieben werden Wie etwas zu lösen ist. Im CC-Kontext hießen diese Lösungsvorschläge Secrurity Objects. Im vierten Schritt werden aus den Security-Objects detailliertere Security Functional Requirements (SFRs). Die SFRs werden dabei an relevante, thematische Gruppen gekoppelt, welche im CC Standard vorgegeben sind. Die Beschreibung als SFR umfasst die Beteiligten, dei Informationsflüsse, die Operationen und die Daten. Damit sind die Sicherheitsanforderungen an das System/Produkt festgelegt. In Schritt fünf wird abschließend festgelegt, wie das TOE zu evaluieren ist. Im siebten und letzten Schritt wird dann eine Einleitung in Prosa geschrieben.
+Die Erstellung eines Protection Profiles, wird im Folgenden mit der Erklärungs-Methode beschrieben, welche aus aus insgesamt sechs Teilen besteht. Das Vorgehen dieser Methode soll vor allen Dingen Verständlichkeit beim Leser schaffen. Die Informationen darüber stammen aus \cite{bsi_ccguide}.
+\begin{enumerate}
+\item Als erstes werden Konformitätsansprüche beschrieben. Darunter fallen Verweise auf die Version des CC, abhängige Protection Profile und welche EAL-Pakete genutzt werden. Abschließend wird noch beschrieben, wie strikt sich PPs und STs, die diese PP benutzen wollen an die Inhalte halten müssen.
+\item Im zweiten Schritt werden die Sicherheitsprobleme definiert. Dabei werden in Bezug auf das zu evaluierende Ziel (Target of Evaluation--TOE) Gesetze, sonstige Regulierungen und Bedrohungen analysiert. Bei den Bedrohungen liegt der Fokus auf den zu schützenden Gütern.
+\item Im dritten Schritt werden zu den Sicherheitsproblemen, aus den vorherigen Schritt, abstrakte, präzise Lösungsvorschläge erarbeitet. Dabei soll sich auf das "Was" konzentriert werden und nicht beschrieben werden "Wie" etwas zu lösen ist. Im CC-Kontext hießen diese Lösungsvorschläge Security Objects. 
+\item Im vierten Schritt wird für jedes Security-Object ein detailliertes Security Functional Requirement (SFR) erfasst. Die SFRs werden dabei an relevante, thematische Gruppen gekoppelt, welche im CC-Standard vorgegeben sind. Die Beschreibung als SFR umfasst die Beteiligten, die Informationsflüsse, die Operationen und die Daten. Mit Abschluss dieses Schrittes sind die Sicherheitsanforderungen an das System/Produkt festgelegt. 
+\item Im Schritt fünf werden Security Assurance Requirements (SAR) festgelegt. Diese sagen aus, wie die TOE zu evaluieren ist und ermöglichen dadurch den Vergleich von zwei Security Targets.
+\item Die Einleitung kommt zum Schluss, sie fasst die Inhalte des PP in Prosa zusammen und führt den Leser in die Thematik ein.
+\end{enumerate}
 
 \subsection{Sicherheitsmodell}
 
-Ein Sicherheitsmodell bietet einen Leitfaden zur Erstellung eines Sicherheitskonzeptes. Ein ganzheitliches Modell stellt das Bundesamt für Sicherheit in der Informationstechnik (BSI) in seinem IT-Grund\-schutz. 
+Ein Sicherheitsmodell bietet einen Leitfaden zur Erstellung eines Sicherheitskonzeptes. Ein ganzheitliches Modell stellt das Bundesamt für Sicherheit in der Informationstechnik (BSI) in seinem IT-Grund\-schutz.
 
 \subsubsection{BSI Sicherheitsmodell}
 
 Folgende Ausführungen sind dem BSI IT-Grundschutzempfehlungen entnommen \cite{bsi_grundsch1,bsi_grundsch2,bsi_grundsch3,bsi_grundsch4}.
-Das Ziel des Grundschutzes ist das Erreichen eines mittleren, angemessenen und ausreichenden Schutzniveaus für IT-Systeme \cite{wiki_itgrundschutz}. Zu diesem Zweck stellt das BSI ein Modell zur Entwicklung von Sicherheitskonzepten dar. In Abbildung~\ref{fig:bsi_sicherheit} sind die empfohlenen Schritte gezeigt. Schritt eins verlangt die Erfassung aller Komponenten im Geltungsbereich. Dazu soll das Zusammenspiel zwischen Geschäftsprozessen und Anwendungen herausgearbeitet werden. Als nächstes soll der Schutzbedarf der Komponenten aus Schritt eins ermittelt werden. Der ermittelte Schutz soll gemäß der eingesetzten Informationstechnik ausreichend beziehungsweise angemessen sein. Anhand dieser Informationen werden für die Zielobjekte aus Strukturanalyse und Schutzbedarf Bausteine aus dem IT-Grundschutz gewählt. Der anschließende Basis-Sicherheitscheck soll das aktuelle Sicherheitsniveau einschätzen und liefert als Ergebnis eine Liste der relevanten Maßnahmen und ihren Umsetzungsstatus "entbehrlich", "ja", "teilweise" oder "nein". Dafür sollen Gefährdungenkataloge und Maßnahmenkataloge des BSI genutzt werden. In Schritt vier wird geprüft, ob die Standard-Sicherheitsmaßnahmen ausreichend sind, was für die meisten typischen Geschäftsfelder der Fall sein sollte. Sollten erweitere Sicherheitsmaßnahmen nötig werden, muss für diese eine Risikoanylse durchgeführt werden. Bei den Standard-Sicherheitsmaßnahmen ist dies bereits durch die IT-Grundschutz-Kataloge abgedeckt. 
+Das Ziel des Grundschutzes ist das Erreichen eines mittleren, angemessenen und ausreichenden Schutzniveaus für IT-Systeme \cite{wiki_itgrundschutz}. Zu diesem Zweck stellt das BSI ein Modell, zur Entwicklung von Sicherheitskonzepten, zur Verfügung. In Abbildung~\ref{fig:bsi_sicherheit} sind die empfohlenen Schritte gezeigt. Schritt eins verlangt die Erfassung aller Komponenten im Geltungsbereich. Dazu soll das Zusammenspiel zwischen Geschäftsprozessen und Anwendungen herausgearbeitet werden. Als nächstes soll der Schutzbedarf der Komponenten aus Schritt eins ermittelt werden. Der ermittelte Schutz soll gemäß der eingesetzten Informationstechnik ausreichend beziehungsweise angemessen sein. Anhand dieser Informationen werden für die Zielobjekte aus Strukturanalyse und Schutzbedarf Bausteine aus dem IT-Grundschutz gewählt. Der anschließende Basis-Sicherheitscheck soll das aktuelle Sicherheitsniveau einschätzen und liefert als Ergebnis eine Liste der relevanten Maßnahmen und ihren Umsetzungsstatus "entbehrlich", "ja", "teilweise" oder "nein". Dafür sollen Gefährdungenkataloge und Maßnahmenkataloge des BSI genutzt werden. In Schritt vier wird geprüft, ob die Standard-Sicherheitsmaßnahmen ausreichend sind, was für die meisten typischen Geschäftsfelder der Fall sein sollte. Sollten erweitere Sicherheitsmaßnahmen nötig werden, muss für diese eine Risikoanylse durchgeführt werden. Bei den Standard-Sicherheitsmaßnahmen ist dies bereits durch die IT-Grundschutz-Kataloge abgedeckt. 
 \begin{figure}[htbp]
 \centering
 \includegraphics[scale=0.7]{images/bsi_sicherheitskonzept.pdf}
@@ -224,14 +230,16 @@ Das Ziel des Grundschutzes ist das Erreichen eines mittleren, angemessenen und a
 Ab Schritt sechs erfolgt die Durchführung der Maßnahmen. Bei der Konsolidierung wird geprüft, welche Maßnahmen aus den IT-Grundschutz-Katalogen tatsächlich in der Praxis umsetzbar sind. Teilweise müssen einige Maßnahmen noch an Gegebenheiten im Unternehmen angepasst werden. Unter Berücksichtigung des verfügbaren Budgets und des verfügbaren Personals werden die entsprechenden Maßnahmen für die Umsetzung geplant. Im zweiten Sicherheitscheck wird abschließend ein erneuter Soll-Ist-Vergleich durchgeführt, um die Ergebnisse der Maßnahmen zu überprüfen. Als letzter Schritt werden die Maßnahmen im Alltagsgeschäft in Betrieb genommen.
 \footnotetext{Der Zeichnung \cite{bsi_img} des BSI nachempfunden, aufgrund unangemessener Bildqualität}
 
-Das vom BSI vorgeschlagene Konzept und das damit verbundene Vorgehen betrachtet ein Sicherheitsmodell ausgiebig aus technischer Sicht. Es wurde entwickelt, um als internationaler Standard genutzt zu werden, hat dort jedoch, nicht zuletzt wegen schlechter englischer Übersetzung, keinerlei Verbreitung im Ausland. Die komplette Umsetzung ist sehr komplex, da es für Sicherheitskonzepte kompletter Unternehmen ausgelegt ist, die eine teure Zertifizierung, als "Qualitätsmerkmal", durch den BSI anstreben.
+Das vom BSI vorgeschlagene Konzept und das damit verbundene Vorgehen betrachtet ein Sicherheitsmodell ausgiebig aus technischer Sicht. Es wurde entwickelt, um als internationaler Standard genutzt zu werden, dort hat es jedoch aufgrund schlechter englischer Übersetzung, keinerlei Verbreitung und auch in Deutschland ist die Verbreitung nur sehr gering \cite{bsi_kritik}. 
 
-\section{Methoden zur Bedrohungsanalyse}
+\subsection{Methoden zur Bedrohungsanalyse}
+
+Zusätzlich zum Vorgehen des BSI werden weitere Methoden für die Bedrohungsanalyse vorgestellt, die nützlich für das Erstellen eines Sicherheitskonzept sind. Den Aufgrund von Finanznöten des BSI kann sich nicht darauf verlassen werden, dass die Inhalte des IT-Grund\-schutzes immer aktuell sind \cite{bsi_not}.
 
 \subsubsection{Soft Systems Methodology} \label{sec:ssm}
 
 Nachfolgende Erläuterungen beziehen sind auf \cite[s.~252]{gutmann}. 
-Das Lösen von Sicherheitsproblemen ist ein kniffeliges Unterfangen, da die typische Vorgehensweise von vielen Informatikern, dass Problem mit Technologien zu bewerfen, nicht funktioniert. Fragt man diese, wie löst man das Problem, Benutzer sicher über das Internet zu authentifizieren? Dann werden Antworten wie OpenID, LDAP, SecurID oder ähnliches zu hören sein. Nur die wenigsten werden fragen: Wer soll, wo, wogegen authentifiziert werden, wie benutzerfreundlich (einfach) kann der Mechanismus sein und welches Budget steht zur Verfügung? Um das natürliche Verlangen, die Lieblingstechnologie verwenden zu wollen, zu unterdrücken, ist es sinnvoll Problem Structuring Methods (PSK) einzusetzen.
+Das Lösen von Sicherheitsproblemen ist ein kniffeliges Unterfangen, da die typische Vorgehensweise von vielen Informatikern, das Problem mit Technologien zu bewerfen, nicht funktioniert. Fragt man diese, wie löst man das Problem, Benutzer sicher über das Internet zu authentifizieren?, dann werden Antworten wie OpenID, LDAP, SecurID oder ähnliches zu hören sein. Nur die wenigsten werden fragen: Wer soll, wo, wogegen authentifiziert werden, wie benutzerfreundlich (einfach) kann der Mechanismus sein und welches Budget steht zur Verfügung? Um das natürliche Verlangen, die Lieblingstechnologie verwenden zu wollen, zu unterdrücken, ist es sinnvoll, Problem Structuring Methods (PSK) einzusetzen. Eine dieser PSK-Methoden ist die Soft Systems Methodology (SSM).
 
 \begin{figure}[htbp]
 \centering
@@ -240,27 +248,25 @@ Das Lösen von Sicherheitsproblemen ist ein kniffeliges Unterfangen, da die typi
 \label{fig:ssm}
 \end{figure}
 
-SSM wurde in den späten 60iger Jahren, an Universität von Lancaster, von Peter Checkland, begonnen zu entwickeln. Es war zunächst als Modellierungswerkzeug gedacht, wird aber hauptsächlich als Lern- und Bedeutungswerkzeug angesehen \cite{bobwill}. SSM kann prinzipielle immer dann eingesetzt werden, wenn jemand versucht zielgerichtet zu handeln \cite{checkland}. Ein wichtiger Teil von SSM ist die Weltansicht, welche einem Vorgehen Sinn und Zweck verleiht. Beispielsweise ist des einen Terrorist des anderen Freiheitskämpfer. Beide betrachten jedoch das Selbe. Durch mehrere zielgerichtete Vorgehen, unterschiedlicher Weltansichten, wird in SSM versucht die Reale Welt zu beschrieben. Diese ist jedoch viel zu komplex, um in irgendeiner Modellsprache erfasst zu werden. Daher wird das Vorgehen bewusst auf ein rein konzeptionelles Modell beschränkt. Diese Einschränkung verringert die Komplexität und vereinfacht dadurch die Problemlösung. Die Abbildung~\ref{fig:ssm} zeigt die Schritte des SSM-Modell in drei Phasen. Die Trennung zwischen Realer Welt und Systemmodell der Realen Welt findet zwischen Phasen eins und zwei statt. In der ersten Phase wird die gesamte Problemsituation der Realen Welt, aus Sicht aller Beteiligten, erörtert und unstrukturiert beschrieben. Anhand dieser Informationen wird in der zweiten Phase ein Rich-Picture erstellt. Dieses ist ein wichtiges Hilfsmittel zur Beschreibung der Problemsituation, welches möglichst viele Informationen in einem Bild erfassen soll. Besonders Grenzen, Struktur, Informationsflüsse, Kommunikationskanäle und das menschliche Aktivitätssystem sollen aufzeigt werden \cite{ssmger}. Dieses Bild dient als Grundlage für die Ursachendefinitionen. Ursachendefinitionen geben einen festen Rahmen für die konzeptionellen Modelle und sorgen dafür, dass wichtige Aspekte nicht weggelassen werden. Die Gedächtnisstütze CATWOE\footnote{Übersetzungen wurden aus dem Artikel \cite{ssmger} übernommen.} ist eine Empfehlung zur Erstellung der Ursachendefinitionen \cite{bobwill}:
+Die Folgenden Inhalte sind den Quellen \cite{checkland, bobwill, ssmger} entnommen. SSM wurde in den späten 60iger Jahren an Universität von Lancaster von Peter Checkland begonnen zu entwickeln. Es war zunächst als Modellierungswerkzeug gedacht, wird aber hauptsächlich als Lern- und Bedeutungswerkzeug angesehen, denn SSM kann prinzipiell immer dann eingesetzt werden, wenn jemand versucht, zielgerichtet zu handeln. Das Forscherteam um Peter Checkland hat SSM, beispielsweise während des Concorde-Projektes eingesetzt, bei welchem Sie beauftragt wurden zu helfen. Ein wichtiger Teil von SSM ist die Weltansicht, welche einem Vorgehen Sinn und Zweck verleiht. Beispielsweise ist des einen Terrorist des anderen Freiheitskämpfer. Beide betrachten jedoch dasselbe. Durch mehrere zielgerichtete Vorgehen, unterschiedlicher Weltansichten, wird in SSM versucht, die Reale Welt zu beschreiben. Diese ist jedoch viel zu komplex, um in irgendeiner Modellsprache erfasst zu werden. Daher wird das Vorgehen bewusst auf ein rein konzeptionelles Modell beschränkt. Diese Einschränkung verringert die Komplexität und vereinfacht dadurch die Problemlösung. Die Abbildung~\ref{fig:ssm} zeigt die Schritte des SSM-Modells in drei Phasen. Die Trennung zwischen Realer Welt und Systemmodell der Realen Welt findet zwischen Phasen eins und zwei statt. In der ersten Phase wird die gesamte Problemsituation der Realen Welt aus Sicht aller Beteiligten erörtert und unstrukturiert beschrieben. Anhand dieser Informationen wird in der zweiten Phase ein Bild, in SSM-Terminologie Rich-Picture, erstellt. Dieses ist ein wichtiges Hilfsmittel zur Beschreibung der Problemsituation, welches möglichst viele Informationen in einem Bild erfassen soll. Mit dessen Hilfe sollen Grenzen, Struktur, Informationsflüsse, Kommunikationskanäle und das menschliche Aktivitätssystem eines Systems aufzeigt werden. Das Bild dient als Grundlage für die Ursachendefinitionen, welche einen festen Rahmen für die konzeptionellen Modelle ermöglichen. Die Ursachendefinitionen sorgen dafür, dass wichtige Aspekte nicht weggelassen werden. Die Gedächtnisstütze CATWOE\footnote{Übersetzungen wurden aus dem Artikel \cite{ssmger} übernommen.} ist eine Empfehlung zur Erstellung der Ursachendefinitionen:
 
 \begin{itemize}[leftmargin=*]
 \item \textbf{Client (Kunde)}, Wer oder Was profitiert von dem Umwandlungsprozess.
-\item \textbf{Actor (Akteur)}, Wer ermöglicht den Umwandlungsprozess den Kunden.
+\item \textbf{Actor (Akteur)}, Wer ermöglicht den Kunden den Umwandlungsprozess.
 \item \textbf{Transformation process (Umwandlungsprozess)}, von einem Startzustand in eine Endzustand.
 \item \textbf{Weltanschauung}, gibt dem Umwandlungsprozess Bedeutung.
 \item \textbf{Owner (Inhaber)}, vor Wem muss sich das System verantworten und/oder Wer kann veranlassen, dass es nicht existiert.
-\item \textbf{Environmental constraints (Ökologische Einschränkungen)}, Was beeinflusst das System, ohne es zu kontrollieren.
+\item \textbf{Environmental constraints (Umweltauflagen)}, Was beeinflusst das System, ohne es zu kontrollieren.
 \end{itemize}
 
-Kunde, Akteur und Inhaber können in bestimmten Fällen überlappen. CATWOE ist keine willkürlich Ansammlung an Eigenschaften, sondern resultiert aus Beobachtungen der Realen Welt. Bei der Ausübung von SSM ist aufgefallen, dass insbesondere Akteur und Inhaber bei der Betrachtung ausgelassen werden, da diese "zu offensichtlich" erscheinen \cite[s.~255]{gutmann}. Die Reihenfolge, in welcher die Eigenschaften abgearbeitet werden, ist beliebig. Je nach Problemsituation sind einige Eigenschaften offensichtlicher als andere. Die konzeptuellen Modelle, welche aus den Ursachendefinitionen gebildet wurden, dienen dazu Debatten über die Thematik zu strukturieren, indem sie mit der Realen Welt verglichen werden. In einem iterativen Prozess werden die ersten beiden Phasen wiederholt, bis die Thematik klar genug ist, um Ergebnisse zu treffen. Die Ergebnisse werden abschließend, in Phase drei, in konkrete Schritte formuliert, die ausgeführt werden sollen.
+Die Rollen welche Kunde, Akteur und Inhaber belegen, können in bestimmten Fällen überlappen. CATWOE ist keine willkürlich Ansammlung an Eigenschaften, sondern resultiert aus Beobachtungen der Realen Welt. Bei der Ausübung von SSM ist aufgefallen, dass insbesondere Akteur und Inhaber bei der Betrachtung ausgelassen werden, da diese "zu offensichtlich" erscheinen \cite[s.~255]{gutmann}. Die Reihenfolge, in welcher die Eigenschaften abgearbeitet werden, ist beliebig. Je nach Problemsituation sind einige Eigenschaften offensichtlicher als andere. Die konzeptuellen Modelle, welche aus den Ursachendefinitionen gebildet wurden, dienen dazu, Debatten über die Thematik zu strukturieren, indem sie mit der Realen Welt verglichen werden. In einem iterativen Prozess werden die ersten beiden Phasen wiederholt, bis die Thematik klar genug ist, um Ergebnisse zu treffen. Die Ergebnisse werden abschließend, in Phase drei, in konkrete Schritte formuliert, die ausgeführt werden sollen.
 
-Die Soft Systems Methodology ist zwar nicht als Methodik zur Erstellung eines Sicherheitskonzeptes gedacht, dennoch ist sie als Vorgehensweise für die Analyse, durch ihre Trennung von Realer Welt und deren Abstraktion, besser geeignet als das Modell des BSI. SSM nimmt bewusst Einfluss auf das menschliche Denken und Vorgehen, um dieses zu fokussieren und dadurch zu optimieren. Das bedeutet nicht, dass alles aus dem IT-Grundschutz des BSI unbrauchbar ist. Vor allem die Vorarbeit, die der BSI mit Gefährdungenkataloge und Maßnahmenkataloge geleistet hat, lässt sich in Kapitel~\ref{chap:threat_analysis} mit SSM verwenden.
+Die Soft Systems Methodology ist zwar keine Methodik, die explizit zur Erstellung eines Sicherheitskonzeptes gedacht ist, ihre Vorgehensweise für die Analyse, durch Trennung von Realer Welt und deren Abstraktion ist jedoch gut geeignet zum Lösen von Problemstellungen. SSM nimmt bewusst Einfluss auf das menschliche Denken und Vorgehen, um dieses zu fokussieren und dadurch zu optimieren.
 
-\subsubsection{Security Development Lifecycle}
+\subsubsection{Data Flow Diagramme}
 
 Nachfolgender Paragraph bezieht sich auf \cite[s.~263]{gutmann}.
-Durch die Bedrohungsanalyse (Kapitel~\ref{chap:threat_analysis}) mittels SSM wird geklärt, gegen welche Bedrohungen geschützt werden soll und welche Maßnahmen dafür notwendig sind. Der nächste Schritt ist die Bedrohungsmodellierung der Implementierung, unter Verwendung von Data Flow Diagrammen. Der Security Development Lifecycle (SDL) von Microsoft bietet für die Modellierung einen einfachen Prozess, welcher schnell und leicht zu verstehen ist. SDL entspringt keinem theoretischen oder akademischen Modell, es ist beim lösen echter Problemen entstanden und über Zeit gewachsen. Zu beachten ist, dass die Bedrohungsmodellierung nur ein Teil von SDL ist. 
-
-Data Flow Diagrammen (DFD) gehen zurück auf die 70er Jahre. Ihre Aufgabe ist es die gefährdeten Informationen der Applikation zu identifiziert, die Bedrohungen zu finden und Maßnahmen dagegen zu treffen. Es gibt mehrere Level von DFDs, welche den Detailgrad des Diagramms bestimmen. Für die Bedrohungsmodellierung reicht Level 0 aus. Es ist zeigt den Informationsfluss zwischen internen und externen Anwendungsgrenzen. Für die Bedrohungsmodellierung wird der Aufbau der Diagramme auf die fünf Objekte in Abbildung~\ref{fig:dfd_intro} beschränkt. Die Vertrauensgrenze ist ein Objekt, dass für die Bedrohungsmodellierung dazugenommen wird, dass im klassischen DFDs nicht vorkommt. Generell gilt, überschreitet eine Datenfluss eine Vertrauensgrenze, ist er durch Bedrohungen verwundbar.
+Durch die Bedrohungsanalyse (Kapitel~\ref{chap:threat_analysis}) mittels SSM wird geklärt, gegen welche Bedrohungen geschützt werden soll und welche Maßnahmen dafür notwendig sind. Darauf aufbauend kann die Bedrohungsmodellierung der Implementierung, unter Verwendung von Data Flow Diagrammen, angewandt werden. Data Flow Diagramme (DFD) gehen zurück auf die 70er Jahre. Ihre Aufgabe ist es, die gefährdeten Informationen der Applikation zu identifiziert, die Bedrohungen zu finden und Maßnahmen dagegen zu treffen. Es gibt mehrere Level von DFDs, welche den Detailgrad des Diagramms bestimmen. Für die Bedrohungsmodellierung reicht Level 0 aus. Es zeigt den Informationsfluss zwischen internen und externen Anwendungsgrenzen. Für die Bedrohungsmodellierung wird der Aufbau der Diagramme auf die fünf Objekte in Abbildung~\ref{fig:dfd_intro} beschränkt. Die Vertrauensgrenze ist ein Objekt, dass die klassische DFDs erweitert, um den Aspekt der Bedrohungen eines System darstellen zu können. Generell gilt, überschreitet eine Datenfluss eine Vertrauensgrenze, ist er durch Bedrohungen verwundbar.
 
 \begin{figure}[htbp]
 \centering
@@ -274,7 +280,7 @@ Anhand der Data Flow Diagramme werden Gefährdungen für Informationsflüsse ges
 \begin{table}[h] % htbp ~ here, top, bottom, page
 \begin{tabularx}{\linewidth}{@{}lX@{}}
 \textbf{Sabotage} & unentdeckt Daten modifizieren\\
-\textbf{Personifikation} & vorgeben jemand oder etwas Anderes zu sein\\
+\textbf{Personifikation} & vorgeben, jemand oder etwas Anderes zu sein\\
 \textbf{Informationspreisgabe} & unberechtigter Zugriff auf Informationen\\
 \textbf{Disput} & meiden der Verantwortung für ein Tun oder Nichttun\\
 \textbf{Denial of Service} & eine Service an seiner Ausübung hindern\\
@@ -306,7 +312,7 @@ Asymmetrische Verfahren arbeiten mit zwei Schlüsseln, einem Öffentlichen und e
 \begin{figure}[htbp]
 \centering
 \includegraphics[scale=0.2]{images/public_private_keygeneration.pdf}
-\caption{Public/Private Schlüsselgenerierung \cite{wiki_asym_crypto}}
+\caption{Public/Private Schlüsselgenerierung aus \cite{wiki_asym_crypto}}
 \label{fig:pp_keygen}
 \end{figure}
 
@@ -315,7 +321,7 @@ Der große Vorteil dieses Verfahrens gegenüber den Symmetrischen ist, das der �
 \begin{figure}[htbp]
 \centering
 \includegraphics[scale=0.2]{images/public_private_verification.pdf}
-\caption{Public/Private Verifizierung \cite{wiki_asym_crypto}}
+\caption{Public/Private Verifizierung aus \cite{wiki_asym_crypto}}
 \label{fig:pp_veri}
 \end{figure}
 
@@ -327,10 +333,25 @@ In Analyse/Design aufbringen
 Die Zertifikat-Branche ist heutzutage allerdings rein kommerzielle getrieben \cite{gutmann8}. Dadurch gibt es keine Vorgabe für Zertifizierungsstellen wie die Prüfung des Wahrheitsgehaltes der Informationen des Zertifikatsbeantragers zu erfolgen hat. Ein Zertifikat bescheinigt deshalb allenfalls, dass der Inhaber des Zertifikates der Zertifizierungsstelle Geld transferiert hat. Des Weiteren findet die Verifizierung zwischen der Zertifizierungsstelle und einem Kommunikationspartner statt, der keinerlei Beziehung zu der Zertifizierungsstelle. Von einer Entität sich verifizieren, zu welcher kein Vertrauen besteht, dass ein Zertifikat echt ist spricht für die Unbenutzbarkeit von solchen Zertifizierungsstellen für seriöser Authentifizierung.
 \end{comment}
 
+\chapter{Zielsetzung}
+
+Ziel dieser Thesis ist es eine Lösung zu Authentifizierung und Autorisierung zu schaffen. Die Authentifizierung soll für Benutzer, die lokale vor dem Marktrechner stehen oder sich Remote gegen den Marktrechner verbinden, von derselben Stelle erfolgen. Gleiches gilt für die Authentifizierung. Diese basiert auf einem Rollenmodell, wobei ein Benutzer mehrere Rollen inne haben kann. Die Benutzung über den Remotezugriff soll über HTTPS und das RestGateway des Marktrechners erfolgen. Dabei kann der Authentifizierungs- beziehungsweise Autorisierungsserver (AAS) räumlich von dem Benutzer entfernt sein, etwa über das Internet zu erreichen. Der Marktrechner soll die Möglichkeit bieten mehrere AAS Anfragen zu können.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=0.6]{images/ziel_usecase.pdf}
+\caption{Zielsetzung Use-Case-Diagramm}
+\label{fig:pp_veri}
+\end{figure}
+
+\begin{comment}
+Das bedeutet nicht, dass alles aus dem IT-Grundschutz des BSI unbrauchbar ist. Vor allem die Vorarbeit, die der BSI mit Gefährdungenkataloge und Maßnahmenkataloge geleistet hat, lässt sich in Kapitel~\ref{chap:threat_analysis} mit SSM verwenden.
+\end{comment}
+
 \chapter{Bedrohunganalyse} \label{chap:threat_analysis}
 \epigraphhead[70]{\epigraph{The only truly secure system is one that is powered off, cast in a block of concrete and sealed in a lead-lined room with armed guards.}{\textit{Gene Spafford}}}
 
-Die Bedrohungsanalyse gliedert sich in die drei SSM-Phasen, welche in Abschnitt~\ref{sec:ssm} beschrieben sind. Zunächst wird die Problemsituation beschrieben, danach werden zwei konzeptionell Modelle aus unterschiedlichen Weltansichten erstellt. Die unterschiedlichen Weltansichten entstammen der Betrachtung eines Beschützers und eines Angreifers des Systems. Durch den Vergleich der konzeptionellen Modelle mit der Realen Welt werden konkrete Maßnahmen formuliert. Das Ergebnis der Bedrohungsanalyse soll mögliche Bedrohungen aufdecken und erste Maßnahmen formulieren. Dabei soll unbedingt vermieden werden Bezug auf eine bestimmte Technologie zu nehmen.
+Die Bedrohungsanalyse gliedert sich in die drei SSM-Phasen, die in Abschnitt~\ref{sec:ssm} beschrieben sind. Zunächst wird die Problemsituation beschrieben, danach werden zwei konzeptionell Modelle aus unterschiedlichen Weltansichten erstellt. Die unterschiedlichen Weltansichten entstammen der Betrachtung eines Beschützers und eines Angreifers des Systems. Durch den Vergleich der konzeptionellen Modelle mit der Realen Welt werden konkrete Maßnahmen formuliert. Das Ergebnis der Bedrohungsanalyse soll mögliche Bedrohungen aufdecken und erste Maßnahmen formulieren. Dabei soll unbedingt vermieden werden Bezug auf eine bestimmte Technologie zu nehmen.
 
 \section{Beschreibung der Problemsituation} \label{sec:problem_situation}
 
@@ -375,7 +396,7 @@ Anhand der in Abschnitt~\ref{sec:problem_situation} beschriebenen Problemsituati
 
 \subsection{Ursachendefinitionen}
 
-Bei den Ursachendefinitionen der Beschützer sind die Eigenschaften für Kunden, Inhaber und Umwandlungsprozess offensichtlich. Für den Akteur, die Weltanschauung und die Ökologische Einschränkungen bedarf es hingegen einer genaueren Analyse:
+Bei den Ursachendefinitionen der Beschützer sind die Eigenschaften für Kunden, Inhaber und Umwandlungsprozess offensichtlich. Für den Akteur, die Weltanschauung und die Umweltauflagen bedarf es hingegen einer genaueren Analyse:
 
 \setlength{\tabcolsep}{12pt}
 \renewcommand{\arraystretch}{1.5}
@@ -392,7 +413,7 @@ Von einem nicht vertrauenswürdigen Zustand in einen vertrauenswürdigen Zustand
 
 \paragraph{Weltanschauung} Hersteller und Fernservice-Zentralen sind daran interessiert unerwünschte Zugriffe zu verhindern und ihre jeweiligen vertraulichen Daten zu schützen. Im Falle des Hersteller könnten Mitbewerber, aus den Kommunikationsinhalten, Kenntnisse über die Routinen und Protokolle erlangen. Des Weiteren könnte ein Angreifer, durch die Manipulation der Anlage Warenschaden anrichten, wofür der Hersteller und/oder die Fernservice-Zentrale haftbar sein können. Darüber hinaus kann ein Imageschaden verursacht werden, um zum Beispiel Endkunden abzuwerben. Die Benutzer hingegen wollen ein funktionierendes System, sie haben einen Kältehintergrund und keine Ahnung von IT, Vertraulichkeit ist von sekundärer Natur. Wenn der Prozess Vertrauen zu schaffen Dinge kompliziert, wird der Benutzer versuchen ihn zu umgehen. Sollte das System nicht funktioniert, weil der Benutzer die Authentifizierung falsch bedient, ist trotzdem das System schuld, denn es ist seine Aufgabe den Benutzer darauf hinzuweisen.
 
-\paragraph{Ökologische Einschränkungen} Marktrechner sind im Unternehmensnetz des Endkunden installiert und haben einen Internetzugang. Die Kommunikation findet über einen unzuverlässigen Kanal (im Bezug auf Verfügbarkeit und Attackierbarkeit) statt, HTTP/S Kommunikation bzw. Port (80|443) muss eingesetzt werden, wegen restriktiver Firewallregeln. Die Zutrittskontrolle zum Marktrechner, obliegt dem Endkunden.
+\paragraph{Umweltauflagen} Marktrechner sind im Unternehmensnetz des Endkunden installiert und haben einen Internetzugang. Die Kommunikation findet über einen unzuverlässigen Kanal (im Bezug auf Verfügbarkeit und Attackierbarkeit) statt, HTTP/S Kommunikation bzw. Port (80|443) muss eingesetzt werden, wegen restriktiver Firewallregeln. Die Zutrittskontrolle zum Marktrechner, obliegt dem Endkunden.
 
 \subsection{Konzeptionelles Modell}
 
@@ -473,7 +494,7 @@ Für Spionage kommen hauptsächlich Konkurrenten, des Systemherstellers, in Frag
 
 \paragraph{Weltanschauung} Die Angreifer, respektive deren Auftraggeber, wollen durch Spionage und/oder Manipulation der Konkurrenz Marktanteile abnehmen und verhindern, dass diese neue Anteile erhalten. Der größte Erfolg ist es einen Konkurrent komplett vom Markt zu verdrängen, etwa durch Fehlfunktionen die zu Endkundenschaden führen, für welche der Konkurrent haftbar ist. 
 
-\paragraph{Ökologische Einschränkungen} Die Kommunikation erfolgt verschlüsselt durch ein geeignetes Kryptoverfahren, der Zugriff auf alle Systeme ist durch entsprechende Berechtigungsnachweise geschützt, die Zutrittskontrolle zum Marktrechner, wird nicht vom Inhaber kontrolliert.
+\paragraph{Umweltauflagen} Die Kommunikation erfolgt verschlüsselt durch ein geeignetes Kryptoverfahren, der Zugriff auf alle Systeme ist durch entsprechende Berechtigungsnachweise geschützt, die Zutrittskontrolle zum Marktrechner, wird nicht vom Inhaber kontrolliert.
 
 \subsection{Konzeptionelles Modell}
 
