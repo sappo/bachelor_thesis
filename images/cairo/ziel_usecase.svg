@@ -22,13 +22,13 @@
               <path d="M-18.1624 -171.2636 L522.207 -171.2636 L522.207 122.062 L-18.1624 122.062 L-18.1624 -171.2636 Z"/>
             </clipPath>
             <clipPath clipPathUnits="userSpaceOnUse" id="clipPath5">
-              <path d="M-312.5172 -20.8109 L45.4974 -20.8109 L45.4974 186.7916 L-312.5172 186.7916 L-312.5172 -20.8109 Z"/>
+              <path d="M-312.5172 -81.0611 L45.4974 -81.0611 L45.4974 126.5413 L-312.5172 126.5413 L-312.5172 -81.0611 Z"/>
             </clipPath>
             <clipPath clipPathUnits="userSpaceOnUse" id="clipPath6">
               <path d="M-129.7175 -277.2705 L666.9492 -277.2705 L666.9492 148.7295 L-129.7175 148.7295 L-129.7175 -277.2705 Z"/>
             </clipPath>
             <clipPath clipPathUnits="userSpaceOnUse" id="clipPath7">
-              <path d="M-609.4858 -72.5425 L187.1808 -72.5425 L187.1808 353.4575 L-609.4858 353.4575 L-609.4858 -72.5425 Z"/>
+              <path d="M-609.4858 -196.176 L187.1808 -196.176 L187.1808 229.824 L-609.4858 229.824 L-609.4858 -196.176 Z"/>
             </clipPath>
           </defs>
   
@@ -90,27 +90,37 @@
       <rect fill="none" x="437.656" width="351.1123" height="423.4609" y="73.2331" clip-path="url(#clipPath2)"/>
     </g>
     <g fill="silver" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1.5,0,0,1.5,-333,-108)" stroke="silver">
-      <ellipse rx="64" ry="25" clip-path="url(#clipPath2)" cx="547.7122" cy="155" stroke="none"/>
+      <ellipse rx="64" ry="25" clip-path="url(#clipPath2)" cx="693.7122" cy="155" stroke="none"/>
     </g>
     <g font-size="13" stroke-linecap="butt" transform="matrix(1.5,0,0,1.5,-333,-108)" text-rendering="geometricPrecision" font-family="sans-serif" shape-rendering="geometricPrecision" stroke-miterlimit="1.45">
-      <text x="491.656" xml:space="preserve" y="159.5005" clip-path="url(#clipPath2)" stroke="none">Authentifizierung</text>
-      <ellipse rx="64" fill="none" ry="25" clip-path="url(#clipPath2)" cx="547.7122" cy="155"/>
+      <text x="637.656" xml:space="preserve" y="159.5005" clip-path="url(#clipPath2)" stroke="none">Authentifizierung</text>
+      <ellipse rx="64" fill="none" ry="25" clip-path="url(#clipPath2)" cx="693.7122" cy="155"/>
     </g>
     <g fill="silver" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1.5,0,0,1.5,-333,-108)" stroke="silver">
-      <ellipse rx="64" ry="25" clip-path="url(#clipPath2)" cx="684.7122" cy="212.694" stroke="none"/>
+      <ellipse rx="64" ry="25" clip-path="url(#clipPath2)" cx="693.7122" cy="293.773" stroke="none"/>
     </g>
     <g font-size="13" stroke-linecap="butt" transform="matrix(1.5,0,0,1.5,-333,-108)" text-rendering="geometricPrecision" font-family="sans-serif" shape-rendering="geometricPrecision" stroke-miterlimit="1.45">
-      <text x="640.9133" xml:space="preserve" y="217.1945" clip-path="url(#clipPath2)" stroke="none">Autorisierung</text>
-      <ellipse rx="64" fill="none" ry="25" clip-path="url(#clipPath2)" cx="684.7122" cy="212.694"/>
+      <text x="649.9133" xml:space="preserve" y="298.2735" clip-path="url(#clipPath2)" stroke="none">Autorisierung</text>
+      <ellipse rx="64" fill="none" ry="25" clip-path="url(#clipPath2)" cx="693.7122" cy="293.773"/>
     </g>
     <g fill="silver" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1.5,0,0,1.5,-333,-108)" stroke="silver">
-      <ellipse rx="64" ry="25" clip-path="url(#clipPath2)" cx="556.7122" cy="285.494" stroke="none"/>
+      <ellipse rx="64" ry="25" clip-path="url(#clipPath2)" cx="535.7122" cy="235" stroke="none"/>
     </g>
     <g font-size="13" stroke-linecap="butt" transform="matrix(1.5,0,0,1.5,-333,-108)" text-rendering="geometricPrecision" font-family="sans-serif" shape-rendering="geometricPrecision" stroke-miterlimit="1.45">
-      <text x="534.9587" xml:space="preserve" y="289.9945" clip-path="url(#clipPath2)" stroke="none">Zugriff</text>
-      <ellipse rx="64" fill="none" ry="25" clip-path="url(#clipPath2)" cx="556.7122" cy="285.494"/>
+      <text x="499.4353" xml:space="preserve" y="231.9341" clip-path="url(#clipPath2)" stroke="none">Zugriff auf </text>
+      <text x="499.4004" xml:space="preserve" y="247.0669" clip-path="url(#clipPath2)" stroke="none">Funktionen</text>
+      <ellipse rx="64" fill="none" ry="25" clip-path="url(#clipPath2)" cx="535.7122" cy="235"/>
     </g>
-    <g shape-rendering="geometricPrecision" text-rendering="geometricPrecision" transform="matrix(3.3379,0,0,3.078,1043.1365,64.0558)">
+    <g fill="silver" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1.5,0,0,1.5,-333,-108)" stroke="silver">
+      <ellipse rx="68" ry="28.5" clip-path="url(#clipPath2)" cx="689.7122" cy="399.228" stroke="none"/>
+    </g>
+    <g font-size="13" stroke-linecap="butt" transform="matrix(1.5,0,0,1.5,-333,-108)" text-rendering="geometricPrecision" font-family="sans-serif" shape-rendering="geometricPrecision" stroke-miterlimit="1.45">
+      <text x="672.0149" xml:space="preserve" y="388.5957" clip-path="url(#clipPath2)" stroke="none">M2M-</text>
+      <text x="652.0515" xml:space="preserve" y="403.7285" clip-path="url(#clipPath2)" stroke="none">Verbindung</text>
+      <text x="656.6536" xml:space="preserve" y="418.8613" clip-path="url(#clipPath2)" stroke="none">etablieren</text>
+      <ellipse rx="68" fill="none" ry="28.5" clip-path="url(#clipPath2)" cx="689.7122" cy="399.228"/>
+    </g>
+    <g shape-rendering="geometricPrecision" text-rendering="geometricPrecision" transform="matrix(3.3379,0,0,3.078,1043.1365,249.506)">
       <g clip-path="url(#clipPath5)">
         <svg xml:space="preserve" opacity="1" writing-mode="lr-tb" stop-color="rgb(0, 0, 0)" shape-rendering="auto" glyph-orientation-horizontal="0deg" color-profile="auto" lighting-color="rgb(255, 255, 255)" color="rgb(0, 0, 0)" font-weight="400" alignment-baseline="auto" font-style="normal" version="1.1" color-interpolation-filters="linearrgb" text-anchor="start" stroke-linecap="butt" color-interpolation="srgb" font-variant="normal" word-spacing="normal" fill-opacity="1" text-rendering="auto" clip-path="none" text-decoration="none" letter-spacing="normal" viewBox="0 -0.741 36 57" glyph-orientation-vertical="auto" display="inline" font-size-adjust="none" overflow="hidden" fill="rgb(0, 0, 0)" font-stretch="normal" stroke-dasharray="none" stroke-miterlimit="4" stop-opacity="1" color-rendering="auto" font-size="12" pointer-events="visiblepainted" mask="none" direction="ltr" baseline-shift="baseline" enable-background="new 0 -0.741 36 57" fill-rule="nonzero" image-rendering="auto" stroke-dashoffset="0" width="36px" marker-end="none" clip="auto" cursor="auto" stroke="none" filter="none" visibility="visible" kerning="auto" stroke-width="1" font-family="&quot;Arial&quot;,&quot;Helvetica&quot;,sans-serif" flood-opacity="1" clip-rule="nonzero" src="none" height="57px" unicode-bidi="normal" stroke-linejoin="miter" stroke-opacity="1" flood-color="rgb(0, 0, 0)" dominant-baseline="auto" marker-start="none" x="0px" marker-mid="none" y="0px">
 <defs>
@@ -155,9 +165,9 @@
       </g>
     </g>
     <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" font-family="sans-serif" transform="matrix(1.5,0,0,1.5,-333,-108)" stroke-linecap="butt">
-      <text x="897.4153" xml:space="preserve" y="248.1047" clip-path="url(#clipPath2)" stroke="none">Authentifizierungs-/</text>
-      <text x="910.7513" xml:space="preserve" y="262.0734" clip-path="url(#clipPath2)" stroke="none">Autorisierungs-</text>
-      <text x="936.7962" xml:space="preserve" y="276.0422" clip-path="url(#clipPath2)" stroke="none">Server</text>
+      <text x="897.4153" xml:space="preserve" y="371.7382" clip-path="url(#clipPath2)" stroke="none">Authentifizierungs-/</text>
+      <text x="910.7513" xml:space="preserve" y="385.7069" clip-path="url(#clipPath2)" stroke="none">Autorisierungs-</text>
+      <text x="936.7962" xml:space="preserve" y="399.6757" clip-path="url(#clipPath2)" stroke="none">Server</text>
     </g>
     <g shape-rendering="geometricPrecision" text-rendering="geometricPrecision" transform="matrix(1.5,0,0,1.5,194.5763,415.9057)">
       <g clip-path="url(#clipPath6)">
@@ -525,7 +535,7 @@
     <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" font-family="sans-serif" transform="matrix(1.5,0,0,1.5,-333,-108)" stroke-linecap="butt">
       <text x="349.3983" xml:space="preserve" y="408.7272" clip-path="url(#clipPath2)" stroke="none">Internet</text>
     </g>
-    <g shape-rendering="geometricPrecision" text-rendering="geometricPrecision" transform="matrix(1.5,0,0,1.5,914.2288,108.8137)">
+    <g shape-rendering="geometricPrecision" text-rendering="geometricPrecision" transform="matrix(1.5,0,0,1.5,914.2288,294.264)">
       <g clip-path="url(#clipPath7)">
         <svg xml:space="preserve" opacity="1" writing-mode="lr-tb" stop-color="rgb(0, 0, 0)" shape-rendering="auto" glyph-orientation-horizontal="0deg" color-profile="auto" lighting-color="rgb(255, 255, 255)" color="rgb(0, 0, 0)" font-weight="400" alignment-baseline="auto" font-style="normal" version="1.1" color-interpolation-filters="linearrgb" text-anchor="start" stroke-linecap="butt" color-interpolation="srgb" font-variant="normal" word-spacing="normal" fill-opacity="1" text-rendering="auto" clip-path="none" text-decoration="none" letter-spacing="normal" viewBox="-0.751 -0.597 43 43" glyph-orientation-vertical="auto" display="inline" font-size-adjust="none" overflow="hidden" fill="rgb(0, 0, 0)" font-stretch="normal" stroke-dasharray="none" stroke-miterlimit="4" stop-opacity="1" color-rendering="auto" font-size="12" pointer-events="visiblepainted" mask="none" direction="ltr" baseline-shift="baseline" enable-background="new -0.751 -0.597 43 43" fill-rule="nonzero" image-rendering="auto" stroke-dashoffset="0" width="43px" marker-end="none" clip="auto" cursor="auto" stroke="none" filter="none" visibility="visible" kerning="auto" stroke-width="1" font-family="&quot;Arial&quot;,&quot;Helvetica&quot;,sans-serif" flood-opacity="1" clip-rule="nonzero" src="none" height="43px" unicode-bidi="normal" stroke-linejoin="miter" stroke-opacity="1" flood-color="rgb(0, 0, 0)" dominant-baseline="auto" marker-start="none" x="0px" marker-mid="none" y="0px">
 <defs>
@@ -889,21 +899,35 @@
       </g>
     </g>
     <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" font-family="sans-serif" transform="matrix(1.5,0,0,1.5,-333,-108)" stroke-linecap="butt">
-      <text x="829.1666" xml:space="preserve" y="203.9992" clip-path="url(#clipPath2)" stroke="none">Internet</text>
-      <path fill="none" d="M309.0019 169.0976 L505.8434 261.5913" clip-path="url(#clipPath2)"/>
-      <path d="M515.7991 266.2694 L507.49 255.7356 L502.3867 266.5964 Z" clip-path="url(#clipPath2)" stroke="none"/>
-      <path fill="none" d="M556.7122 260.494 L556.7122 190.7509" clip-path="url(#clipPath2)"/>
-      <path d="M556.7122 179.7509 L550.7122 191.7509 L562.7122 191.7509 Z" clip-path="url(#clipPath2)" stroke="none"/>
-      <path fill="none" d="M592.9454 264.8864 L638.9172 238.7399" clip-path="url(#clipPath2)"/>
-      <path d="M648.4789 233.3017 L635.0817 234.0188 L641.0143 244.4497 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <text x="829.1666" xml:space="preserve" y="327.6327" clip-path="url(#clipPath2)" stroke="none">Internet</text>
+    </g>
+    <g fill="silver" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1.5,0,0,1.5,-333,-108)" stroke="silver">
+      <path d="M832.2368 430.694 L992.2368 430.694 L992.2368 445.694 L1007.2368 445.694 L1007.2368 496.694 L832.2368 496.694 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="white" d="M992.2368 430.694 L992.2368 445.694 L1007.2368 445.694 Z" clip-path="url(#clipPath2)" fill-rule="evenodd" stroke="none"/>
+    </g>
+    <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" transform="matrix(1.5,0,0,1.5,-333,-108)" stroke-linecap="butt">
+      <path fill="none" d="M832.2368 430.694 L992.2368 430.694 L992.2368 445.694 L1007.2368 445.694 L1007.2368 496.694 L832.2368 496.694 Z" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M992.2368 430.694 L992.2368 445.694 L1007.2368 445.694 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
+      <text x="856.1069" xml:space="preserve" y="453.8795" font-family="sans-serif" clip-path="url(#clipPath2)" stroke="none">Die Authentifizeriung</text>
+      <text x="850.9653" xml:space="preserve" y="467.8483" font-family="sans-serif" clip-path="url(#clipPath2)" stroke="none">muss beidseitig erfolgt</text>
+      <text x="905.5425" xml:space="preserve" y="481.817" font-family="sans-serif" clip-path="url(#clipPath2)" stroke="none">sein.</text>
+      <path fill="none" d="M308.9894 164.3457 L485.6825 219.4091" clip-path="url(#clipPath2)"/>
+      <path fill="none" stroke-dasharray="6,2" d="M576.1576 215.625 L654.4216 178.1332" clip-path="url(#clipPath2)"/>
+      <path stroke-dasharray="6,2" d="M658.0291 176.4051 L644.6146 176.1782 L658.0291 176.4051 L649.7989 187.0005 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M658.0291 176.4051 L644.6146 176.1782 L658.0291 176.4051 L649.7989 187.0005 Z" stroke-miterlimit="10" clip-path="url(#clipPath2)" stroke-linecap="square"/>
+      <text x="605.9816" xml:space="preserve" y="218.7101" font-family="sans-serif" clip-path="url(#clipPath2)" stroke="none">&lt;&lt;include&gt;&gt;</text>
+      <path fill="none" stroke-dasharray="6,2" d="M582.0595 252.2403 L642.6785 274.7895" clip-path="url(#clipPath2)"/>
+      <path stroke-dasharray="6,2" d="M646.4276 276.184 L637.2723 266.3768 L646.4276 276.184 L633.0886 277.6239 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M646.4276 276.184 L637.2723 266.3768 L646.4276 276.184 L633.0886 277.6239 Z" stroke-miterlimit="10" clip-path="url(#clipPath2)" stroke-linecap="square"/>
+      <text x="554.9053" xml:space="preserve" y="293.8686" font-family="sans-serif" clip-path="url(#clipPath2)" stroke="none">&lt;&lt;include&gt;&gt;</text>
       <path fill="none" d="M308.9842 370.728 L352.498 370.728" clip-path="url(#clipPath2)"/>
-      <path fill="none" d="M392.1768 361.9674 L505.5599 309.2687" clip-path="url(#clipPath2)"/>
-      <path d="M515.5351 304.6324 L502.1242 304.2492 L507.1819 315.1313 Z" clip-path="url(#clipPath2)" stroke="none"/>
-      <text x="448.7436" xml:space="preserve" y="363.9567" clip-path="url(#clipPath2)" stroke="none">HTTPS</text>
-      <path fill="none" d="M611.7122 155 L835.2285 155" clip-path="url(#clipPath2)"/>
-      <path fill="none" d="M740.5538 200.4798 L836.2144 179.556" clip-path="url(#clipPath2)"/>
-      <path fill="none" d="M873.9683 166 L906.4359 166" clip-path="url(#clipPath2)"/>
-      <path d="M917.4359 166 L905.4359 160 L905.4359 172 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M389.9589 356.8271 L508.6154 257.6487" clip-path="url(#clipPath2)"/>
+      <text x="453.4805" xml:space="preserve" y="330.8813" font-family="sans-serif" clip-path="url(#clipPath2)" stroke="none">HTTPS</text>
+      <path fill="none" d="M722.2628 177.3745 L842.6709 271.7362" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M757.5712 292.1145 L832.2468 290.175" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M873.9683 289.6335 L917.4359 289.6335" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M836.1985 303.1493 L726.3275 375.2124" clip-path="url(#clipPath2)"/>
+      <path fill="none" stroke-dasharray="6,2" d="M886.2598 430.7134 L788.7705 334.6695" clip-path="url(#clipPath2)"/>
     </g>
   </g>
 </svg>
