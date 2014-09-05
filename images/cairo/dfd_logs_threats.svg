@@ -13,7 +13,7 @@
    viewBox="0 0 535.48784 266.50432"
    version="1.1"
    id="svg3284"
-   inkscape:version="0.48.3.1 r9886"
+   inkscape:version="0.48.4 r9939"
    sodipodi:docname="dfd_logs_threats.svg">
   <metadata
      id="metadata3527">
@@ -337,8 +337,23 @@
        transform="matrix(20,0,0,20,-56.4356,-127.5)"
        id="path3375"
        inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-size:13.92234707px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="237.77707"
+       y="83.106598"
+       id="text10081"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan10083"
+         x="237.77707"
+         y="83.106598">Betrachtungs-</tspan><tspan
+         sodipodi:role="line"
+         x="237.77707"
+         y="100.50953"
+         id="tspan10085">funktion</tspan></text>
     <g
-       style="fill:#000000;fill-opacity:1"
+       style="fill:#000000;fill-opacity:0"
        id="g3377">
       <use
          xlink:href="#glyph0-4"
@@ -346,70 +361,80 @@
          y="90.355469"
          id="use3379"
          width="465"
-         height="176" />
+         height="176"
+         style="fill:#000000;fill-opacity:0" />
       <use
          xlink:href="#glyph0-5"
          x="213.5625"
          y="90.355469"
          id="use3381"
          width="465"
-         height="176" />
+         height="176"
+         style="fill:#000000;fill-opacity:0" />
       <use
          xlink:href="#glyph0-6"
          x="221.43359"
          y="90.355469"
          id="use3383"
          width="465"
-         height="176" />
+         height="176"
+         style="fill:#000000;fill-opacity:0" />
       <use
          xlink:href="#glyph0-7"
          x="226.45312"
          y="90.355469"
          id="use3385"
          width="465"
-         height="176" />
+         height="176"
+         style="fill:#000000;fill-opacity:0" />
       <use
          xlink:href="#glyph0-8"
          x="231.70703"
          y="90.355469"
          id="use3387"
          width="465"
-         height="176" />
+         height="176"
+         style="fill:#000000;fill-opacity:0" />
       <use
          xlink:href="#glyph0-9"
          x="239.55859"
          y="90.355469"
          id="use3389"
          width="465"
-         height="176" />
+         height="176"
+         style="fill:#000000;fill-opacity:0" />
       <use
          xlink:href="#glyph0-10"
          x="246.58984"
          y="90.355469"
          id="use3391"
          width="465"
-         height="176" />
+         height="176"
+         style="fill:#000000;fill-opacity:0" />
       <use
          xlink:href="#glyph0-6"
          x="254.69531"
          y="90.355469"
          id="use3393"
          width="465"
-         height="176" />
+         height="176"
+         style="fill:#000000;fill-opacity:0" />
       <use
          xlink:href="#glyph0-5"
          x="259.71484"
          y="90.355469"
          id="use3395"
          width="465"
-         height="176" />
+         height="176"
+         style="fill:#000000;fill-opacity:0" />
       <use
          xlink:href="#glyph0-7"
          x="267.58594"
          y="90.355469"
          id="use3397"
          width="465"
-         height="176" />
+         height="176"
+         style="fill:#000000;fill-opacity:0" />
     </g>
     <path
        style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1"
