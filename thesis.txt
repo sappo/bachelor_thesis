@@ -1,0 +1,1895 @@
+ Hochschule RheinMain
+ Fachbereich Design Informatik Medien
+ Studiengang Angewandte Informatik
+
+
+ Abschlussarbeit
+ zur Erlangung des akademischen Grades
+ Bachelor of Science (B.Sc.)
+
+
+Entwurf, prototypische Implementierung
+und Evaluation eines Sicherheitskonzepts
+ für die Authentiﬁzierung und
+
+Autorisierung von Fernzugriﬀen auf eine
+ Automatisierungsanlage
+
+
+
+ Vorgelegt von Kevin Sapper
+ am 14. Oktober 2014
+ Referent Prof. Dr. Reinhold Kröger
+ Korreferent Prof. Dr. Martin Gergeleit
+
+
+Erklärung gemäß ABPO
+
+Ich erkläre hiermit,
+ • dass ich die vorliegende Abschlussarbeit selbstständig angefertigt,
+ • keine anderen als die angegebenen Quellen benutzt,
+
+ • die wörtlich oder dem Inhalt nach aus fremden Arbeiten entnommenen Stel-
+ len, bildlichen Darstellungen und dergleichen als solche genau kenntlich ge-
+ macht und
+ • keine unerlaubte fremde Hilfe in Anspruch genommen habe.
+
+
+
+
+ Wiesbaden, 14. Oktober 2014
+ Kevin Sapper
+
+
+
+Erklärung zur Verwendung der Bachelor-Thesis
+
+Hiermit erkläre ich mein Einverständnis mit den im folgenden aufgeführten Ver-
+breitungsformen dieser Abschlussarbeit:
+ Verbreitungsform Ja Nein
+ Einstellung der Arbeit in die Hochschulbibliothek mit Datenträger ×
+ Einstellung der Arbeit in die Hochschulbibliothek ohne Datenträger ×
+ Veröﬀentlichung des Titels der Arbeit im Internet ×
+ Veröﬀentlichung der Arbeit im Internet ×
+
+
+
+
+ Wiesbaden, 14. Oktober 2014
+ Kevin Sapper
+
+
+
+Inhaltsverzeichnis
+
+
+
+
+
+1 Einführung 1
+
+2 Grundlagen 2
+
+ 2.1 Kälteanlagen . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2
+
+ 2.2 Sicherheit . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+ 2.3 Authentiﬁzierungsverfahren . . . . . . . . . . . . . . . . . . . . . . . . 17
+
+
+3 Zielsetzung 21
+
+4 Bedrohunganalyse 22
+
+ 4.1 Beschreibung der Problemsituation . . . . . . . . . . . . . . . . . . . . 22
+
+ 4.2 Sichtweise der Beschützer . . . . . . . . . . . . . . . . . . . . . . . . . 25
+ 4.3 Sichtweise der Angreifer . . . . . . . . . . . . . . . . . . . . . . . . . . 29
+
+ 4.4 Maßnahmen . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 32
+
+
+5 Bedrohungsmodellierung 34
+ 5.1 Log-/Auditdateien . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 34
+
+ 5.2 HTTP-Anfrage . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 36
+
+6 Sicherheitsdesign 39
+
+ 6.1 Kryptographie . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 39
+
+ 6.2 Komponentenarchitektur . . . . . . . . . . . . . . . . . . . . . . . . . 39
+ 6.3 Authentiﬁzierung . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 40
+
+ 6.4 Autorisierung . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 45
+
+
+
+ II
+
+
+Inhaltsverzeichnis III
+
+
+
+ 6.5 Audit . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 46
+
+7 Evaluation 47
+
+ 7.1 WIBU Systems . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 47
+
+ 7.2 Radius . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 47
+
+ 7.3 Gegenüberstellung . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 47
+
+
+8 Implementierung 48
+
+
+9 Fazit 49
+
+
+ Companies spend millions of
+ dollars on ﬁrewalls, encryption and
+ secure access devices, and it’s
+ money wasted, because none of
+ these measures address the weakest
+ link in the security chain.
+Kapitel 1 Kevin Mitnick
+
+
+
+Einführung
+
+
+ • Automatisierungsanlage
+ • Entwurf
+ • Sicherheitskonzept
+
+ • Authentiﬁzierung & Autorisierung
+ • Fernzugriﬀ
+ • Evaluation
+ • prototypische Implementierung
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 1
+
+
+Kapitel 2
+
+
+Grundlagen
+
+
+
+Platzhalter ... bis mir etwas einfällt
+
+2.1 Kälteanlagen
+
+Die genaue Funktionsweise einer Kälteanlage ist für diese Arbeit weniger relevant.
+Dennoch gibt es einige Aspekte die ein Sicherheitskonzept beeinﬂussen können.
+Ein Aspekt ist die Trägheit. Beim Einsatz von Kälte geschieht nichts in Bruchteilen
+von Sekunden. Das Kühlen von Waren ist ein langsamer Prozess, ebenso verhält
+es sich beim Erwärmen. Im Folgenden beﬁndet sich eine Auﬂistung von Kompo-
+nenten einer Kälteanlage, welche für das Sicherheitskonzept Relevanz haben. Die
+Beschreibungen der Komponenten einer Kältekälteanlage bezieht sich auf die Fir-
+ma ECKELMANN und kann von Systemen anderer Hersteller abweichen.
+
+2.1.1 E*LDS
+ist die Produktreihe, die von der Eckelmann AG zur Steuerung und Verwaltung
+von Kälteanlagen entwickelt wird. Abbildung 2.1 zeigt die typische Vernetzung der
+Komponenten. Diese beinhaltet Verbundsteuerungen zur Kälteerzeugung, Kühl-
+stellenregler zur temperaturgenauen Reglung aller Arten von Kühlmöbeln und
+Kühlräumen, Funk-Temperatursensoren und den Marktrechner als zentrale Intel-
+ligenz einer Kälteanlage [6]. Über das serielle Bussystem Controller Area Network
+(CAN) sind sämtlichen Komponenten der Anlage verbunden. Zusätzlich können
+über eine Modbus-Schnittstelle Fremdsysteme anderer Hersteller angebunden wer-
+den. Für die Vorort-Bedienung kann der Touch-Screen des Marktrechners genutzt
+werden. Alternativ kann ein PC mit einem CAN-Bus-PC-Adapter verbunden wer-
+den und über die Software LDSWin zugreifen. Der Fernzugriﬀ kann über eine
+
+ 2
+
+
+Grundlagen 3
+
+Wählverbinung (Modem) oder über VPN, je nach Verfügbarkeit, geschehen. Auch
+hier wird der Zugriﬀ durch die Software LDSWin ermöglicht.
+
+
+
+ Abbildung 2.1: Übersicht einer Kälteanlage
+
+
+2.1.2 Marktrechner
+Betrachtet man eine Kälteanlage, dann ist der Marktrechner ihr Herzstück. Über
+den CAN-Bus ist er in der Lage, Komponenten zentral zu parametrieren und zu
+überwachen. Sämtliche Betriebsdaten und Betriebszustände, Meldungen und Alar-
+me aus der Überwachung werden auf seinem internen Speicher archiviert [6].
+
+Hardware Der Marktrechner verfügt über einen 32-Bit-Prozessor mit ARM-Archi-
+tektur. Als Datenspeicher ist eine SD-Karte fest verbaut. Zur Kommunikation not-
+wendige Schnittstellen sind in Abbildung 2.2 zu sehen. Der Ethernet-Port wird
+zur Fernwartung eingesetzt. Über die drei RS232 COM-Schnittstellen kann ein PC
+vor Ort angeschlossen werden, die Fernwartung via Modem erfolgen, das M-Bus-
+Gateway zur Verbrauchsdatenerfassung verbunden werden oder Sonderfunktio-
+nen, beispielsweise Gebäudeleittechnik oder sonstige Fremdsysteme, bedient wer-
+den. Über die RS485 COM-Schnittstelle können Modbus-Regler hinzugefügt wer-
+den. Die USB-Host- und USB-Slave-Anschlüsse sind für zukünftige Benutzung vor-
+gesehen. Einer der beiden CAN-Bus-Anschlüsse wird benutzt, um mit den E*LDS
+Komponenten zu kommunizieren. Der zweite ist für zukünftige Benutzung vorge-
+sehen. Und über die zwei Digitaleingänge können entweder Alarme entgegenge-
+nommen oder Energiezähler gelesen werden. Die Benutzerinteraktion wird über
+ein 7-Zoll Touch-Display realisiert.
+
+
+
+
+
+ Abbildung 2.2: Schnittstellen des Marktrechners
+
+
+
+Grundlagen 4
+
+Software Das Betriebssystem auf dem Marktrechner ist eine eigene Linux-Distribu-
+tion, welche mit der Software ptxdist der Pengutronix e.K. erstellt wird. Ptxdist
+bringt einige hundert Module und Bibliotheken mit, welche über einen einfachen
+Dialog an- und abgewählt werden können. Mit ein wenig Konﬁgurationsaufwand
+können auch eigene Module mit aufgenommen werden. Dadurch kann eine sehr
+schlanke Distribution erzeugt werden, die auf den eigenen Software-Stack zuge-
+schnitten ist. Die eigenen Softwaremodule sind in C++ und mit dem Qt-Framework
+geschrieben.
+
+Funktionen Alle Daten und Meldungen, die der Marktrechner sammelt und auf-
+bereitet müssen ausgewertet werden. Die 24-Stunden Überwachung vor Ort, durch
+einen Mitarbeiter des Eigentümers, ist nicht wirtschaftlich. Auch das Fachliche Wis-
+sen zur Betreuung einer Kälteanlage ist beim Endkunden nicht vorhanden. Deshalb
+übernehmen heutzutage großteils Fernservice-Zentralen (FSZs) die Überwachung
+von Kälteanlagen. FSZs haben in der Kältetechnik ausgebildete Mitarbeiter, die Da-
+ten und Meldungen des Marktrechners verstehen können. Der Marktrechner kann
+aus der Ferne über eine Ethernet- oder Modem-Verbindung erreicht werden. Letz-
+tere wird, aufgrund ihres aussterbendes Charakters, an dieser Stelle nicht weiter
+erläutert. Für den Zugriﬀ auf die Ethernet-Schnittstelle sind Fernservice-Zentralen
+über VPN mit einem oder mehreren Unternehmensnetzwerken ihrer Kunden ver-
+bunden (Abbildung 2.3). Über dieses können die Marktrechner erreicht werden.
+Auf diese Weise kann eine einzige Fernservice-Zentrale Tausende Marktrechner
+überwachen. Der Marktrechner fungiert als Server, das heißt, Daten und Meldun-
+gen müssen aktiv von einer Fernservice-Zentrale abgeholt werden. Ist aus den ab-
+geholten Daten ersichtlich, dass ein Fehler in der Anlage aufgetreten ist, kann die
+Fernservice-Zentrale entweder direkt eingreifen oder einen Monteur zum betref-
+fenden Kunden schicken, der die Anlage instand setzt.
+
+
+ Abbildung 2.3: Aktuelle Architektur
+Beim Einsatz von VPN ist die Kommunikation von der Fernservice-Zentrale bis
+zum Unternehmensnetzwerk abgesichert. Im Lokal Area Network (LAN) des Un-
+ternehmens ist der gesamte Datenverkehr zu und von den Marktrechnern aller-
+dings unverschlüsselt. Aktuell gibt es zwei Arten von Datenverkehr zwischen Markt-
+rechner und FSZ, zum einen über das proprietäre Protokoll des Herstellers und
+zum anderen über Webservices auf Basis von einfachen XML-RPCs.
+–> nach Analyse verschieben
+Ein Angreifer mit Zugriﬀ auf das LAN und Kenntnisse des Hersteller-Protokolls
+
+
+
+Grundlagen 5
+
+hätte die Möglichkeit, den Datenverkehr zwischen Fernservice-Zentrale und Markt-
+rechner mitzulesen. Viel schwerwiegender als das Mitlesen der Kommunikation ist,
+dass ein solcher Angreifer über das Protokoll vollen lesenden und schreibenden
+Zugriﬀ, auf das System erhalten kann, da es keine geeignete Autorisierung und
+Authentiﬁzierung gibt. Die Anzahl an Personen mit Wissen über das Hersteller-
+Protokoll schränkt allerdings den Kreis der möglichen Angreifer ein. Viel wahr-
+scheinlicher ist ein Angreifer mit Zugriﬀ auf das LANohne Kenntnisse des Hersteller-
+Protokolls. Dieser kann den Datenverkehr zwischen XML-RPC und Fernservice-
+Zentrale mithören. Da in der XML die Daten interpretierbar aufbereitet wurden, ist
+es ein Leichtes, diese Daten auszuwerten. Auch hier sind keine geeignete Autorisierungs-
+und Authentiﬁzierungstechniken eingesetzt, wodurch der Angreifer statt mitzule-
+sen, den XML-RPC selbst befragen könnte. Dadurch erlangt er zwar keine vollen
+Zugriﬀ auf das System, kann jedoch einige wichtige Schnittstellen auslesen und
+zum Teil auch neu konﬁgurieren.
+Eine weitere Schwachstelle ist, dass der Hersteller durch die existierende End-to-
+Site VPN-Verbindung keinen Zugriﬀ auf die Systeme erlangen kann, um Unterstüt-
+zung bei Problemen zu leisten. Die VPN-Architektur erfüllt zwar alle Anforderun-
+gen an Sicherheit, schränkt jedoch den Anwendungsbereich in heutigen verteilten
+Systemen stark ein.
+
+2.1.3 RestGateway
+
+Das RestGateway ist die Neuauﬂage des XML-RPC. Es wurde, vom Author die-
+ser Thesis, im Rahmen des vor der Thesis absolvierten Praktikums entwickelt. Es
+basiert auf dem Representational State Transfer (REST) Konzept zur Entwicklung
+von Webanwendungen. REST ist keine explizite Norm, sondern bezeichnet viel-
+mehr die Idee, dass eine URL genau einen Seiteninhalt als Ergebnis einer serversei-
+tigen Aktion liefert [8]. REST nutzt Standard HTTP-Befehle, um lesend und schrei-
+bend auf Ressourcen zuzugreifen. Zur Zeit sind ausschließlich lesende Zugriﬀe
+implementiert, welche über URLs abgerufen werden können. Diese Aufrufe lie-
+fern interpretierte Inhalte im XML oder JSON Format. Zudem gibt es eine generi-
+sche Schnittstelle, welche als Proxy für CAN-Nachrichten fungiert, dadurch kön-
+nen beliebige CAN-Nachrichten über HTTP/S gesendet werden, auch solche, die
+schreibend auf das System zugreifen. Das RestGateway bietet keinerlei Mechanis-
+mus für die Authentiﬁzierung und Autorisierung. Eine Erweiterung wäre auf Ba-
+sis dieser Arbeit denkbar. Das RestGateway kann in zwei Ausführungen installiert
+werden, entweder als Modul auf dem Marktrechner (Abbildung 2.4), wo es den
+XML-RPC ersetzt, oder auf einem externen Server (Abbildung 2.5), wo es Anfra-
+gen an mehrere Marktrechner senden kann. Die unterschiedlichen Ausführungen
+
+
+Grundlagen 6
+
+werden durch das LanGateway-Modul des Marktrechners ermöglicht. Es ist eine
+TCP-Schnittstelle, welche als Proxy zwischen TCP-Netzwerk und CAN-Netzwerk
+fungiert. Über TCP werden die CAN-Nachrichten als Bytestrom übertragen, der
+exakt dem Aufbau der CAN-Nachricht entspricht.
+
+
+
+ Abbildung 2.4: RestGateway als Marktrechner-Modul
+
+Intern ist das RestGateway ein Wrapper über dem LanGateway, welches interpre-
+tierte Inhalte in einem menschenlesbaren Format liefert.
+
+
+
+ Abbildung 2.5: RestGateway auf externen Server
+
+Extern bietet das RestGateway die Möglichkeit, über die REST-Schnittstellen ver-
+schiedene Marktrechner abzufragen. Dieses Feature ist vor allen Dingen für Fernservice-
+Zentralen interessant, da dort viele Marktrechner verwaltet werden (vgl. 2.1.2). Des
+Weiteren können über diesen Weg neue Funktionen ohne große Testvorbereitun-
+gen erprobt werden, denn es wird kein aufwendiges Update der Marktrechner-
+Software notwendig. Ein solches Update ist deshalb so Aufwendig, da es beim End-
+kunden erfolgen muss, weil aufgrund der Kosten, weder Hersteller noch Fernservice-
+Zentralen, eine Kälteanlage zu Testzwecken betreiben und zum anderen werden
+bei einem Update zwangsläuﬁg auch andere Software-Module upgedatet, wodurch
+ein solche Update großer Vorbereitung bedarf.
+
+2.1.4 Alarmmanagement
+Das Alarmmanagement beschreibt die Reaktion auf Fehlfunktionen einer Kältean-
+lage. Jede Kälteanlage ist anders und nutzt unterschiedliche Kühlmöbel, deshalb
+müssen Alarme speziell konﬁguriert werden. Ein Alarm triﬀt eine Aussage über
+den Betriebszustand der Kälteanlage, beispielsweise soll ein Alarm ausgelöst wer-
+den, wenn die Temperatur in einem Kühlmöbel einen bestimmten Grenzwert über-
+schreitet beziehungsweise unterschreitet. Damit auf Alarme reagiert werden kann,
+werden Anlagen überwacht. Dazu können Alarme entweder von Fernwarten in
+bestimmten Intervallen, etwa alle 15 Minuten, ausgelesen. Alternativ können Alar-
+me durch das System selbstständig per E-Mail- oder per SMS-Benachrichtigung
+
+
+Grundlagen 7
+
+versendet werden. Zusätzlich ist im Marktrechner eine Hupe installiert, die auf
+Fehlfunktionen vor Ort aufmerksam macht.
+
+2.1.5 Oﬄine-Konﬁguration
+Eine Oﬄine-Konﬁguration ist eine an den Markt angepasste Konﬁguration der Käl-
+teanlage, welche vor Inbetriebnahme erstellt wurde. Ein Teil ist unter anderem die
+genaue Parametrierung der Kühlgeräte und Kühlmöbel, unter Berücksichtigung
+der darin zu lagernden Waren. Ein weiterer Teil der Oﬄine-Konﬁguration sind
+auch die Alarme. Die technischen Konﬁguration des Marktrechners, beispielsweise
+Netzwerkkonnektivität, Internetzugang oder Berechtigungsnachweise, sind aktu-
+ell nicht in der Oﬄine-Konﬁguration enthalten.
+
+
+2.2 Sicherheit
+
+Viele Sicherheitssysteme heutzutage sind "sicher", da niemand sich die Mühe ge-
+macht hat, diese anzugreifen [18, s. 0]. Ein Großteil an Problemen von Sicherheits-
+konzepten entsteht, weil die Anforderungen an Sicherheit erst im Nachhinein auf-
+kommen, wenn das eigentliche System schon fertig konzipiert und/oder imple-
+mentiert ist. Meist wird dann versucht, die Sicherheit irgendwie noch an das Sy-
+stem anzuheften. Sicherheit wirkt in diesen Fällen oft wie ein fünftes Rad am Wa-
+gen, dadurch resultieren Systeme, die in der Benutzung extrem mühselig für An-
+wender sind. Dabei sollte berücksichtigt werden, dass Benutzer Sicherheit lieber
+ausschalten oder umgehen als sich damit auseinanderzusetzen [18, s. 5]. Bevor
+man über potentielle Eigenschaften eines Sicherheitssystems nachdenkt, sollte man
+daher zunächst das Umfeld betrachten, in welcher das System eingesetzt werden
+soll [18, s. 4]. Wenn heutzutage über Sicherheit diskutiert wird, wird meistens aus-
+schließlich über Kryptographie gesprochen. Auch wenn Kryptographie Hauptbe-
+standteil jedes Sicherheitssystems ist, ignorieren praktisch alle Angriﬀe auf ein Si-
+cherheitssystem die Kryptographie und attackieren den Weg wie sie genutzt wird
+ 1
+[18, s. 1]. Ein bekanntes Beispiel ist der Heartbleed-Bug , der eine Lücke in der
+Heartbeat-Implementierung, der OpenSSL Bibliothek, ausnutzt, um sich Zugriﬀ
+auf den Privaten Kommunikationsschlüssel zu verschaﬀen. Es macht also wenig
+Sinn die Kryptographischen Mittel aufzureizen, wenn kein Angreifer diese ver-
+sucht zu attackieren. Zudem wird durch Verschlüsselung das Hauptproblem ei-
+nes Sicherheitssystems, nämlich "Vertrauen", nur unzureichend betrachtet (vgl. 2.3).
+Das Problem, die Authentiﬁzierung eﬃzient und zuverlässig über einen einzigen
+ 1
+ (Q2/2014) weitere Informationen unter http://heartbleed.com
+
+
+Grundlagen 8
+
+Kommunikationskanal zu lösen besteht bis heute, ohne das es eine etablierte Lö-
+sung dafür gibt.
+Teil des Sicherheitskonzeptes dieser Arbeit wird es sein, dieses Authentiﬁzierungs-
+problem auf geeignete Weise zu berücksichtigen, ohne dass durch den Einsatz einer
+bestimmten Technologie im Extremfall enorme Kosten entstehen können. Ein sol-
+cher Extremfall würde eintreten, wenn durch die Kompromittierung der Software
+oder Hardware alle Berechtigungsnachweise manuelle ausgetauscht werden müs-
+sen.
+
+2.2.1 Sicherheitsstandards
+
+Sicherheitsstandards sind von Staaten festgelegte Anforderungen an sichere Syste-
+me. Die Standards klassiﬁzieren sichere Systeme anhand von Stufen, je höher die
+Stufe, desto mehr Aufwand ist nötig, um diesen zu erreichen. Der erste Sicherheits-
+standard mit hohem Verbreitungsgrad war der Trusted Computer System Evaluati-
+on Criteria (TCSEC) und wurde 1983 vom amerikanischen Department of Defense
+(DOD) veröﬀentlicht. Vor 1990 veröﬀentlichten auch andere Regierungen, unter an-
+deren Kanada, Westdeutschland, Frankreich und Großbritannien eigene Standards.
+Da diese Standards nur in den jeweiligen Ländern verwendet wurden und es keine
+internationale Anerkennung gab, hat die EU 1990 den Standard Information Tech-
+nology Security Evaluation Criteria (ITSEC) für Europäische Staaten veröﬀentlicht.
+Dieser Standard war jedoch auf Europa begrenzt, weshalb 1996, mit den Common
+Criteria (CC), ein weltweit anerkannt Standard gebildet wurde. Beteiligte Staaten
+an den CC sind Australien/Neuseeland, Kanada, Frankreich, Deutschland, Japan,
+Niederlande, Spanien, Großbritannien und die USA.
+
+Common Criteria
+Die Common Criteria sieht 7 Sicherheitsstufen für die Klassiﬁzierung vor. Diese
+Evaluation Assurance Level (EAL) sind bis Stufe 4 international anerkannt. Der
+Aufwand, der für höhere Stufen betrieben werden muss, ist so umfangreich, dass
+er nur für eine Minderheit an Unternehmen in Frage kommt. Die aktuelle Version
+der CC ist 3.1. Release 4 und wurde im September 2012 veröﬀentlicht. Alle weiteren
+Erläuterungen beziehen sich auf diese Version und sind den Quellen [2, 3, 4, 14]
+entnommen.
+
+Klassiﬁzierung Die 7 EAL-Stufen haben Anforderungen in 6 Assurance-Klassen,
+wobei eine Assurance-Klasse aus mindestens einer Assurance-Familie besteht (Ab-
+bildung 2.6). Die Familien sind dabei selbst in Stufen eingeteilt. Die Anzahl der
+
+
+Grundlagen 9
+
+Stufen in den Familien ist von Familie zu Familie unterschiedlich. Beispielswei-
+se fordert EAL-3 aus der Klasse "Tests" in der Familie "Analyse der Abdeckung"
+(ATE_COV) Stufe 2 und aus der Klasse "Entwicklung" in der Familie "Funktionale
+Speziﬁkation mit kompletter Zusammenfassung" (ADV_FSP) Stufe 3. Einige Fami-
+lien sind erst ab höherer EAL Stufe erforderlich oder sind komplett optional.
+
+
+
+
+
+ Abbildung 2.6: Evaluation assurance level Zusammenfassung aus [14]
+
+Vorgehen Für die Zertiﬁzierung sieht die Common Criteria zwei Möglichkeiten
+vor. Zum einen kundengetrieben, zum anderen entwicklergetrieben. Bei der ersten
+Möglichkeit stellt der Kunde seine Anforderungen an Hardware und Software in
+einem Protection Proﬁle (PP) zusammen. Anhand dessen kann er das im PP be-
+schriebene System oder Produkt in Auftrag geben. Alternativ kann er anhand des-
+sen existierende Lösungen evaluieren. Die Entwickler müssen mit dem Security
+Target (ST) nachweisen, dass das entwickelte System/Produkt den Anforderungen
+aus dem Protection Proﬁle genügt. Mit Hilfe von PP und ST kann von einer unab-
+hängigen Prüfstelle zertiﬁziert werden, dass die Inhalte der beiden Dokumente der
+Wahrheit entsprechen.
+
+
+
+
+
+
+ Abbildung 2.7: Common Criteria Vorgehen aus [14]
+Die Inhalte aus PP und ST sind großteils identisch, wobei das ST zusätzlich die tech-
+nische Umsetzung beschreiben muss. Bei der zweiten Möglichkeit fällt der Kun-
+den weg und die Entwickler schreiben ein Security Target, um von einer Prüfstelle
+ein Zertiﬁkat zu erhalten, welches als Qualitätsmerkmal ihres Produktes beworben
+werden kann. Im Rahmen dieser Thesis sind die expliziten Inhalte des ST nicht von
+Interesse.
+
+
+Grundlagen 10
+
+Protection Proﬁle Die Erstellung eines Protection Proﬁles, wird im Folgenden mit
+der Erklärungs-Methode beschrieben, welche aus aus insgesamt sechs Teilen be-
+steht. Das Vorgehen dieser Methode soll vor allen Dingen Verständlichkeit beim
+Leser schaﬀen. Die Informationen darüber stammen aus [14].
+
+ 1. Als erstes werden Konformitätsansprüche beschrieben. Darunter fallen Ver-
+ weise auf die Version des CC, abhängige Protection Proﬁle und welche EAL-
+ Pakete genutzt werden. Abschließend wird noch beschrieben, wie strikt sich
+ PPs und STs, die diese PP benutzen wollen an die Inhalte halten müssen.
+ 2. Im zweiten Schritt werden die Sicherheitsprobleme deﬁniert. Dabei werden
+ in Bezug auf das zu evaluierende Ziel (Target of Evaluation–TOE) Gesetze,
+ sonstige Regulierungen und Bedrohungen analysiert. Bei den Bedrohungen
+ liegt der Fokus auf den zu schützenden Gütern.
+ 3. Im dritten Schritt werden zu den Sicherheitsproblemen, aus den vorherigen
+ Schritt, abstrakte, präzise Lösungsvorschläge erarbeitet. Dabei soll sich auf
+ das "Was" konzentriert werden und nicht beschrieben werden "Wie" etwas zu
+ lösen ist. Im CC-Kontext hießen diese Lösungsvorschläge Security Objects.
+ 4. Im vierten Schritt wird für jedes Security-Object ein detailliertes Security Func-
+ tional Requirement (SFR) erfasst. Die SFRs werden dabei an relevante, the-
+ matische Gruppen gekoppelt, welche im CC-Standard vorgegeben sind. Die
+ Beschreibung als SFR umfasst die Beteiligten, die Informationsﬂüsse, die Ope-
+ rationen und die Daten. Mit Abschluss dieses Schrittes sind die Sicherheits-
+ anforderungen an das System/Produkt festgelegt.
+
+ 5. Im Schritt fünf werden Security Assurance Requirements (SAR) festgelegt.
+ Diese sagen aus, wie die TOE zu evaluieren ist und ermöglichen dadurch
+ den Vergleich von zwei Security Targets.
+ 6. Die Einleitung kommt zum Schluss, sie fasst die Inhalte des PP in Prosa zu-
+ sammen und führt den Leser in die Thematik ein.
+
+2.2.2 Sicherheitsmodell
+
+Ein Sicherheitsmodell bietet einen Leitfaden zur Erstellung eines Sicherheitskon-
+zeptes. Ein ganzheitliches Modell stellt das Bundesamt für Sicherheit in der Infor-
+mationstechnik (BSI) in seinem IT-Grundschutz.
+
+
+Grundlagen 11
+
+BSI Sicherheitsmodell
+Folgende Ausführungen sind dem BSI IT-Grundschutzempfehlungen entnommen
+[10, 11, 12, 13]. Das Ziel des Grundschutzes ist das Erreichen eines mittleren, ange-
+messenen und ausreichenden Schutzniveaus für IT-Systeme [7]. Zu diesem Zweck
+stellt das BSI ein Modell, zur Entwicklung von Sicherheitskonzepten, zur Verfü-
+gung. In Abbildung 2.8 sind die empfohlenen Schritte gezeigt. Schritt eins verlangt
+die Erfassung aller Komponenten im Geltungsbereich. Dazu soll das Zusammen-
+spiel zwischen Geschäftsprozessen und Anwendungen herausgearbeitet werden.
+Als nächstes soll der Schutzbedarf der Komponenten aus Schritt eins ermittelt wer-
+den. Der ermittelte Schutz soll gemäß der eingesetzten Informationstechnik aus-
+reichend beziehungsweise angemessen sein. Anhand dieser Informationen wer-
+den für die Zielobjekte aus Strukturanalyse und Schutzbedarf Bausteine aus dem
+IT-Grundschutz gewählt. Der anschließende Basis-Sicherheitscheck soll das aktu-
+elle Sicherheitsniveau einschätzen und liefert als Ergebnis eine Liste der relevan-
+ten Maßnahmen und ihren Umsetzungsstatus "entbehrlich", "ja", "teilweise" oder
+"nein". Dafür sollen Gefährdungenkataloge und Maßnahmenkataloge des BSI ge-
+nutzt werden. In Schritt vier wird geprüft, ob die Standard-Sicherheitsmaßnahmen
+ausreichend sind, was für die meisten typischen Geschäftsfelder der Fall sein sollte.
+Sollten erweitere Sicherheitsmaßnahmen nötig werden, muss für diese eine Risi-
+koanylse durchgeführt werden. Bei den Standard-Sicherheitsmaßnahmen ist dies
+bereits durch die IT-Grundschutz-Kataloge abgedeckt. Ab Schritt sechs erfolgt die
+
+
+
+
+ 2
+ Abbildung 2.8: BSI Sicherheitskonzept
+Durchführung der Maßnahmen. Bei der Konsolidierung wird geprüft, welche Maß-
+nahmen aus den IT-Grundschutz-Katalogen tatsächlich in der Praxis umsetzbar
+sind. Teilweise müssen einige Maßnahmen noch an Gegebenheiten im Unterneh-
+men angepasst werden. Unter Berücksichtigung des verfügbaren Budgets und des
+verfügbaren Personals werden die entsprechenden Maßnahmen für die Umsetzung
+geplant. Im zweiten Sicherheitscheck wird abschließend ein erneuter Soll-Ist-Vergleich
+durchgeführt, um die Ergebnisse der Maßnahmen zu überprüfen. Als letzter Schritt
+werden die Maßnahmen im Alltagsgeschäft in Betrieb genommen.
+Das vom BSI vorgeschlagene Konzept und das damit verbundene Vorgehen be-
+trachtet ein Sicherheitsmodell ausgiebig aus technischer Sicht. Es wurde entwickelt,
+ 2
+ Der Zeichnung [5] des BSI nachempfunden, aufgrund unangemessener Bildqualität
+
+
+
+Grundlagen 12
+
+um als internationaler Standard genutzt zu werden, dort hat es jedoch aufgrund
+schlechter englischer Übersetzung, keinerlei Verbreitung und auch in Deutschland
+ist die Verbreitung nur sehr gering [20].
+
+2.2.3 Methoden zur Bedrohungsanalyse
+Zusätzlich zum Vorgehen des BSI werden weitere Methoden für die Bedrohungs-
+analyse vorgestellt, die nützlich für das Erstellen eines Sicherheitskonzept sind.
+Den Aufgrund von Finanznöten des BSI kann sich nicht darauf verlassen werden,
+dass die Inhalte des IT-Grundschutzes immer aktuell sind [19].
+
+Soft Systems Methodology
+
+Nachfolgende Erläuterungen beziehen sind auf [18, s. 252]. Das Lösen von Sicher-
+heitsproblemen ist ein kniﬀeliges Unterfangen, da die typische Vorgehensweise
+von vielen Informatikern, das Problem mit Technologien zu bewerfen, nicht funk-
+tioniert. Fragt man diese, wie löst man das Problem, Benutzer sicher über das In-
+ternet zu authentiﬁzieren?, dann werden Antworten wie OpenID, LDAP, SecurID
+oder ähnliches zu hören sein. Nur die wenigsten werden fragen: Wer soll, wo, wo-
+gegen authentiﬁziert werden, wie benutzerfreundlich (einfach) kann der Mechanis-
+mus sein und welches Budget steht zur Verfügung? Um das natürliche Verlangen,
+die Lieblingstechnologie verwenden zu wollen, zu unterdrücken, ist es sinnvoll,
+Problem Structuring Methods (PSK) einzusetzen. Eine dieser PSK-Methoden ist die
+Soft Systems Methodology (SSM).
+
+
+
+
+ Abbildung 2.9: Soft Systems Methodologie
+
+Die Folgenden Inhalte sind den Quellen [16, 21, 9] entnommen. SSM wurde in
+den späten 60iger Jahren an Universität von Lancaster von Peter Checkland be-
+gonnen zu entwickeln. Es war zunächst als Modellierungswerkzeug gedacht, wird
+aber hauptsächlich als Lern- und Bedeutungswerkzeug angesehen, denn SSM kann
+prinzipiell immer dann eingesetzt werden, wenn jemand versucht, zielgerichtet zu
+handeln. Das Forscherteam um Peter Checkland hat SSM, beispielsweise während
+des Concorde-Projektes eingesetzt, bei welchem Sie beauftragt wurden zu helfen.
+Ein wichtiger Teil von SSM ist die Weltansicht, welche einem Vorgehen Sinn und
+
+
+Grundlagen 13
+
+Zweck verleiht. Beispielsweise ist des einen Terrorist des anderen Freiheitskämp-
+fer. Beide betrachten jedoch dasselbe. Durch mehrere zielgerichtete Vorgehen, un-
+terschiedlicher Weltansichten, wird in SSM versucht, die Reale Welt zu beschrei-
+ben. Diese ist jedoch viel zu komplex, um in irgendeiner Modellsprache erfasst zu
+werden. Daher wird das Vorgehen bewusst auf ein rein konzeptionelles Modell
+beschränkt. Diese Einschränkung verringert die Komplexität und vereinfacht da-
+durch die Problemlösung. Die Abbildung 2.9 zeigt die Schritte des SSM-Modells
+in drei Phasen. Die Trennung zwischen Realer Welt und Systemmodell der Realen
+Welt ﬁndet zwischen Phasen eins und zwei statt. In der ersten Phase wird die ge-
+samte Problemsituation der Realen Welt aus Sicht aller Beteiligten erörtert und un-
+strukturiert beschrieben. Anhand dieser Informationen wird in der zweiten Phase
+ein Bild, in SSM-Terminologie Rich-Picture, erstellt. Dieses ist ein wichtiges Hilfs-
+mittel zur Beschreibung der Problemsituation, welches möglichst viele Informatio-
+nen in einem Bild erfassen soll. Mit dessen Hilfe sollen Grenzen, Struktur, Informa-
+tionsﬂüsse, Kommunikationskanäle und das menschliche Aktivitätssystem eines
+Systems aufzeigt werden. Das Bild dient als Grundlage für die Ursachendeﬁnitio-
+nen, welche einen festen Rahmen für die konzeptionellen Modelle ermöglichen.
+Die Ursachendeﬁnitionen sorgen dafür, dass wichtige Aspekte nicht weggelassen
+ 3
+werden. Die Gedächtnisstütze CATWOE ist eine Empfehlung zur Erstellung der
+Ursachendeﬁnitionen:
+
+• Client (Kunde), Wer oder Was proﬁtiert von dem Umwandlungsprozess.
+• Actor (Akteur), Wer ermöglicht den Kunden den Umwandlungsprozess.
+• Transformation process (Umwandlungsprozess), von einem Startzustand in ei-
+ ne Endzustand.
+
+• Weltanschauung, gibt dem Umwandlungsprozess Bedeutung.
+• Owner (Inhaber), vor Wem muss sich das System verantworten und/oder Wer
+ kann veranlassen, dass es nicht existiert.
+• Environmental constraints (Umweltauﬂagen), Was beeinﬂusst das System, oh-
+ ne es zu kontrollieren.
+
+Die Rollen welche Kunde, Akteur und Inhaber belegen, können in bestimmten
+Fällen überlappen. CATWOE ist keine willkürlich Ansammlung an Eigenschaften,
+sondern resultiert aus Beobachtungen der Realen Welt. Bei der Ausübung von SSM
+ist aufgefallen, dass insbesondere Akteur und Inhaber bei der Betrachtung ausge-
+lassen werden, da diese "zu oﬀensichtlich" erscheinen [18, s. 255]. Die Reihenfolge,
+ 3
+ Übersetzungen wurden aus dem Artikel [9] übernommen.
+
+
+Grundlagen 14
+
+in welcher die Eigenschaften abgearbeitet werden, ist beliebig. Je nach Problem-
+situation sind einige Eigenschaften oﬀensichtlicher als andere. Die konzeptuellen
+Modelle, welche aus den Ursachendeﬁnitionen gebildet wurden, dienen dazu, De-
+batten über die Thematik zu strukturieren, indem sie mit der Realen Welt vergli-
+chen werden. In einem iterativen Prozess werden die ersten beiden Phasen wie-
+derholt, bis die Thematik klar genug ist, um Ergebnisse zu treﬀen. Die Ergebnisse
+werden abschließend, in Phase drei, in konkrete Schritte formuliert, die ausgeführt
+werden sollen.
+Die Soft Systems Methodology ist zwar keine Methodik, die explizit zur Erstellung
+eines Sicherheitskonzeptes gedacht ist, ihre Vorgehensweise für die Analyse, durch
+Trennung von Realer Welt und deren Abstraktion ist jedoch gut geeignet zum Lö-
+sen von Problemstellungen. SSM nimmt bewusst Einﬂuss auf das menschliche Den-
+ken und Vorgehen, um dieses zu fokussieren und dadurch zu optimieren.
+
+Data Flow Diagramme
+
+Nachfolgender Paragraph bezieht sich auf [18, s. 263]. Durch die Bedrohungsanaly-
+se (Kapitel 4) mittels SSM wird geklärt, gegen welche Bedrohungen geschützt wer-
+den soll und welche Maßnahmen dafür notwendig sind. Darauf aufbauend kann
+die Bedrohungsmodellierung der Implementierung, unter Verwendung von Data
+Flow Diagrammen, angewandt werden. Data Flow Diagramme (DFD) gehen zu-
+rück auf die 70er Jahre. Ihre Aufgabe ist es, die gefährdeten Informationen der Ap-
+plikation zu identiﬁziert, die Bedrohungen zu ﬁnden und Maßnahmen dagegen zu
+treﬀen. Es gibt mehrere Level von DFDs, welche den Detailgrad des Diagramms
+bestimmen. Für die Bedrohungsmodellierung reicht Level 0 aus. Es zeigt den In-
+formationsﬂuss zwischen internen und externen Anwendungsgrenzen. Für die Be-
+drohungsmodellierung wird der Aufbau der Diagramme auf die fünf Objekte in
+Abbildung 2.10 beschränkt. Die Vertrauensgrenze ist ein Objekt, dass die klassi-
+sche DFDs erweitert, um den Aspekt der Bedrohungen eines System darstellen zu
+können. Generell gilt, überschreitet eine Datenﬂuss eine Vertrauensgrenze, ist er
+durch Bedrohungen verwundbar.
+
+
+ Abbildung 2.10: Data Flow Diagramm Beispiel
+Anhand der Data Flow Diagramme werden Gefährdungen für Informationsﬂüsse
+gesucht. Diese werden zunächst einfachheitshalber in fünf Kategorien gegliedert
+werden:
+
+
+Grundlagen 15
+
+Sabotage unentdeckt Daten modiﬁzieren
+Personiﬁkation vorgeben, jemand oder etwas Anderes zu sein
+Informationspreisgabe unberechtigter Zugriﬀ auf Informationen
+Disput meiden der Verantwortung für ein Tun oder Nichttun
+Denial of Service eine Service an seiner Ausübung hindern
+
+Ausgehend von diesen vier ﬁndet je nach Anwendungsfall eine detailliertere Ana-
+lyse statt.
+
+2.3 Authentiﬁzierungsverfahren
+
+Für die Authentiﬁzierung gibt es verschiedene Möglichkeiten, diese unterscheiden
+sich sowohl in ihrem Aufwand als auch ihrem Nutzen.
+
+Vertrauen Vertrauen ist der Zustand, der durch Authentiﬁzierung erreicht wer-
+den soll. Vertrauen sagt aus, das ein Partner einem anderen Partner in Funktion,
+Ehrlichkeit und Zuverlässigkeit, aufgrund von eigenen Erfahrungen, glaubt [17].
+Dabei unterscheidet man einseitiges und zweiseitiges Vertrauen. Von einseitigem
+Vertrauen wird gesprochen, wenn nur ein Partner einen Nachweis seiner Identi-
+tät erbracht hat. Bei beidseitigen Vertrauen haben beide Kommunikationspartner
+gegenseitig überprüft, dass der Andere derjenige ist welcher er vorgibt zu sein.
+
+Passwörter Bei passwortbasierter Authentiﬁzierung weist sich ein Kommunikati-
+onspartner über einen eindeutigen Namen und ein Passwort gegenüber einem an-
+deren Kommunikationspartner aus. Passwortbasierende-Authentiﬁzierung wird mei-
+stens Verwendet, um einseitig Vertrauen herzustellen. Der typische Einsatz ist die
+Anmeldung an einem Server, um zugriﬀ auf dessen Services zu erhalten. Der Be-
+nutzer weißt sich mit Name und Passwort gegenüber dem Server aus, umgekehrt
+gibt es oft keinen Nachweise über die Identität. Eine Möglichkeit des Identitäts-
+nachweises von Serverseite sind Zertiﬁkate (vgl. 2.3). Die Sicherheit von Passwör-
+tern basiert auf der Annahme, dass der Benutzer ein sicheres Passwort gewählt hat
+und dieses stets vor fremden Zugriﬀ schützt. Die Realität zeigt jedoch, dass diese
+Annahme selten zutriﬀt [18, s. 2].
+
+Symmetrisch Symmetrische Verfahren arbeiten mit einem Passwort oder Schlüs-
+sel, der beiden Kommunikationspartnern bekannt ist. Dieser muss vor der Kom-
+munikation, über einen zweiten Kanal, etwa persönlich, ausgetauscht werden. Das
+Verfahren wird deshalb auch als Pre-Shared-Key (PSK) bezeichnet. Die verbreitete
+
+
+Grundlagen 16
+
+Anwendung von PSKs sind WLAN-Netzwerk im Privaten Bereich. Zugang zu ei-
+nem solchen WLAN-Netzwerk kann jeder erhalten, der den Schlüssel kennt. Unter
+der Annahme, dass nur Berechtigte den Schlüssel kennen wird ein Vertrauensver-
+hältnis zwischen den Kommunikationspartnern in dem Netzwerk aufgebaut. Bei
+steigender Anzahl der Kommunikationspartner wird dieses System unbrauchbar,
+denn jeder neue Partner erhält den gleichen Schlüssel. Soll nun einem Berechtigten
+der Zugriﬀ verboten werden muss der Schlüssel gewechselt werden. Dies führt da-
+zu das alle, außer derjenige dem die Berechtigung entzogen wurde, diesen neuen
+Schlüssel benötigen.
+
+Asymmetrisch Asymmetrische Verfahren arbeiten mit zwei Schlüsseln, einem Öf-
+fentlichen und einem Privaten. Damit generierte Schlüssel möglichst einzigartig
+sind, wird eine Zufallszahl verwendet (Abbildung 2.11). Der Öﬀentliche Schlüssel
+wird dem Kommunikationspartner übergebenen. Der Private Schlüssel bleibt im
+eigenen Besitz und wird vor fremden Zugriﬀ geschützt.
+
+
+ Abbildung 2.11: Public/Private Schlüsselgenerierung aus [1]
+Der große Vorteil dieses Verfahrens gegenüber den Symmetrischen ist, das der Öf-
+fentliche Schlüssel über einen nicht vertrauenswürdigen Kanal geteilt werden kann.
+Bei der Authentiﬁzierung wird der private Schlüssel genutzt, um eine Nachricht zu
+signieren. Mit dem Öﬀentlichen Schlüssel kann der Kommunikationspartner ve-
+riﬁzieren, dass die Nachricht von dem Kommunikationspartner kommt, der den
+passenden privaten Schlüssel hat (Abbildung 3.1). Dadurch kann festgestellt wer-
+den, ob die Nachricht auf dem Transportweg manipuliert worden ist, allerdings
+bleibt das Problem des Vertrauens, denn ob der Schlüssel von demjenigen stammt,
+der der Kommunikationspartner vorgibt zu sein, ist dadurch nicht garantiert. Hier-
+bei wurde die Notwendigkeit nach einem expliziten Austauschkanal eliminiert, da
+der Schlüsselaustausch, über einen unsicheren Kanal erfolgen kann. Allerdings hat
+man dadurch das Bedürfnis nach einen Authentiﬁzierungskanal geschaﬀen, um
+eine Identitätsprüfung durchführen zu können.
+
+
+ Abbildung 2.12: Public/Private Veriﬁzierung aus [1]
+Aus diesem Hintergrund wurden Zertiﬁkate erschaﬀen, der heutige verbreitetste
+Standard sind Zertiﬁkate im X.509-Format. Ein Zertiﬁkat beinhaltet Informationen
+über den Inhaber, die Zertiﬁzierungsstelle, die Gültigkeit und den Öﬀentlichen
+Schlüssel. Anstatt den Öﬀentlichen Schlüssel auszutauschen, wird nun das Zerti-
+
+
+Grundlagen 17
+
+ﬁkat gesendet. Bei der Zertiﬁzierungsstelle kann sich dann über dessen Echtheit
+vergewissert werden.
+
+
+Kapitel 3
+
+
+Zielsetzung
+
+
+
+Ziel dieser Thesis ist es eine Lösung zu Authentiﬁzierung und Autorisierung zu
+schaﬀen. Die Authentiﬁzierung soll für Benutzer, die lokale vor dem Marktrechner
+stehen oder sich Remote gegen den Marktrechner verbinden, von derselben Stelle
+erfolgen. Gleiches gilt für die Authentiﬁzierung. Diese basiert auf einem Rollenmo-
+dell, wobei ein Benutzer mehrere Rollen inne haben kann. Die Benutzung über den
+Remotezugriﬀ soll über HTTPS und das RestGateway des Marktrechners erfolgen.
+Dabei kann der Authentiﬁzierungs- beziehungsweise Autorisierungsserver (AAS)
+räumlich von dem Benutzer entfernt sein, etwa über das Internet zu erreichen. Der
+Marktrechner soll die Möglichkeit bieten mehrere AAS Anfragen zu können.
+
+
+
+ Abbildung 3.1: Zielsetzung Use-Case-Diagramm
+
+
+
+
+
+
+
+
+
+
+
+ 18
+
+
+ The only truly secure system is one
+ that is powered oﬀ, cast in a block
+ of concrete and sealed in a
+ lead-lined room with armed
+ guards.
+ Gene Spaﬀord
+Kapitel 4
+
+
+Bedrohunganalyse
+
+
+Die Bedrohungsanalyse gliedert sich in die drei SSM-Phasen, die in Abschnitt 2.2.3
+beschrieben sind. Zunächst wird die Problemsituation beschrieben, danach werden
+zwei konzeptionell Modelle aus unterschiedlichen Weltansichten erstellt. Die un-
+terschiedlichen Weltansichten entstammen der Betrachtung eines Beschützers und
+eines Angreifers des Systems. Durch den Vergleich der konzeptionellen Modelle
+mit der Realen Welt werden konkrete Maßnahmen formuliert. Das Ergebnis der
+Bedrohungsanalyse soll mögliche Bedrohungen aufdecken und erste Maßnahmen
+formulieren. Dabei soll unbedingt vermieden werden Bezug auf eine bestimmte
+Technologie zu nehmen.
+
+4.1 Beschreibung der Problemsituation
+
+Die in Abschnitt 2.1.2 geschilderte Architektur des Marktrechnerumfeldes, weißt
+einige Sicherheitsmängel des aktuellen Systems auf. Die Abbildung 4.1 zeigt das
+Rich-Picture der Problemsituation. Der Fokus dieser Arbeit liegt auf dem Fernzu-
+griﬀ, dennoch werden auch die Probleme des lokalen Zugriﬀes erfasst. Dadurch
+soll verhindert werden, dass der Fernzugriﬀ unnötige Hindernisse für die lokale
+Zugriﬀskontrolle schaﬀt.
+
+
+ Abbildung 4.1: Problemsituation
+
+
+
+
+ 19
+
+
+Bedrohunganalyse 20
+
+4.1.1 Identiﬁzieren der Rollen
+Zunächst wird ein Überblick über alle Zugriﬀsberechtigten geschaﬀt. Diese werden
+anhand von Rollen zusammengefasst, welche Funktion und Zugriﬀsart beschrei-
+ben. Es ist durchaus möglich, dass ein Zugriﬀsberechtigter mehrere Rollen anneh-
+men kann. Alle Rollen sind in der Abbildung 4.1 illustriert. Die Beschreibungen der
+Rollen sind allgemein gehalten und nehmen keinen Bezug aktuelle oder zukünftige
+technologische Begebenheiten.
+
+Der Inbetriebnehmer ist die Rolle, welche das System initial zum Laufen bringt.
+Der Inbetriebnehmer muss vor Ort die Anlage in Betrieb nehmen. Dazu kann er be-
+reits im Voraus eine Oﬄine-Konﬁguration anlegen, welche an die Anlage des Kun-
+den angepasst ist. Die Konﬁguration wird auf die Anlage eingespielt, sobald die
+Hardware installiert ist. Bevor die Anlage produktiv eingesetzt werden kann, wird
+ein Testlauf durchgeführt. Während des Testlaufs muss der Inbetriebnehmer die
+Anlage überwachen, um bei Problemen die Konﬁguration, die Parameter und die
+Einstellungen anzupassen. Zur Überwachung des Testlaufes muss der Inbetrieb-
+nehmer nicht zwingend permanent vor Ort sein, sondern kann den Status auch
+aus der Ferne abrufen, damit der Inbetriebnehmer nicht etliche Stunden neben dem
+Marktrechner auf das Auftreten von Fehlern warten muss.
+
+Der Projektierer konzipiert und entwirft komplette Kälteanlagen. Ein Teil sei-
+ner Aufgabe kann das Erstellen der Oﬄine-Konﬁguration sein. Diese kann direkt
+von Werk aus aufgespielt werden. Der Inbetriebnehmer muss den vorkonﬁgurieren
+Marktrechner dann lediglich noch installieren und testen.
+
+
+Der Service-Monteur führt Wartungen und Störungsbehebungen durch. Für den
+Service-Monteur gibt es zwei denkbare Ausprägungen. Als Selbständiger wird er
+im Fall einer Störung, durch den Eigentümer der Anlage oder dessen Personal, be-
+nachrichtigt. Nun hat er die Möglichkeit aus der Ferne eine Fehlerdiagnose durch-
+zuführen und Veränderungen an der Konﬁguration und dem Alarmmanagement
+durchzuführen. Sollte er nicht in der Lage sein die Störung aus der Ferne zu be-
+heben muss er die selbe Tätigkeiten vor Ort durchführen können. Als Mitarbeiter,
+im Außendienst, einer Fernservice-Zentrale entfällt die Diagnose und die Fehler-
+behebung aus der Ferne, da dies bereits durch den Fernservice-Mitarbeiter durch-
+geführt wurde. Wenn die Störung von dort nicht gelöst werden kann, wird der
+Service-Monteur zur Anlage geschickt.
+
+
+Bedrohunganalyse 21
+
+Der Fernservice-Mitarbeiter überwacht mehrere Anlagen aus der Ferne. Diese
+Rolle führt die selben Tätigkeiten wie ein Service-Monteur durch. Allerdings er-
+folgt bereits erwähnte Fehlerdiagnose, Kontrolle und Anpassung von Parametern
+und Einstellungen, sowie das Alarm-Management ausschließlich aus der Ferne. Ei-
+nige Störungen können durch anpassen der Konﬁguration hinausgezögert werden,
+bis ein Service-Monteur vor Ort ist. Dadurch kann zum Beispiel Warenschaden auf
+Kosten von Energieeﬃzienz verhindern werden.
+
+Der System-Analyst wertet relevante und vergleichbare Daten zur Energieeﬃzi-
+enz und Warensicherheit aus. Auch er arbeitet ausschließlich aus der Ferne. Aus-
+wertbare Daten sind etwa Temperaturwerte oder Energieverbrauch. Sollten diese
+Werte im Vergleich mit anderen Anlagen negativ auﬀallen, kann er veranlassen,
+dass eine Anlage überprüft wird.
+
+Der Eigentümer/Das Marktpersonal ist daran interessiert eine Kontrolle der Pa-
+rameter zur Warensicherheit durchzuführen und eine Dokumentationen der Waren-
+Temperaturen zu erhalten. Auch soll das Marktpersonal über Alarme informiert
+werden, um einen Service-Monteur zu benachrichtigen und Warenschaden zu ver-
+hindern. Die Rolle des Marktpersonal kann Zugriﬀ vor Ort benötigen, aber auch
+der Zugriﬀ aus der Firmenzentrale wäre denkbar.
+
+Der Hersteller ist eine weitere exklusiv aus der Ferne agierende Rolle. Er soll an-
+deren Rollen Unterstützung bei ihren Arbeiten leisten können. Vor allem bei Soft-
+wareproblemen sind Monteure nicht in der Lage das Problem an der Anlage alleine
+zu beheben.
+
+4.1.2 Systemumgebung
+
+Der Fernzugriﬀ auf einen Marktrechner ist prinzipielle immer möglich. Zwei Arten
+des Fernzugriﬀs sind etabliert, über VPN oder Modem. Verbindungen über VPN
+kommen nur in Fernwarten zum Einsatz. Zum aktuellen Zeitpunkt können etwa
+ein Viertel der Marktrechner können über VPN erreicht werden. Der Einsatz von
+VPN hat den Nachteil, dass er extrem aufwendig zu etablieren ist. Denn hier tref-
+fen unterschiedliche IT-Infrastrukturen zusammen, was ein Garant für Probleme
+ist. Überschneidungen bei IPv4-Adressen ist dabei nur ein Beispiel. Außerdem be-
+schränkt sich der Zugriﬀ ausschließlich auf die gekoppelten Netze. Dadurch ist
+es dem Hersteller nicht möglich Unterstützung aus der Ferne zu leisten. Alle an-
+deren Verbindungen werden über Modems ermöglicht. Deren Einsatz ist veraltet
+
+
+Bedrohunganalyse 22
+
+und bietet nur sehr geringe Übertragungsgeschwindigkeiten. Zudem stellen immer
+mehr Internet-Provider analoge ISDN-Anschlüsse auf Voice-over-IP (VoIP) Lösun-
+gen um. VoIP sorgt dafür, dass eine zuverlässige Modem-Kommunikation unmög-
+lich wird. Für einen Angreifer ergeben sich bei den Verbindungen drei Angriﬀs-
+vektoren. Über VPN ist die Verbindung bis zum Unternehmensnetz gesichert. In-
+nerhalb des LAN hat ein Angreifer freies Spiel. Auch die Modem-Verbindung stellt
+für einen Angreifer kein Hindernis dar, da er lediglich die Telefonnummer kennen
+muss. Zusätzlich kann er die Modem-Leitung dauerhaft blockieren und dadurch
+unterbinden das Anderen zugriﬀen können.
+
+4.2 Sichtweise der Beschützer
+
+Anhand der in Abschnitt 4.1 beschriebenen Problemsituation wird hier die Sicht-
+weise der Beschützer des Systems betrachtet. Zunächst legen die Ursachendeﬁnitio-
+nen das Grundgerüst fest, in welchem sich die Beschützer bewegen. Anhand derer
+wird dann das Konzeptionelle Modell aufgebaut, das klare Anforderungen stellt,
+die die Beschützer für sinnvoll halten. Dieses Systemmodell wird abschließend mit
+der Realen Welt verglichen.
+
+4.2.1 Ursachendeﬁnitionen
+
+Bei den Ursachendeﬁnitionen der Beschützer sind die Eigenschaften für Kunden,
+Inhaber und Umwandlungsprozess oﬀensichtlich. Für den Akteur, die Weltanschau-
+ung und die Umweltauﬂagen bedarf es hingegen einer genaueren Analyse:
+Kunden Alle Rollen aus Abschnitt 4.1.1 und der Marktrechner
+Inhaber Angreifer
+Umwandlungsprozess Von einem nicht vertrauenswürdigen Zustand in einen
+ vertrauenswürdigen Zustand wechseln.
+
+
+Akteur Diese Rolle kann je nach Dienstleister und Kundenwünschen unterschied-
+lich besetzt sein. Die oﬀensichtlichsten Akteure sind Hersteller und Fernservice-
+Zentralen. Darüber hinaus wäre es denkbar, dass ein Marktbetreiber selbst diese
+Rolle einnehmen möchte.
+
+Weltanschauung Hersteller und Fernservice-Zentralen sind daran interessiert un-
+erwünschte Zugriﬀe zu verhindern und ihre jeweiligen vertraulichen Daten zu
+
+
+Bedrohunganalyse 23
+
+schützen. Im Falle des Hersteller könnten Mitbewerber, aus den Kommunikati-
+onsinhalten, Kenntnisse über die Routinen und Protokolle erlangen. Des Weiteren
+könnte ein Angreifer, durch die Manipulation der Anlage Warenschaden anrichten,
+wofür der Hersteller und/oder die Fernservice-Zentrale haftbar sein können. Dar-
+über hinaus kann ein Imageschaden verursacht werden, um zum Beispiel Endkun-
+den abzuwerben. Die Benutzer hingegen wollen ein funktionierendes System, sie
+haben einen Kältehintergrund und keine Ahnung von IT, Vertraulichkeit ist von se-
+kundärer Natur. Wenn der Prozess Vertrauen zu schaﬀen Dinge kompliziert, wird
+der Benutzer versuchen ihn zu umgehen. Sollte das System nicht funktioniert, weil
+der Benutzer die Authentiﬁzierung falsch bedient, ist trotzdem das System schuld,
+denn es ist seine Aufgabe den Benutzer darauf hinzuweisen.
+
+Umweltauﬂagen Marktrechner sind im Unternehmensnetz des Endkunden in-
+stalliert und haben einen Internetzugang. Die Kommunikation ﬁndet über einen
+unzuverlässigen Kanal (im Bezug auf Verfügbarkeit und Attackierbarkeit) statt,
+HTTP/S Kommunikation bzw. Port (80|443) muss eingesetzt werden, wegen re-
+striktiver Firewallregeln. Die Zutrittskontrolle zum Marktrechner, obliegt dem End-
+kunden.
+
+4.2.2 Konzeptionelles Modell
+Die folgende Beschreibung des Konzeptionellen Modells nimmt direkten Bezug auf
+die Ursachendeﬁnitionen. Das Modell darf nichts hinzufügen, das nicht in den Ur-
+sachendeﬁnitionen aufgeführt wurde. Durch diese Einschränkung soll verhindern,
+dass Instanzen aus der Realen Welt hinzugefügt werden, und damit das Modell
+unbrauchbar komplex wird [18, s. 256]. Aus den Ursachendeﬁnitionen ergibt sich
+das folgende Konzeptionelle Modell:
+
+1. Kunden müssen beim Fernzugriﬀ vom Marktrechner authentiﬁziert und autori-
+ siert werden.
+2. Kunden müssen beim lokalen Zugriﬀ vom Marktrechner authentiﬁziert und au-
+ torisiert werden.
+3. Der Marktrechner soll die Zugriﬀsrechte anhand von Rolleninformation ein-
+ schränken, welche er durch die Autorisierung erhalten hat.
+
+4. Verbindungen müssen über HTTP/S, respektive Port 80/443, initialisiert wer-
+ den.
+5. Angreifer (Inhaber) können sich Zugang zum Unternehmensnetzwerk verschaf-
+ fen.
+
+
+Bedrohunganalyse 24
+
+6. Angreifer (Inhaber) dürfen keine Ahnung über Kommunikationsinhalte haben.
+7. Angreifer (Inhaber) dürfen nicht vorgeben Benutzer (Kunden) zu sein.
+
+4.2.3 Vergleich mit der Realen Welt
+
+Der Vergleich des Konzeptionenellen Modells mit der Realen, soll Schwächen auf-
+legen die zunächst ignoriert werden konnten. Die Punkte 1-3 sagen aus, dass jeder
+Marktrechner alle zur Authentiﬁzierung und Autorisierung nötigen Benutzer- und
+Rollen-Informationen haben muss. Während dies konzeptionell durchaus sinnvoll
+erscheint, ist das Konzept in der Praxis nahezu unmöglich zu realisieren. Im Fol-
+genden Szenario wird eine Fernservice-Zentrale genommen, die 1000 Marktrech-
+ner mit 50 Mitarbeitern betreut und eine hohe Mitarbeiter Fluktuation hat. Der
+Einfachheit wegen wird angenommen, dass eine einseitige Authentiﬁzierung aus-
+reichen ist. Der initiale Aufwand für die Authentiﬁzierung ist, dass 1000 Markt-
+rechner die Berechtigungsnachweis der 50 Mitarbeiter erhalten. Fällt ein Mitarbei-
+ter weg oder kommt ein Neuer hinzu, müssen jedes Mal alle 1000 Marktrechner
+aktualisiert werden. Initial sind dadurch 50000 Berechtigungsnachweis zu setzen,
+wobei 49950 redundant sind. Bei jeder Änderung müssen zudem erneut 1000 Be-
+rechtigungsnachweis aktualisiert werden, wovon 999 redundant sind. Das ganze
+sorgt für einen riesigen administrativen Aufwand, welcher zwangsläuﬁg zu Feh-
+lern und Schwachstellen führen muss. Stattdessen nehmen wir den Marktrechner
+aus der Pﬂicht, für alle Kunden mit Berechtigungsnachweis ständig aktualisiert zu
+werden und beschränken seine Funktion auf die Autorisierung der Zugriﬀsrech-
+te. Für die Authentiﬁzierung werden stattdessen eine kleine Zahl von Mediatoren
+eingesetzt, vorzugsweise zwei wegen der Verfügbarkeit. Diese Mediatoren verwal-
+ten dann die Berechtigungsnachweis der 50 Mitarbeiter. Für zwei separat gepﬂegt
+Mediatoren macht dies initial, für die Mitarbeiter, 100 Berechtigungsnachweis, da-
+von 50 redundant. Anschließend wird ein Vertrauensverhältnis zwischen Media-
+tor und Marktrechner benötigt. Dieses soll beidseitig sein, daher wächst der initial
+Aufwand an Berechtigungsnachweise auf 2000, 1000 Marktrechnernachweise für
+die zwei Mediatoren und weitere 2000, zwei Mediatorennachweise für die 1000
+Marktrechner.
+Das ganze ist ein initiale Verbesserung der Redundanz, im Verhältnis:
+ (MR− 1)∗MB
+ (MR+MB)∗(ME− 1)
+wo
+
+
+Bedrohunganalyse 25
+
+ MR : Anzahl Marktrechner
+ MB : Anzahl Mitarbeiter
+
+ ME : Anzahl Mediatoren
+
+Bei neuem oder wegfallendem Mitarbeiter je zwei Änderungen, davon ist einer
+redundant. Die Verbesserung liegt hier im Verhältnis:
+ MR− 1
+ ME− 1
+Der initiale Aufwand in dem Szenario ist durch die Mediatoren 23mal geringer und
+bei einer Mitarbeiteränderung 999mal geringer. Für das Konzeptionelle Modell er-
+geben sich daraus folgende Änderungen. Die Punkte 1-3 fallen raus und werden
+ersetzt durch:
+
+• Kunden müssen beim Fernzugriﬀ den Verbindungsaufbau über den Mediator
+ (Akteur) delegieren.
+• Der Marktrechner darf Verbindungen nur aufbauen, wenn diese von einem Me-
+ diator (Akteur) kommt.
+
+• Der Mediator (Akteur) muss den Kunden authentiﬁzieren und dessen Rollenin-
+ formationen feststellen.
+• Der Mediator (Akteur) soll dem Marktrechner die Rolle(n) des authentiﬁzierten
+ und Kunden mitteilen.
+• Der Marktrechner soll den Zugriﬀ anhand der Rolleninformation autorisieren.
+
+• Der Marktrechner muss lokale Kunden durch einen Mediator authentiﬁzierten
+ lassen.
+Für den lokalen Zugriﬀ ergibt sich durch das Mediator-Konzept eine Besonderheit.
+Für den Fall, dass kein Mediator erreichbar ist, zum Beispiel durch eine Netzwerk-
+störung, muss es einen einmaligen Mechanismus geben, um einem lokalen Kunden
+den Zugriﬀ zu erlauben. Ein Beispiel für einen solchen Mechanismus sind Einmal-
+Passwörter, die die Fernservice-Zentrale auf Anfrage ausstellt. Daher wird das Kon-
+zept noch ergänzt durch:
+
+• Der Marktrechner muss lokal, durch einen Einmal-Mechanismus, entsperrbar
+ sein, wenn kein Mediator verfügbar ist.
+
+
+Bedrohunganalyse 26
+
+Der vierte Punkte des Konzeptionellen Modell ist in der Realen Welt tatsächlich för-
+derlich. Eine Änderung würde die Umsetzung aufgrund gegebener Firewall Situa-
+tion deutlich erschweren. Punkt fünf ist aufgrund der Ökologischen Einschränkun-
+gen aus der Herstellersicht nicht regulierbar. Punkt 6 verlangt, dass die Kommu-
+nikation verschlüsselt zwischen den Kommunikationspartnern erfolgt. In Punkt 7
+wird auf die sichere Verwaltung der Berechtigungsnachweis hingewiesen, welche
+ein Angreifer nicht erlangen darf. Das heißt zum Beispiel, nicht in Klartext auf der
+Festplatte des Mediators abspeichern.
+
+4.3 Sichtweise der Angreifer
+
+Nach der Analyse der Gefährdungen aus Sicht der Beschützer, wird nun die Sicht-
+weise der Angreifer beleuchtet. Im wesentlichen werden drei Angreifertypen un-
+terschieden:
+
+• Spionage
+• Finanziell motiviert
+• Selbstbestätigung des Egos
+
+Für Spionage kommen hauptsächlich Konkurrenten, des Systemherstellers, in Fra-
+ge. Spionage von Endkunden-Konkurrenz, um Informationen auf diesem Weg er-
+langen ist eventuell denkbar, allerdings bieten sich hierzu andere Möglichkeiten an,
+wie etwa das abwerben von Mitarbeitern. Finanziell motivierte Angreifer können
+bei einem Angriﬀ auf eine Kälteanlage keinen direkten unbemerkten ﬁnanziellen
+Diebstahl begehen, da dort keinerlei Zahlungsströme abgewickelt werden. Durch-
+aus denkbar wäre die Erpressung gegen einen Eigentümer vieler Anlagen, mit der
+Drohung Warenschaden zu verursachen. Die dafür benötigte technische Expertise
+verlangt allerdings detailliertes Informatik- und Kältetechnikwissen. Ein Angreifer,
+welcher auf einen direkten Konkurrenten zurückzuführen ist, hätte dieses Wissen.
+Ein solcher Angreifer könnte durch seine(n) Angriﬀ(e) Imageschaden verursachen,
+beispielsweise durch verursachen von Fehlfunktionen. Dadurch ist es der Konkur-
+renz möglich die eigenen Produkte, unter Kunden, besser zu bewerben und die
+eigene Marktmacht auszubauen. Der dritten Angreifertyp ist aufgrund erforderli-
+cher Expertise fast vollständig auszuschließen, zudem wird das Hacken einer Käl-
+teanlage kein großes Öﬀentliches Interesse wecken, wodurch der erfolgreiche Hack
+ohne Prestige/Ruhm bleibt, welches das Ego aufbauen würde.
+
+
+Bedrohunganalyse 27
+
+Kunden Angreifer, beziehungsweise deren Auftraggeber
+Inhaber Beschützer
+Akteur Alle Rollen aus Abschnitt 4.1.1 und die Angreifer
+
+4.3.1 Ursachendeﬁnitionen
+
+Umwandlungsprozess Authentiﬁzierung und Autorisierung ohne Wissen der Be-
+schützer aushebeln, um geschützte Inhalte zu kompromittieren und Daten zu ex-
+trahieren oder Fehlfunktionen in einer funktionierenden zu verursachen.
+
+Weltanschauung Die Angreifer, respektive deren Auftraggeber, wollen durch Spio-
+nage und/oder Manipulation der Konkurrenz Marktanteile abnehmen und verhin-
+dern, dass diese neue Anteile erhalten. Der größte Erfolg ist es einen Konkurrent
+komplett vom Markt zu verdrängen, etwa durch Fehlfunktionen die zu Endkun-
+denschaden führen, für welche der Konkurrent haftbar ist.
+
+Umweltauﬂagen Die Kommunikation erfolgt verschlüsselt durch ein geeignetes
+Kryptoverfahren, der Zugriﬀ auf alle Systeme ist durch entsprechende Berechti-
+gungsnachweise geschützt, die Zutrittskontrolle zum Marktrechner, wird nicht vom
+Inhaber kontrolliert.
+
+4.3.2 Konzeptionelles Modell
+1. Angreifer (Kunden) können sich Zugriﬀ zum LAN der Endkunden verschaﬀen.
+
+2. Alle Aktionen der Angreifer (Kunden) sollen geschehen, ohne Kenntnis der Be-
+ schützer (Inhaber).
+3. Angreifer (Kunden) wollen in den Besitz von Berechtigungsnachweisen der Ak-
+ teure kommen (Phishing, Social Engineering).
+4. Angreifer (Kunden) können verschlüsselte Kommunikation aufnehmen und spä-
+ ter erneut einspielen (Replay-Attacke).
+5. Angreifer (Kunden) können den Verbindungspool des Marktrechner erschöpfen
+ und diesen überlasten (DOS-Attacke).
+
+
+
+Bedrohunganalyse 28
+
+4.3.3 Vergleich mit der Realen Welt
+Der erste Punkt, ist aufgrund der selben Ökologischen Einschränkungen, sowohl
+Teil des Konzeptionellen Modell der Beschützer als auch der Angreifer. Wobei letz-
+tere die Einschränkung eher als positiv empﬁnden dürften. Der Zweite Punkt zeigt
+das Verlangen der Angreifer unentdeckt zu bleiben, um eine Schwachstelle mög-
+lichst lange auszunutzen. Dieses Verlangen oﬀenbart eine Lücke im Konzeptionel-
+len Modell der Beschützer, da dort keine Aufzeichnung von Systemaktivitäten ge-
+fordert wird. Dadurch können Angriﬀe aufgedeckt und Sicherheitslücken geschlos-
+sen werden. In Punkt drei versuchen die Angreifer in Besitz von Berechtigungs-
+nachweisen zu kommen. Dazu gibt es mehrere Möglichkeiten, die zwei beliebte-
+sten sind Phishing und Social Engineering. Durch das stehlen von Berechtigungs-
+nachweisen scheint der Zugriﬀ trotz Aufzeichnung legitim. Die Beschützer kön-
+nen gestohlene Berechtigungsnachweisen nur schwer erkennen. Eine Möglichkeit
+ist nach Unregelmäßigkeiten in den Aufzeichnungen zu schauen. In Punkt vier
+versuchen die Angreifer durch aufzeichnen und wieder einspielen von Nachrich-
+ten schaden anzurichten. Die Replay-Attacke, ohne dass die Angreifer über Inhalte
+der Kommunikation oder Berechtigungsnachweisen verfügen Schaden anrichten.
+Auch hier fehlt dem Konzeptionellen Modell der Beschützer eine wichtige Eigen-
+schaft. Punkt fünf kann ebenfalls durchgeführt werden, ohne Wissen über Kom-
+munikationsinhalte oder Berechtigungsnachweise. Der Marktrechner wird hierbei
+durch eine Vielzahl von Verbindungsanfragen überlastet. Dadurch wird verhindert,
+dass sich legitime Akteure verbinden können, im Idealfall für die Angreifer, führt
+dies zu einem Absturz des Systems. DOS-Attacken aus dem LAN des Endkunden
+sind aufgrund der Ökologischen Einschränkungen nicht zu unterbinden. Da die
+Zugriﬀskontrolle dem Endkunden obliegt, kann er im Falle eines Schadens kei-
+ne Ansprüche geltend machen. Sollte eine DOS-Attacke über das Internet möglich
+sein, könnte der Hersteller durchaus zur Verantwortung gezogen werden. Anhand
+dieser Einsichten wird das Konzeptionelle Modell der Beschützer, um folgende Ei-
+genschaften ergänzt:
+
+• Illegale Aktivität der Angreifer (Inhaber) soll nachverfolgt werden können.
+
+• Aufgezeichnete Kommunikation ist vom Marktrechner, beim wieder einspielen,
+ zu verwerfen.
+• Direkte, beliebige Verbindungsversuche, aus dem Internet, auf den Marktrech-
+ ner, sind zu unterbinden.
+
+
+Bedrohunganalyse 29
+
+4.4 Maßnahmen
+
+Die Sichtweise der Beschützer und der Angreifer haben jeweils ein Konzeptionelle
+Modell hervorgebracht, welches mit der Realen Welt verglichen wurde. Die jetzt
+noch praktikablen Inhalte werden nachfolgend in konkreten Maßnahmen formu-
+liert.
+
+Logging & Audit Das Verlangen nach Nachvollziehbarkeit der Beschützer und das
+Verlangen der Angreifer unentdeckt zu bleiben, zieht sich durch alle Eigenschaften
+der konzeptionellen Modelle. Daraus folgt die wichtigste Maßnahme der Beschüt-
+zer einen Logging- und Audit-Mechanismus zu etablieren. Dieser soll in geeigneter
+Form alle Aktivitäten und Interaktionen des Systems protokolliert. Das Logging
+beinhaltet alle wesentlichen Informationen, die von Implementationsebene wich-
+tig für die Nachvollziehbarkeit bestimmter Aktionen sind. Im Log tauchen jegliche
+Fehler und Warnungen auf, die während der Laufzeit auftreten. Der Audit hin-
+gegen beinhaltet Aktionen auf Informationsebene, beispielsweise erfolgreiche und
+fehlgeschlagene Verbindungsversuche oder Wer, Wann, Welche Ressource verän-
+dert hat. Logging soll für alle folgenden Maßnahmen umgesetzt werden. Für den
+Fall, dass ein Angreifer Zugriﬀ auf das System bekommt, ist es essentiell, dass die
+Log-/Auditdateien von niemanden verändert werden dürfen, um dadurch wichtige
+Spuren verwischen zu können. Niemand schließt ebenfalls den Administrator mit
+ein.
+
+Mediator Der Mediator (Mittler) ist für die Überprüfung von Berechtigungsnach-
+weisen und deren Zuordnung zu Rollen zuständig. Die Verwaltung der Berechti-
+gungsnachweisen kann vom Mediator durchaus delegiert werden. Die Anbindung
+an ein Unternehmens-LDAP (Lightweight Directory Access Protocol) ist denkbar.
+
+Authentiﬁzierung Die nächste Maßnahme widmet sich dem Vertrauen zwischen
+Marktrechner, Mediator und Kunde. Um Vertrauen herzustellen benötigt es einer
+gegenseitigen Authentiﬁzierung. Da die gegenseitige Authentiﬁzierung mit hohem
+administrativen Aufwand einhergeht, wird sie zwischen Marktrechner und Media-
+tor umgesetzt, diese müssen gegenseitig die Identität des gegenüber bestätigen, da-
+mit eine Verbindung zustande kommen kann. Zwischen Kunde und Mediator gibt
+es aufgrund des administrativen Aufwandes lediglich eine einseitige Authentiﬁzie-
+rung, in welcher sich der Kunden gegenüber dem Mediator ausweisen muss. Da-
+durch wird eine ausreichend sichere Authentiﬁzierung geschaﬀen, die gleichzeitig
+praktikabel und in einem angemessenem Budget umsetzbar ist. Die Authentiﬁzie-
+rung eines Kunden vor Ort geschieht, indem der Marktrechner die Berechtigungs-
+
+
+Bedrohunganalyse 30
+
+nachweise des Kunden an den Mediator delegiert, welcher anschließend mit den
+entsprechenden Rolleninformationen antwortet.
+
+Single-Sign-On Für den Fall des Verbindungsausfalles zum Mediator, beispiels-
+weise während eines Netzwerkausfalls oder einer Netzwerkstörung, muss weiter-
+hin der Zugriﬀ vor Ort auf das System gewährleistet werden. Dazu sollen nach Be-
+darf Einmal-Berechtigungsnachweise, vom Eigentümer oder von der Fernservice-
+Zentrale, ausgestellt werden.
+
+Autorisierung Nicht jeder Benutzer soll vollen Zugriﬀ auf alle Funktionen am
+System haben. Für einen Analyst, beispielsweise genügt es, wenn er lesend auf
+Energie- und Temperaturdaten zugreifen kann. Der Mediator ist verantwortlich,
+die ihm bekannten Rollen eines Benutzers dem Marktrechner beim Verbindungs-
+aufbau mitzuteilen. Der Marktrechner muss anhand der Rolleninformationen den
+Zugriﬀ regulieren.
+
+Verschlüsselung Damit ein Angreifer nicht die Kommunikationsinhalte abhören
+kann, muss diese ausreichend verschlüsselt werden. Ausreichend nimmt Bezug auf
+Möglichkeit, welche der Marktrechner aufgrund seiner Hardware leisten kann. Des
+Weiteren muss erkannt werden, wenn verschlüsselte Nachrichten ein zweites mal
+(Replay-Attacke) eingespielt werden. Darüber hinaus muss die Kommunikation
+der Perfekt Forward Security (PFS) genügen. Dadurch wird verhindert, dass aufge-
+nommene verschlüsselte Kommunikationsinhalte später entschlüsselt werden kön-
+nen.
+
+Firewall Ein ﬁrefallfreundlicher Umgang von E*LDS ist von Kundenseite wün-
+schenswert. Daher sollen Konﬂikte mit Firewall, welche den Kommunikationska-
+nal blockieren, vermieden werden. Konkret darf eine von außen eingehende Ver-
+bindung nur über die HTTP/S und respektive deren Standardports 80/443 initiiert
+werden. Bei ausgehenden Verbindungen sind die meisten Firewalls nicht restriktiv,
+daher gibt es dort keine zwingende Festlegung.
+
+
+Kapitel 5
+
+
+Bedrohungsmodellierung
+
+
+
+In der Bedrohungsanalyse wurden Gefährdungen auf abstrakter, konzeptioneller
+Ebene mit dem PSM Vertreter SSM betrachtet. Es wurde absichtlich darauf verzich-
+tet die eigentliche Implementierung zu berücksichtigen. Die konkrete Implemen-
+tierung wird anhand von Data Flow Diagramm in diesem Kapitel analysiert. Dazu
+werden die gefährdeten Informationsﬂüsse auf Bedrohungen hin untersucht und
+anschließend werden entsprechende Maßnahmen festgelegt. Die Implementierung
+des Marktrechners wird, mit Bezug auf die durch Authentiﬁzierung und Autorisie-
+rung zu schützenden Informationen analysiert.
+
+5.1 Log-/Auditdateien
+
+In Abschnitt 4.4 wurden die Maßnahmen aus der Bedrohungsanalyse festgehalten.
+Eine der Wichtigsten ist der Logging-/Audit-Mechanismus. Damit dieser korrekt
+funktioniert und nicht seinerseits zur Sicherheitslücke wird, werden dessen Infor-
+mationsﬂüsse genauer betrachtet.
+Informationsﬂuss In der Abbildung 5.1 sehen wir den Informationsﬂuss von Log-
+und Auditdaten. Ausschließlich Administratoren sollen in der Lage sein, über ei-
+ne Betrachtungsfunktion die Daten einzusehen, da dort sensitive Daten, wie et-
+wa Passwörter, beinhaltet sein können. Unter keinen Umständen soll es möglich
+sein die Daten zu verändern. Für die Inhalte ist anzunehmen, dass diese nur von
+vertrauenswürdigen Anwendungen des Systems geschrieben werden. Die Inhalte
+selbst können aber von nicht vertrauenswürdigen Quellen kommen, daher muss
+dort mit Schadcode gerechnet werden.
+
+
+
+ 31
+
+
+Bedrohungsmodellierung 32
+
+
+
+
+ Abbildung 5.1: DFD Logdaten Auswertung
+
+Gefährdungen identiﬁzieren Abbildung 5.2 zeigt die Gefährdungen der einzel-
+nen Beteiligten. Sabotage ist ein Aspekt der bei Log- und Audit-Dateien gegeben ist,
+den diese enthalten Informationen, die auf einen Angriﬀ schließen lassen. Versucht
+ein Angreifer, beispielsweise per Bruteforce-Angriﬀ das Passwort eines Benutzers
+herauszuﬁnden, dann sind im Audit die fehlgeschlagenen Authentiﬁzierungsver-
+suche aufgezeichnet. Sollte dieser geglückt sein und der Benutzer hat Rechte das
+Audit zu verändern, kann der Angreifer seine Spuren verwischen. Ein anderer An-
+greifer könnte versuchen Schwachstellen in der Implementierung zu ﬁnden. Im
+Log würden dadurch zahlreiche Fehlermeldungen entstehen. Durch entfernen die-
+ser kann er sicherstellen, dass eine eventuelle Sicherheitslücke unentdeckt bleibt.
+Der zweite Aspekt für Log- und Audit-Daten ist die Informationspreisgabe, da in
+beiden sensitive Daten enthalten sein können, welche Unberechtigte nicht einse-
+hen dürfen. Informationspreisgabe ist auch für den Betrachter zu berücksichtigen,
+dieser darf Daten nur für Administratoren anzeigen. Zudem unterliegt er der Per-
+soniﬁkation, indem der eigentliche Betrachter mit Schadcode modiﬁziert wurde
+und nun vorgibt, der Ursprüngliche zu sein. Auch der Administrator unterliegt der
+Personiﬁkation, indem ein Angreifer in Besitz der Berechtigungsnachweise kommt.
+Zusätzlich muss die Datenwäsche berücksichtigt werden. Zwar kommen Log- und
+Audit-Daten von vertrauenswürdigen Quellen, die Daten enthalten allerdings In-
+halte aus nicht vertrauenswürdigen Quellen. Daher sollten diese mit Vorsicht be-
+trachtet werden. Ist der Betrachter, beispielsweise eine Web-Anwendung, dann ist
+es wichtig in den Daten nach JavaScript-Inhalten zu suchen und diese von einem
+ 1
+Sanitizer entfernen zu lassen .
+
+
+
+
+
+ Abbildung 5.2: DFD Logdaten Gefährdungen
+
+ 1
+ Angriﬀ erfolgreich durchgeführt an https://github.com/nlaplante/syslogng-web
+
+
+Bedrohungsmodellierung 33
+
+Maßnahmen Aus den Gefährdungen ergeben sich folgende Maßnahmen, wel-
+che zur Sicherung der Informationsﬂüsse durchgeführt werden müssen. Log- und
+Audit-Daten dürfen in einer Datei oder Datenbank abgelegt werden, die ausschließ-
+lich vom Systembenutzer für Logging und Auditing beschrieben und modiﬁziert
+wird. Dabei wird angenommen, dass Datei-/Datenbankzugriﬀsmechanismus, so-
+wie Systemauthentiﬁzierung nicht komprimiert sind. Das Betrachten der Daten
+darf nur durch einen Administrator geschehen, dabei wird angenommen, dass der
+Betrachter nicht von einem Angreifer modiﬁziert wurde. Ist der Betrachter eine
+Web-Anwendung, benötigt er eine Authentiﬁzierung, die mit der Systemauthenti-
+ﬁzierung integriert ist. Log- und Audit-Daten müssen vor der Darstellung, durch
+einen Sanitizer, von schadhaften Inhalten befreit werden. Wurden, solche Daten
+entfernt, muss der Administrator darauf hingewiesen werden. Der Administrator,
+weist sich durch seinen Berechtigungsnachweis aus, dieser wird, von Ihm, vor frem-
+den Zugriﬀ geschützt. Weiterhin erfolgt erneut die Annahme, dass die Systemau-
+thentiﬁzierung nicht komprimiert wurde. Für alle Maßnahmen wird zudem ange-
+nommen, dass die Implementierung vollständig und korrekt ist.
+
+5.2 HTTP-Anfrage
+
+Eingehende Verbindungen sollen ausschließlich über HTTP/S erfolgen. Zu diesem
+Zweck wurde das RestGateway entwickelt, über welches auf den Marktrechner
+zugegriﬀen werden kann.
+
+Informationsﬂuss In Abbildung 5.3 wird der Informationsﬂuss über das Rest-
+Gateway gezeigt. Dabei ﬂießen die Daten durch drei Vertrauensgrenzen. Sowohl
+RestGateway, als auch LanGateway fungieren als Datenproxy. Beide leiten die An-
+fragedaten ohne Validierung der Inhalte weiter. Deswegen muss darauf geachtet
+werden, dass ein Angreifer kein Datenwäsche durchführen kann. Das RestGate-
+way arbeitet weiterhin als Wrapper, unterschiedliche Abfragen werden anhand der
+URL unterschieden und in entsprechende TCP-CAN-Telegramme übersetzt. Die
+URL-Parameter einer Anfrage, werden vom RestGateway auf einen gültigen Wer-
+tebereich überprüft. Die Antwort auf eine solche Anfrage sind menschenlesebare
+interpretierte Inhalte.
+
+
+
+ Abbildung 5.3: DFD HTTP-Anfrage
+
+
+Bedrohungsmodellierung 34
+
+Gefährdungen identiﬁzieren In Abbildung 5.4 sind die Bedrohungen, in den
+vier Kategorien, aufgezeigt. Der Benutzer unterliegt der Gefahr der Personiﬁzie-
+rung, durch stehlen der Berechtigungsnachweise. Dazu werden Phishing-Attacken
+genutzt, wobei versucht wird Benutzern, durch Personiﬁkation eines legitimen Ser-
+vice, die Berechtigungsnachweise zu entwenden. Diese Angriﬀe geschehen meist
+per E-Mail oder Telefon. Da kein Nutzer die Log- und Audit-Daten verändern darf,
+besteht hierdurch keine Gefährdung durch Disput, da der Zugriﬀ im Audit doku-
+mentiert ist und später nachvollzogen werden kann. Ebenso unterliegen RestGa-
+teway und LanGateway der Personiﬁkation, indem an ein Angreifer die Anfrage,
+über DNS-Spooﬁng, abfängt und weiterleitet. Dadurch wird er zum Man-in-the-
+Middle und kann die Unterhaltung mitverfolgen. Gleichzeitig ist dadurch die In-
+formationspreisgabe gegeben. Der Angreifer kann, als Man-in-the-Middle, zum Sa-
+boteur werden. In dieser Funktion hat er die Möglichkeit Daten zum Marktrechner
+oder zum Kunden zu sabotieren. Die vierte Bedrohung, welche durch die Netz-
+werkkommunikation gegen ist, ist der Denial of Service. Diese Gefährdung kann
+den Marktrechner komplett außer Gefecht setzten, indem der RestGateway oder
+LanGateway Prozess dauerhaft mit Anfragen überlastet wird.
+
+
+
+
+
+ Abbildung 5.4: DFD HTTP-Gefährdungen
+
+Maßnahmen An Berechtigungsnachweise von Benutzern zu gelangen, ist für einen
+motivierten Angreifer, durch Phishing-Attacken möglich. Unter dieser Annahme,
+wird festgelegt, dass ungewöhnliche Login-Muster, in den Audit-Daten erkannt
+werden müssen. Zum Beispiel, wenn sich ein Benutzer, innerhalb weniger Minu-
+ten, von unterschiedlichen physikalischen Orten verbindet. Ebenso ist es keine Sel-
+tenheit, dass Benutzer ihren Berechtigungsnachweis vergessen, daher muss es ei-
+ne Möglichkeit geben diesen sicher, schnell zurückzusetzen. Die Zurücksetzung
+per Telefon ist, beispielsweise nicht sicher, da man den Gesprächspartner nicht au-
+thentiﬁzieren kann. Um RestGateway und LanGateway durch einen Man-in-the-
+Middle zu schützen, empﬁehlt der BSI, statt DNS-Namen, IP-Adressen zu verwen-
+den [15] und eine Ende-zu-Ende Verschlüsselung der Kommunikationsinhalte soll
+für weitere Authentizität sorgen. Die Verschlüsselung beziehungsweise Entschlüs-
+selung, darf nicht dazu führen, dass der Marktrechner für längere Zeit ausgelastet
+wird. Da eine Denial of Service Attacke genau dies beabsichtigt, darf der Markt-
+
+
+Bedrohungsmodellierung 35
+
+rechner, aus dem Internet, nur über einen Reverse Proxy erreichbar sein. Die Au-
+thentiﬁzierung, welche in Abschnitt 4.4 gefordert wird, muss über drei Vertrauens-
+grenzen sichergestellt werden. Um die Gefährdungen, die durch die Schnittstellen
+und genutzten Protokolle entstehen zu reduzieren, sollten die Funktionen des Lan-
+Gateway in das RestGatway integriert werden. Ein externes RestGateway würde,
+anstatt des LanGateway, mit dem internen RestGateway kommunizieren, welches
+dann lediglich als Proxy fungiert. Alternativ muss sichergestellt werden, dass das
+LanGateway ausschließlich lokal, über die Loopback-Addresse (127.0.0.1), erreich-
+bar ist. Die Daten ﬂießen durch mehrere Vertrauensgrenzen, dabei sollte jedoch an
+keine Stelle angenommen, dass diese vom jeweiligen Vorgänger durch Schadco-
+de befreit worden sind. Das jeweilige Software-Module, hat dafür sorge zu tragen,
+dass Schadcode der Ihn schädigen kann, von einem Sanitizer bereinigen zu lassen.
+Dadurch wird der Schadcode zwar bis zum entsprechenden Modul mitgenommen,
+diese geht jedoch davon aus, dass die Inhalte nicht vertrauenswürdig sind.
+
+
+ The user’s going to pick dancing
+ pigs over security every time.
+ Bruce Schneier
+
+Kapitel 6
+
+
+Sicherheitsdesign
+
+
+In diesem Kapitel werden die Erkenntnisse und Maßnahmen aus den Kapiteln Be-
+drohungsanalyse (4) und Bedrohungsmodellierung (5) genommen, um ein techno-
+logisch unabhängiges Design eines Sicherheitskonzeptes zu erstellen. Die Schwer-
+punkte werden dabei auf dem Authentiﬁzierungsmechanismus und der Distributi-
+on und Verwaltung von Berechtigungsnachweisen liegen.
+
+6.1 Kryptographie
+
+Kryptographie ist für die Authentiﬁzierung und die Verschlüsselung der Daten un-
+erlässlich. Dabei spielt der eingesetzte Algorithmus keine Rolle, solange dieser or-
+dentlich entwickelt und unabhängig geprüft wurde, denn kein Angreifer wird die
+Kryptographie als Angriﬀsziel wählen [2.2]. Stattdessen werden diese versuchen,
+alle anderen Komponenten des Systems zu attackieren. Bei der Auswahl eines Al-
+gorithmus sollte darauf geachtet werden, dass dieser eﬃzient auf dem Marktrech-
+ner zu benutzen ist. Des Weiteren sollen die Algorithmen Perfect Forward Security
+(PFS) bieten, damit aufgenommene Inhalte nicht zu einem später Zeitpunkt, bei-
+spielsweise durch erlangen des Schlüssels, kompromittiere werden können.
+
+6.2 Komponentenarchitektur
+
+In der Komponentenarchitektur sind die Maßnahmen aus Bedrohungsanalyse und
+Bedrohungsmodellierung berücksichtigt. (Abbildung 6.1). Komponenten für die
+Authentiﬁzierung sind nicht enthalten, diese werden im folgenden Abschnitt 6.3,
+basierend auf dem Verfahren, hinzugefügt. Das RestGateway des Marktrechners
+funktioniert als Server für Anfragen. Da der Marktrechner als Server nur gerin-
+
+ 36
+
+
+Sicherheitsdesign 37
+
+ge Ressourcen zur Verfügung hat wird die Maßnahme, aus Abschnitt 5.2, einen
+Reverse Proxy einzusetzen, umgesetzt. Dieser schützt den Marktrechner vor Über-
+lastung, durch zu viele Anfragen aus dem Internet. Zusätzlich wird das RestGate-
+way mit dem LanGateway integriert, um eine unnötige Schnittstelle zu eliminieren.
+Der Mediator wird durch eine externes RestGateway realisiert. An dieses stellt der
+Benutzer seine Abfrage, welche für diesen transparent die Anfrage an den eigentli-
+chen Marktrechner weiterleitet. Durch diese Doppelrolle wird nur eine Implemen-
+tierung für die Authentiﬁzierung zwischen den RestGateways benötigt. Auch die
+Flexibilität des RestGateways, schnell und einfach neue Funktionen testen zu kön-
+nen, bleibt dadurch erhalten.
+
+
+
+ Abbildung 6.1: Komponentenarchitektur
+
+
+6.3 Authentiﬁzierung
+Die Authentiﬁzierung wird an zwei Stellen benötigt. Zum einen damit sich der
+Benutzer dem Mediator gegenüber ausweisen kann und zum anderen, damit Me-
+diator und Marktrecher gegenseitig ein Vertrauensverhältnis aufbauen können.
+
+6.3.1 Benutzerauthentiﬁzierung
+
+Die einseitige Authentiﬁzierung gegenüber dem Benutzer hat administrative Grün-
+de. Den obwohl der Einsatz einer gegenseitigen Authentiﬁzierung aus sicherheits-
+technischen Gründen durchaus ratsam ist, so ist die Administration von Personen,
+die einer hohen Fluktuation unterliegen, schwierig und dadurch sehr kosteninten-
+siv. Abbildung 6.2 zeigt eine Integration des RestGateway mit verschiedenen Au-
+thentiﬁzierungslösungen. Unternehmen haben in der Regel eine existierende Lö-
+sung, um Benutzer zu authentiﬁzieren. Das, als Mediator fungierende, RestGate-
+way soll deshalb mit diesen Lösungen integrieren werden. Dadurch muss keine ei-
+gene Lösung zur Benutzerauthentiﬁzierung implementiert werden, wodurch sich
+das RestGateway auf seine Kernaufgabe konzentrieren kann. Zudem sind die Syste-
+me, wie etwa LDAP oder Radius, seit Jahren im Einsatz und dadurch verlässlicher
+als eine eigene Lösung. Ein weiterer Vorteil ist die Vermeidung von Redundanzen,
+da die Benutzer im Fernservicenetzwerk zentral verwaltet werden. Hinzu kommt
+das Poltische Umfeld, indem viele Unternehmen eigene Richtlinien an Authen-
+tiﬁzierungsmaßnahmen haben, beispielsweise Passwortregeln oder zwei Faktor-
+
+
+Sicherheitsdesign 38
+
+Anmeldung mit Hardwaretoken, welche einen enormen Implementierungsaufwand
+für das RestGateway bedeuten würde.
+
+
+
+ Abbildung 6.2: Komponentenarchitektur
+
+6.3.2 Maschine-to-Maschine Authentiﬁzierung
+
+Die gegenseitige Authentiﬁzierung von Mediator und Marktrechner, sollte nicht
+durch Passwörter geschehen, da diese zwangsläuﬁg im Klartext, in einer Konﬁ-
+gurationsdatei gespeichert werden müssen. Bei der Maschine-to-Maschine (M2M)
+Kommunikation ist es daher sinnvoll schlüsselbasierende oder zertiﬁkatbasieren-
+de Kryptosysteme zu nutzen. Im folgenden Abschnitt wird das Design einer asym-
+metrischen Authentiﬁzierung für die M2M-Kommunikation genommen. Symme-
+trische Authentiﬁzierung spielt hier keine Rolle, da diese zwingend einen zweiten
+Kanal für den Schlüsselaustausch benötigt.
+
+Key Continuous Management
+Die Kryptographie von Authentiﬁzierungslösungen wurde vor Jahrzehnten ent-
+worfen und ist dementsprechend erprobt. In Abschnitt 6.1 wurde bereits erläutert,
+dass diese keine Schwachstelle in der Authentiﬁzierungskette darstellt. Damit die
+Kryptographie funktioniert, werden Schlüssel benötigt. Die primäre Problemstel-
+lung bei der Schlüsselverwaltung ist—Wie gelangt ein Schlüssel vom Erzeuger zu
+den vorgesehenen Empfängern? Das populärste Modell der Schlüsselverteilung ist
+das "Schlüssel fallen aus dem Himmel"-Modell. Es ist deshalb so weit verbreitet,
+weil durch die Komplexität des Problems, Entwickler von Sicherheitsprotokollen
+es gerne ignorieren und jemand anderem zuschieben. Ein Konzept, das nicht dem
+"Schlüssel fallen aus dem Himmel"-Modell unterliegt, ist das der Schlüsselkontinui-
+tät. Ihm zugrunde liegt das Konzept der Beständigkeit, dass bedeutet anhand des
+Schlüssel kann überprüft werden, ob die Entität, mit welcher gestern kommuniziert
+wurde auch heute noch dieselbe ist. Die Schlüsselkontinuität unterliegt allerdings
+einer Schwachstelle, den beim initialen Austausch ist eine MITM-Attacke möglich.
+Ein Angreifer hat dementsprechend exakt eine Chance die Verbindung zu kompro-
+mittieren. Wenn er zu diesem Zeitpunkt die Attacke nicht durchführen kann, hat er
+seine Chance vertan. Ein derartiger Angriﬀ ist nicht auszuschließen, jedoch ist das
+Wahrscheinlichkeit sehr gering und daher das Risiko akzeptable.
+
+
+Sicherheitsdesign 39
+
+Authentiﬁzierungsprozess
+Bei der asymmetrische Authentiﬁzierung, ist es möglich den Öﬀentlichen Schlüs-
+sel oder ein selbst-signiertes Zertiﬁkat, über einen unsicheren Kommunikationska-
+nal auszutauschen. In Abbildung 6.3 ist das Vorgehen einer Authentiﬁzierung, die
+der Schlüsselkontinuität genügt, gezeigt. Der initiale Austausch unterliegt dem er-
+wähnten Risiko einer MITM-Attacke, deshalb empﬁehlt die Schlüsselkontinuität
+einen Fingerprint zu erstellen und diesen über einen zweiten Kanal auszutauschen.
+Anhand des Fingerprints kann festgestellt werden, ob der Schlüssel während des
+Austausches manipuliert wurde. Nachdem der Schlüssel durch den Fingerprint ve-
+riﬁziert wurde, muss dieser mit einem Identiﬁkator (ID), welcher die Entität des
+Schlüsselerzeugers eindeutig nachweist, abspeichern werden. Die ID besteht, bei-
+spielsweise aus Domain und Port. Als weitere Sicherheitsmaßnahme dürfen IDs für
+den Fall, dass ein Angreifer lesenden Zugriﬀ erhält, nur als Hash mit dem Schlüssel
+oder Zertiﬁkat gespeichert. Der Fingerprint dient lediglich der Veriﬁzierung und
+wird nicht mit abgespeichert. Bei einer erneuten Verbindung überprüfen beide Teil-
+nehmer, ob die Entität des Anderen mit dem bekannten Schlüssel übereinstimmt.
+Eine Authentiﬁzierung ist, in diesem Fall, erfolgreich.
+
+
+
+
+ Abbildung 6.3: M2M-Authentiﬁzierung
+Protokolle die Ansätze des Key Continuous Management implementieren sind Se-
+cure Shell (SSH) und Pretty Good Privacy (PGP). SSH führt eine auf dem Öﬀentli-
+chen Schlüssel basierenden Vergleich, der jedem Verbindungsaufbau durchgeführt
+wird. Bei jeder neuen SSH Verbindung wird auch ein Fingerprint generiert, welcher
+getauscht werden kann. Allerdings besitzt SSH kein Konzept Schlüssel auf geeigne-
+te Weise zu sichern und wieder einzuspielen, beispielsweise beim neu aufsetzen ei-
+nes Servers. Zudem verbieten die meisten Firewalls SSH-Zugriﬀe aus dem Internet,
+weshalb es nicht als Protokoll in Frage kommt. PGP hingegen erfüllt alle Anforde-
+rungen an Key Continuous Management, wird jedoch fast ausschließlich für E-Mail
+Kommunikation genutzt. Für den Marktrechner soll HTTP beziehungsweise HTT-
+PS genutzt werden, dieses verfügt jedoch nicht über ein Konzept zur Schlüsselkon-
+tinuität. Vielmehr vertraut es auf den Einsatz von Zertiﬁzierungsstellen, welche ein
+Single-Point-of-Failure in der Authentiﬁzierungskette sind. Des Weiteren ist für die
+Authentiﬁzierung wichtig, dass leidlich der Zertiﬁkatsinhaber und die Zertiﬁzie-
+rungsstelle miteinander bekannt sind. Der Client, welcher die Zertiﬁzierungsstelle
+zu Überprüfung des Zertiﬁkates konsultiert, hat zu dieser keine Beziehung. Damit
+
+
+
+Sicherheitsdesign 40
+
+HTTP(S) Schlüsselkontinuität unterstützt, gibt es zwei Möglichkeiten, zum einen
+anpassen des HTTP-Protokolls. Da HTTP weltweit auf allen Webservern eingesetzt
+wird, wäre dies eine extrem langwieriger Prozess mit sehr geringer Umsetzungs-
+wahrscheinlichkeit. Zum anderen bietet sich die Möglichkeit ein weiteres Protokoll
+auf HTTP zu implementieren. Dies ist nicht optimal, jedoch durchaus umsetzbar.
+
+6.3.3 Lokale Authentiﬁzierung
+Die Authentiﬁzierung lokal am CI4000 ist ausschließlich dem Eigentümer vorbehal-
+ten. Dieser soll in der Lage einen lokalen Zugriﬀ für einem Partner, der die Anlage
+in Betrieb nimmt, überwacht und wartet, freizugeben. Für den Fernzugriﬀ auf die
+Anlage können Verbindungen zu Mediatoren angelegt werden. Weitere Sonderau-
+thentiﬁzierungen sind in Abschnitt 6.3.4 erläutert. Lokal über Mediator
+
+
+6.3.4 Sonderauthentiﬁzierung
+Bei den Sonderauthentiﬁzierungen handelt es sich, um explizit durch den Eigen-
+tümer oder dessen Vertreter, in Form eines Service-Partners (FSZ), ausgestellte Er-
+laubnis auf das System zuzugreifen.
+
+Die zeitbeschränkte Authentiﬁzierung erlaubt es einem Benutzer für einen be-
+stimmten Zeitraum, beispielsweise 24 Stunden, auf die Anlage zuzugreifen.
+
+Die Einmal-Authentiﬁzierung erlaubt es über einen generierten Schlüssel oder
+Passwort einmalig Zugriﬀ auf den Marktrechner zu erlangen.
+Die Umsetzung dieser Authentiﬁzierungen kann auf zwei Ebenen erfolgen. Zum
+einen auf Benutzerlevel, dann werden über die am Mediator verknüpfte Benut-
+zerverwaltung entsprechende Freigaben erteilt. Zum anderen im Marktrechner, im
+diesem Fall generiert der Marktrechner auf Anforderung eines Lokalen Admini-
+strators, beispielsweise des Eigentümer, einen Schlüssel über welchen sich einma-
+lig oder zeitbeschränkt angemeldet werden kann. Der Mediator benötigt dazu die
+Möglichkeit, die Benutzerverwaltung zu übergehen und sendet den generierten
+Schlüssel an den Marktrechner. Ob der Zugriﬀ dabei einmalig oder zeitbeschränkt
+ist, spielt für den Mediator keine Rolle. Beim Anlegen der Sonderberechtigung
+muss eine entsprechende Rolle für die Autorisierung angegeben werden. Der Me-
+diator soll selbst keine Berechtigungsnachweise für Benutzer hinterlegt haben.
+
+
+Sicherheitsdesign 41
+
+6.4 Autorisierung
+
+Die Autorisierung der Benutzer erfolgt am Mediator und ist rollenbasiert. Bei der
+Authentiﬁzierung verlässt sich der Mediator auf die verknüpfte Benutzerverwal-
+tung. Diese teilt ihm die Rollen eines authentiﬁzierten Benutzers mit. Die Rollen
+für die Autorisierung wurden in Abschnitt 4.1.1 benannt und sollen so umgesetzt
+werden. Vom Mediator werden die Rollen an den Marktrechner gesendet, welcher
+daraufhin entsprechende Funktionen freigibt. Für die verschiedenen Rollen gelten
+bestimmte Einschränkungen, die im Folgenden erläutert werden.
+
+6.4.1 Rollen
+Der Inbetriebnehmer und der Projektierter sorgen dafür, dass eine Kälteanlage ih-
+ren Betrieb aufnehmen kann. Während der Inbetriebnahme dürfen ausschließlich
+diese beiden Rollen auf den Marktrechner zugreifen. Dazu müssen Sie lesend und
+schreiben auf das System zugreifen können. Nachdem ihre Tätigkeit abgeschlos-
+sen ist, geben Sie den Zugriﬀ für andere Rollen frei. System-Analyst und Markt-
+personal sollen nur lesenden Zugriﬀ auf benötigte Funktionen erhalten. Die für
+Überwachung und Wartung zuständigen Rollen Service-Monteur und Fernservice-
+Mitarbeiter benötigen hingegen auch schreibenden Zugriﬀ, um regulierend in die
+Anlage eingreifen zu können. Die Rolle des Herstellers ist eine Ausnahme, sie soll
+zu jeder Zeit vollen Zugriﬀ erhalten können, jedoch ausschließlich, wenn dieser
+vorher durch die Fernservice-Zentrale oder den Eigentümer freigegeben wurde.
+Außerdem soll der Zugriﬀ des Herstellers immer zeitlich begrenzt sein, beispiels-
+weise für 24 Stunden.
+Durch die Authentiﬁzierung wird ein Vertrauensverhältnis mit booleschen Zustän-
+den, nämlich Vertrauen und kein Vertrauen, erreicht. In der realen Welt ist Ver-
+trauen allerdings selten boolesch, sondern baut sich langsam auf, beziehungsweise
+ab. Um ein derartiges gestaﬀeltes Vertrauensverhältnis herzustellen kann, beispiels-
+weise angenommen werden, je öfter man mit derselben Entität bereits verbunden
+war, desto vertrauenswürdiger ist diese. Die Autorisierung könnte über ein mehr-
+stuﬁges Vertrauen, beispielsweise das Recht Änderungen an der Anlage zu tätigen
+von einen Vertrauenswert abhängig machen, der erst nach drei Tagen erreicht wer-
+den kann. Ein Angreifer, der es schaﬀt sich als Mediator auszugeben, müsste dann
+mehrere Tage aktiv das Netzwerk kompromittieren, bevor er das System manipu-
+lieren kann. Dadurch ist das Risiko entdeckt zu werden und die Wahrscheinlichkeit,
+dass die Beschützer den Angreifer enttarnen deutlich erhöht.
+
+
+
+Sicherheitsdesign 42
+
+6.5 Audit
+
+
+ Wisdom consists in being able to
+ distinguish among dangers and
+ make a choice of the least harmful.
+ Niccolo Machiavelli, The Prince
+
+Kapitel 7
+
+
+Evaluation
+
+
+Vorstellung und Evaluation der beonden Systeme WIBU und Radius anhand des
+Entwurfs oder Designs in Kapitel 6.
+Sicherheitsdesign dient als Grundlage, an welcher die Produkte gemessen werden.
+Kriterien: * Installation - Voraussetzungen, Software, Hardware, Dokumentation *
+Wartung - Hinzufügen, ändern oder löschen von Benutzern, Marktrechnern, (Me-
+diatoren) * Sicherheit - Eingesetzte Authentiﬁzierung, Algorithmus geprüft? — Ver-
+schlüsselung der Daten, Algorithmus geprüft? * Eﬃzienz - Mechanismus
+
+7.1 WIBU Systems
+
+7.2 Radius
+
+7.3 Gegenüberstellung
+
+
+
+
+
+
+
+
+
+
+ 43
+
+
+Kapitel 8
+
+
+Implementierung
+
+
+Beschreibung der Implementierung, der aus der Evaluation gewählten Lösung. Was
+wenn keine der beiden Lösungen passt?
+* Performance von bestimmten Algorithmen testen—libsodium als Testlibrary *
+Prototyp—Implementierung von WIBU oder Radius, alternative KCM mit libso-
+dium
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 44
+
+
+Kapitel 9
+Fazit
+
+
+
+
+
+
+
+
+
+
+
+
+ 45
+
+
+Literaturverzeichnis 46
+
+Literaturverzeichnis
+
+Online-Quellen
+
+ [1] Asymetrische, kryptographie - wikipedia. http://de.wikipedia.org/wiki/Asymmetrisches_Kryptosystem.
+ [letzter Zugriﬀ: 26.08.14].
+
+ [2] Common criteria for information technology securi-
+ ty evaluation - part 1: Introduction and general model.
+ https://www.commoncriteriaportal.org/files/ccfiles/CCPART1V3.1R4.pdf.
+ [letzter Zugriﬀ: 28.08.14].
+ [3] Common criteria for information technology securi-
+ ty evaluation - part 2: Security functional requirements.
+ https://www.commoncriteriaportal.org/files/ccfiles/CCPART2V3.1R4.pdf.
+ [letzter Zugriﬀ: 28.08.14].
+ [4] Common criteria for information technology securi-
+ ty evaluation - part 3: Security assurance requirements.
+ https://www.commoncriteriaportal.org/files/ccfiles/CCPART3V3.1R4.pdf.
+ [letzter Zugriﬀ: 28.08.14].
+ [5] Das ism des bsi, it-grundschutz. https://www.bsi.bund.de/SharedDocs/Bilder/DE/BSI/Themen/grundschutzdeutsch/Webkurs/pic2500_gif.gif?__blob=normal&v=3.
+ [letzter Zugriﬀ: 22.Jul.2014].
+
+ [6] Eckelmann: Produkte für das steuern und regeln von kälteanlagen.
+ http://www.eckelmann.de/produkte-loesungen/kaeltetechnik/elds-
+ produkte. [letzter Zugriﬀ: 17.Jul.2014].
+ [7] It-grundschutz - wikipedia. http://de.wikipedia.org/wiki/IT-Grundschutz.
+ [letzter Zugriﬀ: 26.08.14].
+ [8] Representational state transfer - wikipedia.
+ http://de.wikipedia.org/wiki/Representational_State_Transfer.
+ [letzter Zugriﬀ: 08.Aug.2014].
+ [9] Soft systems methodologie (checkland). http://www.12manage.com/methods_checkland_soft_systems_methodology_de.html.
+ [letzter Zugriﬀ: 22.Jul.2014].
+
+[10] Bundesamt für Sicherheit in der Informationstechnik. BSI-Standard 100-1: Ma-
+ nagementsysteme für Informationssicherheit (ISMS). [letzter Zugriﬀ: 28.Jul.2014].
+[11] Bundesamt für Sicherheit in der Informationstechnik. BSI-Standard 100-2: IT-
+ Grundschutz-Vorgehensweise. [letzter Zugriﬀ: 28.Jul.2014].
+
+
+Literaturverzeichnis 47
+
+[12] Bundesamt für Sicherheit in der Informationstechnik. BSI-Standard 100-3: Risi-
+ koanalyse auf der Basis von IT-Grundschutz. [letzter Zugriﬀ: 28.Jul.2014].
+[13] Bundesamt für Sicherheit in der Informationstechnik. BSI-Standard 100-4: Not-
+ fallmanagement. [letzter Zugriﬀ: 28.Jul.2014].
+
+[14] Bundesamt für Sicherheit in der Informationstechnik. The PP/ST Guide. [letzter
+ Zugriﬀ: 28.Aug.2014].
+[15] Bundesamt für Sicherheit in der Informationstechnik. Schutz vor DNS-Spooﬁng
+ bei Authentisierungsmechanismen. [letzter Zugriﬀ: 12.Aug.2014].
+[16] Peter Checkland. Systems explained by peter checkland.
+ http://www.open.edu/openlearn/money-management/management/leadership-and-management/managing/systems-explained-peter-checkland.
+ [letzter Zugriﬀ: 22.Jul.2014].
+
+[17] Liang Chen. Authentiﬁzieren und vertrauen schaﬀen.
+ http://www.ipd.uni-karlsruhe.de/~damast/seminar/FAS2007/pdfs/FAS2007_Chen_Authentifizierung_Ausarbeitung.pdf.
+ [letzter Zugriﬀ: 18.Aug.2014].
+[18] Peter Gutmann. Engineering security. [letzter Zugriﬀ: 10.Jul.2014].
+[19] Till Hoppe-Handelsblatt. It-sicherheitsbehörde in ﬁnanznot.
+ http://www.handelsblatt.com/politik/deutschland/bsi-it-sicherheitsbehoerde-in-finanznot/10286414.html.
+ [letzter Zugriﬀ: 29.Aug.2014].
+
+[20] Markus Reppner-ZDNet. Bsi-grundschutz: zu komplex, zu aufwändig, zu
+ deutsch. http://www.zdnet.de/41525300/bsi-grundschutz-zu-komplex-zu-aufwaendig-zu-deutsch/3/.
+ [letzter Zugriﬀ: 29.Aug.2014].
+[21] Bob Williams. Soft systems methodology.
+ http://users.actrix.co.nz/bobwill/ssm.pdf. [letzter Zugriﬀ: 22.Jul.2014].
+
+
