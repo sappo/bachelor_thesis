@@ -750,21 +750,19 @@ In diesem Abschnitt, werden die folgenden Schlüsselwörter definiert, welche al
 
 \section{Anforderungen}
 
-\begin{itemize}
-\item Log-/Audit-Mechanismus
-\item M2M-Kommunikation
-\item Benutzer-Kommunikation
-\item Autorisierung
-\item Verschlüsselung
-\end{itemize}
+Die folgenden Anforderungen, werden an das zu evaluierende Systeme gestellt. Dieses System soll Benutzer authentifizieren und autorisieren. 
 
 \subsection{Log-/Audit-Mechanismus}
 
-Das zu evaluierende System \textit{MUSS} einen Audit-Mechanismus implementieren, der Zugriffe zumindest mit Benutzername, IP-Adresse, Zeitstempel und Häufigkeit protokolliert \textit{SOLL}. Des Weiteren \textit{DARF} das System \textit{NICHT} Informationen protokollieren, die sensitive Daten oder datenschutzrechtlich illegal Inhalte beinhalten. Das System \textit{KANN} ein Frühwarnsystem haben, welches die Audit-Daten überwacht, ist dies nicht der Fall \textit{MUSS} die Möglichkeit bestehen, die Audit-Daten live mitzuverfolgen, um ein eigenes Frühwarnsystem zu installieren.
+Das zu evaluierende System \textit{MUSS} einen Audit-Mechanismus implementieren, der Zugriffe zumindest mit Benutzername, IP-Adresse, Zeitstempel und Häufigkeit protokolliert \textit{SOLL}. Des Weiteren \textit{DARF} das System \textit{NICHT} Informationen protokollieren, die sensitive Daten oder datenschutzrechtlich illegal Inhalte beinhalten. Das System \textit{KANN} ein Frühwarnsystem haben, welches die Audit-Daten überwacht, ist dies nicht der Fall \textit{MUSS} die Möglichkeit bestehen, die Audit-Daten in Echtzeit mitzuverfolgen, um ein eigenes Frühwarnsystem zu installieren.
 
 \subsection{M2M-Kommunikation}
 
 Das zu evaluierende System \textit{MUSS} beidseitige asynchrone Authentifizierung unterstützten, die dabei genutzte Kryptographie \textit{MUSS} der Perfect Forward Security genügen. Das System \textit{KANN} die Schlüsselkontinuität implementieren, ist dies nicht der Fall \textit{MUSS} der Authentifizierungsmechanismus erweiterbar sein. \textit{OPTIONAL} können Fingerprints der Schlüssel beziehungsweise Zertifikate getauscht werden. Beim Austausch der Fingerprints ist es \textit{ERFORDERLICH}, dass der Austauschkanal ein Anderer ist, wie der Kommunikationskanal.
+
+\subsection{Benutzer-Kommunikation}
+
+Der Benutzer wird zunächst eine Verbindung mit dem Marktrechner aufbauen. Diesem teilt er seinen Berechtigungsnachweis mit. Anhand dessen bittet der Marktrechner das zu evaluierende System um Validierung. Die Validierung \textit{MUSS} zu einem Ergebnis Berechtigungsnachweis gültig oder Berechtigungsnachweis ungültig kommen. Neben den Validierungsergebnis \textit{SOLL(EN)} die Rolle(n) des Benutzers an den Marktrechner übermittelt werden.
 
 \begin{comment}
 \chapter{Sicherheitsdesign} \label{chap:design}
