@@ -563,7 +563,7 @@ Diese Punkte berücksichtigten allerdings nur die Angreifer. Unerlaubte Aktivit�
 Die Sichtweise der Beschützer und der Angreifer haben jeweils ein konzeptionelles Modell hervorgebracht, welches mit der realen Welt verglichen wurde. Die praktikablen Inhalte werden zu Funktionensgruppen zusammengefasst, ähnlich der Security Objects aus dem Protection Profile der CC.
 
 \subsection{Logging \& Audit}
-Das Verlangen nach \textit{Nachvollziehbarkeit} der Beschützer und das Verlangen der Angreifer unentdeckt zu bleiben, zieht sich durch alle Eigenschaften der konzeptionellen Modelle. Daraus folgt die wichtigste Maßnahme der Beschützer einen \textit{Logging- und Audit-Mechanismus} zu etablieren.
+Das Verlangen nach \textit{Nachvollziehbarkeit} der Beschützer und das Verlangen der Angreifer, unentdeckt zu bleiben, zieht sich durch alle Eigenschaften der konzeptionellen Modelle. Daraus folgt die wichtigste Maßnahme der Beschützer, einen \textit{Logging- und Audit-Mechanismus} zu etablieren.
 
 \begin{enumerate}
 \item[M1] Jegliche Aktivität von Kunden, Inhabern und Akteuren, die einen Zugriff auf den Marktrechner zur Folge hat, muss zum Zweck der Nachvollziehbarkeit protokolliert werden.
@@ -580,11 +580,11 @@ Der AAS ist für die Überprüfung von Berechtigungsnachweisen und deren Rollenz
 \item[M4] Die Authentifizierung zwischen Marktrechner und AAS soll ausschließlich über ein asynchrones Verfahren erfolgen.
 \item[M5] Die Identität des Gegenüber muss durch einen zweiten Kommunikationskanal bestätigt werden.
 \item[M6] Eine Verbindung darf erst aufgebaut werden, wenn M4 und M5 erfüllt wurden.
-\item[M7] Der AAS (Akteur) soll dem Marktrechner die Rolle(n) des zu authentifizierten Kunden verifizieren, falls diese gesendet wurden.
+\item[M7] Der AAS (Akteur) soll dem Marktrechner die Rolle(n) des zu authentifizierten Kunden verifizieren, falls diese gesendet werden.
 \item[M8] Der AAS (Akteur) soll dem Marktrechner die Rolle(n) des zu authentifizierten Kunden mitteilen, falls diese nicht gesendet wurden.
 \end{enumerate}
 
-Die Kommunikation zwischen Marktrechner und AAS ist Grundlage für Authentifizierung und Autorisierung. Um weitere Gefahren zu finden wird diese Maßnahme in  Kapitel~\ref{chap:threat_modelling} weiter betrachtet.
+Die Kommunikation zwischen Marktrechner und AAS ist Grundlage für Authentifizierung und Autorisierung. In Kapitel~\ref{chap:threat_modelling} werden deshalb Gefährdungen ...
 
 \subsection{Benutzer-Kommunikation} 
 Die nächste Maßnahme widmet sich der Kommunikation zwischen Marktrechner und Kunde. Als Voraussetzung wird angenommen, dass die M2M-Kommunikations\-maßnahmen erfolgreich umgesetzt wurden. Um Vertrauen herzustellen, wie das bei der M2M-Kommunikation der Fall ist, benötigt es einer gegenseitigen Authentifizierung, da die gegenseitige Authentifizierung mit hohem administrativen Aufwand einhergeht, wird zwischen Marktrechner und Kunde lediglich eine einseitige Authentifizierung durchgeführt. Dadurch wird eine ausreichend sichere Authentifizierung geschaffen, die gleichzeitig praktikabel und in einem angemessenem Budget umsetzbar ist.
@@ -598,10 +598,10 @@ Die nächste Maßnahme widmet sich der Kommunikation zwischen Marktrechner und K
 Weitere Gefährdungen und Maßnahmen werden anhand der Datenflüsse und Empfehlungen des BSI in Kapitel~\ref{chap:threat_modelling} erbracht.
 
 \subsection{Autorisierung}
-Nicht jeder Benutzer soll vollen Zugriff auf alle Funktionen am System haben. Für einen Analyst, beispielsweise genügt es, wenn er lesend auf Energie- und Temperaturdaten zugreifen kann. Der AAS ist verantwortlich, die ihm bekannten Rollen eines Benutzers dem Marktrechner beim Verbindungsaufbau mitzuteilen.
+Nicht jeder Benutzer soll vollen Zugriff auf alle Funktionen am System haben. Für einen Analysten, beispielsweise genügt es, wenn er lesend auf Energie- und Temperaturdaten zugreifen kann. Der AAS ist verantwortlich, die ihm bekannten Rollen eines Benutzers dem Marktrechner beim Verbindungsaufbau mitzuteilen.
 
 \begin{enumerate}
-\item[M12] Der Marktrechner soll den Zugriff anhand der, vom AAS verifizierten oder mitgeteilten, Rolle(n) autorisieren.
+\item[M12] Der Marktrechner soll den Zugriff anhand der vom AAS verifizierten oder mitgeteilten Rolle(n) autorisieren.
 \item[M13] Die verfügbaren Rollen sind jene, die anhand des Rich-Picture identifiziert wurden.
 \end{enumerate}
 
@@ -618,7 +618,7 @@ Damit ein Angreifer nicht die Kommunikationsinhalte abhören kann, müssen diese
 Verbindungen zu und vom Marktrechner unterliegen potentiellen Gefährdungen, welche ein Angreifer ausnutzen kann. Dem sollen die folgenden Maßnahmen Einhalt gebieten:
 
 \begin{enumerate}
-\item[M17] Der Marktrechner soll darauf verzichten AAS-Server über Domainnamen anzusprechen. (Spoofing)
+\item[M17] Der Marktrechner soll darauf verzichten, AAS-Server über Domainnamen anzusprechen. (Spoofing)
 \item[M18] Direkte beliebige Verbindungsversuche aus dem Internet auf den Marktrechner sind zu unterbinden. (DoS)
 \end{enumerate}
 
