@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+xmlns:dc="http://purl.org/dc/elements/1.1/"
+xmlns:cc="http://creativecommons.org/ns#"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:svg="http://www.w3.org/2000/svg"
+xmlns="http://www.w3.org/2000/svg"
+version="1.1"
+width="389.39929"
+height="174.29521"
+id="svg2">
+<title
+id="title3362">Drawing RADIUS 1812</title>
+<defs
+id="defs4">
+<marker
+refX="0"
+refY="0"
+orient="auto"
+id="TriangleOutM"
+style="overflow:visible">
+<path
+d="m 5.77,0 -8.65,5 0,-10 8.65,5 z"
+transform="scale(0.4,0.4)"
+id="path4033"
+style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none" />
+</marker>
+</defs>
+<metadata
+id="metadata7">
+<rdf:RDF>
+<cc:Work
+rdf:about="">
+<dc:format>image/svg+xml</dc:format>
+<dc:type
+rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+<dc:title>Drawing RADIUS 1812</dc:title>
+<dc:date>07/16/11</dc:date>
+<dc:creator>
+<cc:Agent>
+<dc:title>Emil Hemdal</dc:title>
+</cc:Agent>
+</dc:creator>
+<dc:contributor>
+<cc:Agent>
+<dc:title>Kgrr</dc:title>
+</cc:Agent>
+</dc:contributor>
+</cc:Work>
+</rdf:RDF>
+</metadata>
+<g
+transform="translate(-436.37177,-239.46696)"
+id="layer1">
+<text
+x="461.94598"
+y="249.37321"
+id="text6788"
+xml:space="preserve"
+style="font-size:16px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold"><tspan
+x="461.94598"
+y="249.37321"
+id="tspan6790"
+style="font-size:12px;text-align:center;text-anchor:middle">RADIUS</tspan><tspan
+x="461.94598"
+y="264.3732"
+id="tspan6792"
+style="font-size:12px;text-align:center;text-anchor:middle">Client</tspan></text>
+<text
+x="799.98004"
+y="249.37321"
+id="text6788-6"
+xml:space="preserve"
+style="font-size:16px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold"><tspan
+x="799.98004"
+y="249.37321"
+id="tspan6790-1"
+style="font-size:12px;text-align:center;text-anchor:middle">RADIUS</tspan><tspan
+x="799.98004"
+y="264.3732"
+id="tspan6818"
+style="font-size:12px;text-align:center;text-anchor:middle">Server</tspan></text>
+<text
+x="630.47076"
+y="288.04312"
+id="text6822"
+xml:space="preserve"
+style="font-size:16px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold"><tspan
+x="630.47076"
+y="288.04312"
+id="tspan6824"
+style="font-size:10px;font-weight:normal;text-align:center;text-anchor:middle;-inkscape-font-specification:Sans">RADIUS: Access-Request</tspan></text>
+<text
+x="630.09882"
+y="326.98422"
+id="text6822-1"
+xml:space="preserve"
+style="font-size:16px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold"><tspan
+x="630.09882"
+y="326.98422"
+id="tspan6826-3"
+style="font-size:10px;font-weight:normal;text-align:center;text-anchor:middle;-inkscape-font-specification:Sans">RADIUS: Access-Accept</tspan></text>
+<text
+x="628.80975"
+y="362.98422"
+id="text6822-0"
+xml:space="preserve"
+style="font-size:16px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold"><tspan
+x="628.80975"
+y="362.98422"
+id="tspan6826-7"
+style="font-size:10px;font-weight:normal;text-align:center;text-anchor:middle;-inkscape-font-specification:Sans">RADIUS: Access-Reject</tspan></text>
+<text
+x="629.82245"
+y="402.64111"
+id="text6822-6"
+xml:space="preserve"
+style="font-size:16px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold"><tspan
+x="629.82245"
+y="402.64111"
+id="tspan6910"
+style="font-size:10px;font-weight:normal;text-align:center;text-anchor:middle;-inkscape-font-specification:Sans">RADIUS: Access-Challange</tspan></text>
+<path
+d="m 549.60056,285.61456 -88.30235,0"
+id="path6918"
+style="fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none" />
+<path
+d="m 800.49866,324.17658 -86.97812,0"
+id="path6918-8"
+style="fill:none;stroke:#000000;stroke-width:2.0109129;stroke-miterlimit:4;stroke-dasharray:none" />
+<path
+d="m 711.31929,360.90027 89.20272,0"
+id="path6940"
+style="fill:none;stroke:#000000;stroke-width:2.00397134;stroke-miterlimit:4;stroke-dasharray:none" />
+<path
+d="m 800.90539,400.20004 -91.71993,0"
+id="path6944"
+style="fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none" />
+<path
+d="m 711.49261,286.32885 84.56602,0"
+id="path6948"
+style="fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;marker-end:url(#TriangleOutM)" />
+<path
+d="m 548.0695,323.4717 -82.4535,0"
+id="path7142"
+style="fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;marker-end:url(#TriangleOutM)" />
+<path
+d="m 546.52077,359.11456 -80.90477,0"
+id="path7522"
+style="fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;marker-end:url(#TriangleOutM)" />
+<path
+d="m 547.73763,399.12861 -82.12163,0"
+id="path7902"
+style="fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;marker-end:url(#TriangleOutM)" />
+<path
+d="m 461,266.02209 0,145.73966"
+id="path5800"
+style="fill:#ffffff;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none" />
+<path
+d="m 801,266.02209 0,66.42857"
+id="path5800-4"
+style="fill:#ffffff;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none" />
+<path
+d="m 801,388.24385 0,23.51833"
+id="path5800-0-0"
+style="fill:#ffffff;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none" />
+<path
+d="m 801,349.10302 0,23.51833"
+id="path5800-0-0-5"
+style="fill:#ffffff;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none" />
+<text
+x="791.42859"
+y="345.21933"
+id="text3337"
+xml:space="preserve"
+style="font-size:16px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold"><tspan
+x="791.42859"
+y="345.21933"
+id="tspan3339">or</tspan></text>
+<text
+x="790.94867"
+y="384.94366"
+id="text3337-8"
+xml:space="preserve"
+style="font-size:16px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold"><tspan
+x="790.94867"
+y="384.94366"
+id="tspan3339-1">or</tspan></text>
+</g>
+</svg>

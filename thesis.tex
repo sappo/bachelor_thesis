@@ -689,7 +689,7 @@ In Abbildung~\ref{fig:dfd_http} wird der Informationsfluss über das RestGateway
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[scale=0.6]{images/dfd_http.pdf}
+\includegraphics[scale=0.3]{images/dfd_http.pdf}
 \caption{DFD HTTP-Anfrage}
 \label{fig:dfd_http}
 \end{figure}
@@ -755,9 +755,9 @@ Der Marktrechner unterliegt zudem der Gefährdung einer DoS-Attacke, da er jedoc
 
 Die Kryptographie von Authentifizierungslösungen wurde vor Jahrzehnten entworfen und ist dementsprechend erprobt. Die Auswahl eines geeigneten Verfahrens beschreibt das BSI in der Maßnahme 2.164 "Auswahl eines geeigneten kryptographischen Verfahrens" \cite{bsi_m2164}. Bei symmetrischen Verfahren, wie AES oder SERPENT, soll eine Mindestschlüssellänge von 100-Bit gewählt werden. Bei asymmetrischen Verfahren eignet sich RSA oder auf Elliptischen Kurven basierende Verschlüsselungsverfahren. Als Schlüssellänge für RSA wird mindestens 1536-Bit gefordert. Damit die Kryptographie funktioniert, müssen Schlüssel ausgetauscht werden. Das BSI hat in der Maßnahme 2.46 "Geeignetes Schlüsselmanagement" sinnvolle Hinweise für die einzelnen Aufgaben des Schlüsselmanagements zusammengestellt. Zunächst müssen die Schlüssel generiert werden, das soll in einer sicheren Umgebung und unter dem Einsatz geeigneter Schlüsselgeneratoren erfolgen. Die primäre Problemstellung bei der Schlüsselverwaltung ist allerdings: Wie gelangt ein Schlüssel vom Erzeuger, zu den vorgesehenen Empfängern? Das populärste Modell der Schlüsselverteilung ist das "Schlüssel fallen aus dem Himmel"-Modell. Es ist deshalb so weit verbreitet, weil durch die Komplexität des Problems, Entwickler von Sicherheitsprotokollen es gerne ignorieren und jemand Anderem die Lösungsfindung zuschieben. Das BSI macht hierzu keinen Lösungsvorschlag, es gibt lediglich den banalen Hinweis, die Schlüssel nicht unverschlüsselt zu übertragen, sondern entsprechende Verfahren, beispielsweise Key Encryption Key (KEK) bei X.509-Zertifikaten, zu verwenden. Ein Konzept das nicht dem "Schlüssel fallen aus dem Himmel"-Modell unterliegt, ist das der Schlüsselkontinuität \cite{ietf_kcm}. Implementiert wird dieses, beispielsweise in SSH oder PGP. Ihm zugrunde liegt das Konzept der Beständigkeit, dass bedeutet, anhand des Schlüssel kann überprüft werden, ob die Entität, mit welcher gestern kommuniziert wurde, auch heute noch dieselbe ist. Die Schlüsselkontinuität unterliegt allerdings einer Schwachstelle, denn beim initialen Austausch ist eine MITM-Attacke möglich. Ein Angreifer hat dementsprechend exakt eine Chance die Verbindung zu kompromittieren. Wenn er zu diesem Zeitpunkt die Attacke nicht durchführen kann, hat er seine Chance vertan. Ein derartiger Angriff ist nicht auszuschließen, jedoch ist das Wahrscheinlichkeit sehr gering und daher das Risiko für die M2M-Kommunikation akzeptable. Sollte in Zukunft entschieden werden, dass das Risiko eines MITM während des initialen Schlüsselaustausches nicht tragbar ist, können Fingerprints der öffentlichen Schlüssel oder Zertifikate ausgetauscht werden. Der Austausch von Fingerprints muss natürlich auf einem alternativen Kommunikationskanal erfolgen. Hierzu empfiehlt sich der Versandweg per Post oder Kurier. Beim Versand des verifizierenden Datenträgers gilt jedoch Vorsicht. Der BSI hat für die Versendung von Datenträgern eine Maßnahme verfasst. Unter 5.23 "Auswahl einer geeigneten Versandart für Datenträger" listet der BSI vier Möglichkeiten für den Versand \cite{bsi_m5023}: Post, Kurierdienste, persönlicher Kurier oder persönliche Übergabe. Für den Austausch von Datenträgern, die die Identität von AAS und Marktrechner bescheinigen, sollte die persönliche Übergabe gewählt werden. Hierbei wird ein vertrauenswürdiger Kurier, etwa ein Mitarbeiter, mit dem Datenträger gesendet und übergibt diesen persönlich dem dafür bestimmten Empfänger. Während der Übergabe bekommt der Kurier auch den Datenträger des Anderen, wodurch eine gegenseitige Authentifizierung möglich wird. Diese Maßnahme ist die sicherste, aber auch die teuerste. Ob eine FSZ statt eines persönlichen Kuriers die Post einsetzt, hängt von der eigenen Risikobewertung ab, der Hersteller kann hier nur eine Empfehlung aussprechen. Nach dem initialen Schlüsselaustausch besteht für den MITM eine weitere Möglichkeit die Verbindung zu komprimierten und zwar während eines Schlüsselwechsels. In einer Sicherheitsrichtlinie muss festgelegt werden, wie oft dies Vorkommen soll, dabei gibt es keine Richtwerte von Seiten des BSI. Ein ausgetauschter Schlüssel muss gespeichert werden. Unter dem Punkt Schlüsselinstallation und -speicherung, weist das BSI daraufhin, dass zumindest Zeitweise die Schlüssel im Klartext verfügbar sind. Kann dem System nicht vertraut werden, empfiehlt sich die Auslagerung auf Hardware-Verschlüsselungskomponenten. Letzter Teil der Schlüsselverwaltung ist die Schlüsselvernichtung. Hierbei muss sichergestellt werden, dass ein Schlüssel wirklich entfernt wurde, etwa durch mehrfaches überschreiben der Speicherzellen auf einem Datenträger.
 
-\chapter{Evaluationsanforderungen} \label{chap:eval_req}
+\chapter{Prototypische Implementierung} \label{chap:implementation}
 
-Dieses Kapitel legt die Kriterien fest, nach welchen die zu evaluierenden Produkte bewertet werden sollen. Als Leitfaden dienen die Security Assurance Requirements (SAR) aus dem Protection Profile der Common Criteria. Diese definieren in einer standardisierten Sprache die notwendigen Aufgaben für die verschiedenen Stufen der Vulnerability Analysis (AVA\_VAN). Hierbei werden Aufgaben für Entwickler und Evaluierer festgelegt. In dieser Thesis werden nur Aufgaben für den Evaluierer festgelegt, da ausschließlich Standardlösungen evaluiert werden.
+In diesem Kapitel wird eine prototypische Implementierung, anhand der in den vorherigen Kapiteln besprochenen Maßnahmen gezeigt. Zunächst werden  Kriterien festgelegt, die die prototypische Implementierung erfüllen soll. Als Leitfaden dienen die Security Assurance Requirements (SAR) aus dem Protection Profile der Common Criteria. Diese definieren in einer standardisierten Sprache die notwendigen Aufgaben für die verschiedenen Stufen der Vulnerability Analysis (AVA\_VAN).
 
 \section{Schlüsselwörter}
 
@@ -777,103 +777,64 @@ In diesem Abschnitt werden die folgenden Schlüsselwörter definiert, welche als
 
 \section{Anforderungen}
 
-Die folgenden Anforderungen, werden an das zu evaluierende Systeme gestellt. Dieses System soll Benutzer authentifizieren und autorisieren. 
+Die folgenden Anforderungen, werden an die prototypische Implementierung gestellt. Diese soll Benutzer authentifizieren und autorisieren können. Die Anforderungen an Log- und Audit-Mechanismus werden der Vollständigkeit halber erfasst. Aufgrund des Aufwandes, in der prototypischen Implementierung, nicht weiter berücksichtigt.
 
 \subsection{Log-/Audit-Mechanismus}
 
-Das zu evaluierende System \textit{MUSS} einen Audit-Mechanismus implementieren, der Zugriffe zumindest mit Benutzername, IP-Adresse, Zeitstempel und Häufigkeit protokolliert \textit{SOLL}. Des Weiteren \textit{DARF} das System \textit{NICHT} Informationen protokollieren, die sensitive Daten oder datenschutzrechtlich illegal Inhalte beinhalten. Das System \textit{KANN} ein Frühwarnsystem haben, welches die Audit-Daten überwacht, ist dies nicht der Fall \textit{MUSS} die Möglichkeit bestehen, die Audit-Daten in Echtzeit mitzuverfolgen, um ein eigenes Frühwarnsystem zu installieren.
+Das System \textit{MUSS} einen Audit-Mechanismus implementieren, der Zugriffe \textit{SOLL} zumindest mit Benutzername, IP-Adresse, Zeitstempel und Häufigkeit protokolliert werden. Des Weiteren \textit{DARF} das System \textit{NICHT} Informationen protokollieren, die sensitive Daten oder datenschutzrechtlich illegal Inhalte beinhalten. Das System \textit{KANN} ein Frühwarnsystem haben, welches die Audit-Daten überwacht, ist dies nicht der Fall \textit{MUSS} die Möglichkeit bestehen, die Audit-Daten in Echtzeit mitzuverfolgen, um ein eigenes Frühwarnsystem zu installieren.
 
 \subsection{M2M-Kommunikation}
 
-Das zu evaluierende System \textit{MUSS} beidseitige asynchrone Authentifizierung unterstützten, die dabei genutzte Kryptographie \textit{MUSS} der Perfect Forward Security genügen. Das System \textit{KANN} die Schlüsselkontinuität implementieren, ist dies nicht der Fall \textit{MUSS} der Authentifizierungsmechanismus erweiterbar sein. \textit{OPTIONAL} können Fingerprints der Schlüssel beziehungsweise Zertifikate getauscht werden. Beim Austausch der Fingerprints ist es \textit{ERFORDERLICH}, dass der Austauschkanal ein Anderer ist, wie der Kommunikationskanal.
+Das System \textit{DARF} beidseitige asynchrone Authentifizierung unterstützten, die dabei genutzte Kryptographie \textit{DARF} der Perfect Forward Security genügen. Das System \textit{KANN} die Schlüsselkontinuität implementieren, ist dies nicht der Fall \textit{MUSS} der Authentifizierungsmechanismus erweiterbar sein. \textit{OPTIONAL} können Fingerprints der Schlüssel beziehungsweise Zertifikate getauscht werden. Beim Austausch der Fingerprints ist es \textit{ERFORDERLICH}, dass der Austauschkanal ein Anderer ist, wie der Kommunikationskanal.
 
 \subsection{Benutzer-Kommunikation}
 
-Der Benutzer wird zunächst eine Verbindung mit dem Marktrechner aufbauen. Diesem teilt er seinen Berechtigungsnachweis mit. Anhand dessen bittet der Marktrechner das zu evaluierende System um Validierung. Die Validierung \textit{MUSS} zu einem Ergebnis Berechtigungsnachweis gültig oder Berechtigungsnachweis ungültig kommen. Neben den Validierungsergebnis \textit{SOLL(EN)} die Rolle(n) des Benutzers an den Marktrechner übermittelt werden.
+Der Benutzer wird zunächst eine Verbindung mit dem Marktrechner aufbauen. Der Marktrechner \textit{MUSS} das Client-Zertifikat prüfen, bevor eine Verbindung aufgebaut wird. Der Benutzer teilt anschließend seinen Berechtigungsnachweis mit. Anhand dessen bittet der Marktrechner das AAS-System um Validierung. Die Validierung \textit{MUSS} zu einem Ergebnis Berechtigungsnachweis gültig oder Berechtigungsnachweis ungültig kommen. Neben den Validierungsergebnis \textit{SOLL(EN)} die Rolle(n) des Benutzers an den Marktrechner geprüft oder übermittelt werden.
 
-\begin{comment}
-\chapter{Sicherheitsdesign} \label{chap:design}
-\epigraphhead[70]{\epigraph{The user's going to pick dancing pigs over security every time.}{\textit{Bruce Schneier}}}
+\section{Analyse}
 
-\section{Kryptographie} \label{sec:design_crypto}
+Für die prototypische Implementierung wurden vor der Thesis zwei Produkte herausgesucht, die von Bedeutung sein können. In diesem Abschnitt, sollen die beiden Produkte anhand der Anforderungen auf Umsetzbarkeit geprüft werden. Zunächst wird die Middleware CodeMeter der Wibu-Systems AG betrachtet und anschließend der Open-Source Radius Server FreeRADIUS.
 
-Kryptographie ist für die Authentifizierung und die Verschlüsselung der Daten unerlässlich. Dabei spielt der eingesetzte Algorithmus keine Rolle, solange dieser ordentlich entwickelt und unabhängig geprüft wurde, denn kein Angreifer wird die Kryptographie als Angriffsziel wählen [\ref{sec:security_conzept}]. Stattdessen werden diese versuchen, alle anderen Komponenten des Systems zu attackieren. Bei der Auswahl eines Algorithmus sollte darauf geachtet werden, dass dieser effizient auf dem Marktrechner zu benutzen ist. Des Weiteren sollen die Algorithmen Perfect Forward Security (PFS) bieten, damit aufgenommene Inhalte nicht zu einem später Zeitpunkt, beispielsweise durch erlangen des Schlüssels, kompromittiere werden können. 
+\subsection{CodeMeter}
 
-\section{Komponentenarchitektur}
+CodeMeter ist die Middleware der Wibu-Systems AG, deren Hauptaufgabe der Softwareschutz und das Lizenzmanagement ist. Auf speziell geschützten USB-Sticks, den sogenannten Wibu-Keys werden daher hauptsächlich Schlüssel für Softwarelizenzen verteilt. Es ist allerdings möglich beliebige Daten sicher auf den Wibu-Keys zu verteilen, beispielsweise Client-Zertifikate für die Benutzer-Kommunikation. Für die verteilte Kommunikation sieht die Entwickler-Dokumentation folgende Architektur vor:
 
-In der Komponentenarchitektur sind die Maßnahmen aus Bedrohungsanalyse und Bedrohungsmodellierung berücksichtigt. (Abbildung~\ref{fig:comp_arch}). Komponenten für die Authentifizierung sind nicht enthalten, diese werden im folgenden Abschnitt~\ref{sec:design_auth}, basierend auf dem Verfahren, hinzugefügt. Das RestGateway des Marktrechners funktioniert als Server für Anfragen. Da der Marktrechner als Server nur geringe Ressourcen zur Verfügung hat wird die Maßnahme, aus Abschnitt~\ref{sec:model_http}, einen Reverse Proxy einzusetzen, umgesetzt. Dieser schützt den Marktrechner vor Überlastung, durch zu viele Anfragen aus dem Internet. Zusätzlich wird das RestGateway mit dem LanGateway integriert, um eine unnötige Schnittstelle zu eliminieren. Der Mediator wird durch eine externes RestGateway realisiert. An dieses stellt der Benutzer seine Abfrage, welche für diesen transparent die Anfrage an den eigentlichen Marktrechner weiterleitet. Durch diese Doppelrolle wird nur eine Implementierung für die Authentifizierung zwischen den RestGateways benötigt. Auch die Flexibilität des RestGateways, schnell und einfach neue Funktionen testen zu können, bleibt dadurch erhalten. 
+Über HTTPS kann ein Client mit einem Server kommunizieren, dabei muss zwingend ein Reverse Proxy eingesetzt werden, der die Anfrage entgegen nimmt und ein Server-Zertifikat ausliefert. Zusätzlich kann der Reverse Proxy eine Authentifizierung anhand von Benutzername und Passwort durchführen. Die Art und Weise wie die Authentifizierung durchzuführen ist und der Reverse Proxy sind von CodeMeter unabhängig.
+
+\subsection{FreeRADIUS}
+
+RADUIS ist ein Authentifizierungsdienst für sich einwählende Benutzer (engl. Remote Authentication Dial-In User Service). Er besteht aus einem Client-Server-Protokoll zur Authentifizierung, Autorisierung und Accounting. Dieses sogenannte Triple-A-System wird hauptsächlich bei VPN, WLAN oder DSL genutzt. Der Accounting-Aspekt von RADIUS ist nicht Teil dieser Thesis und wird deshalb vernachlässigt. RADUIS selbst besitzt nur eine sehr einfach Konfigurationsdatenbanken zur Authentifizierung. Aus diesem Grund können moderne RADIUS-Server diese Funktionalität an gängige Authentifizierungsserver, beispielsweise SQL-Datenbanken, Kerberos, LDAP oder 	Active Directory, delegieren. Ein RADIUS-Server kann daher als Multiplexer eingesetzt werden, um verschiedene externe Authentifizierungsserver mit einem Protokoll zu integrieren.
+
+Das RADIUS-Protokoll zur Authentifizierung läuft in zwei Phasen ab (Abbildung~\ref{fig:radius_access}). Zunächst sendet ein RADIUS-Client einen Access-Request, welcher von einem RADIUS-Server entweder mit Access-Accept, für eine erfolgreiche Authentifizierung, oder Access-Reject, für einen fehlerhafte Authentifizierung, beantwortet wird. Die dritte Möglichkeit Access-Challange wird für komplexere Authentifizierung genutzt, um zusätzliche Informationen abzufragen, beispielsweise ein zweites Passwort oder einen Token. Für den Rahmen der prototypischen Implementierung wird diese Möglichkeit nicht weiter betrachtet. Alle Attribute einer RADIUS-Nachricht, beispielsweise Benutzer oder Passwort, bestehen aus Attribute-Value-Pairs (AVP). Neben im Protokoll vorgeschriebenen gibt es herstellerspezifische und benutzerdefinierte Attribute. RADIUS-Client und RADIUS-Server verschlüsseln die AVPs anhand eines beiden bekannten Geheimnisses.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[scale=0.5]{images/design_architekture.pdf}
-\caption{Komponentenarchitektur}
-\label{fig:comp_arch}
+\includegraphics[scale=0.8]{images/RADIUS_access.pdf}
+\caption{RADUIS Access-Protokoll}
+\label{fig:radius_access}
 \end{figure}
 
-\section{Authentifizierung} \label{sec:design_auth}
+Der FreeRADIUS-Server besitzt eine Richtliniensprache, welcher er zur Umsetzung einer rollenbasierten Autorisierung nutzen könnte. Damit ist er in der Lage Attribute-Value-Pairs auszuwerten und das Ergebnis der Authentifizierung zu manipulieren. Der FreeRadius-Server kann Windows, Max, Linux und BSD Systemen aufgesetzt werden. Die Client-Library läuft wenigsten unter Linux, was für den Einsatz auf dem Marktrechner ausreichen ist.
 
-Die Authentifizierung wird an zwei Stellen benötigt. Zum einen damit sich der Benutzer dem Mediator gegenüber ausweisen kann und zum anderen, damit Mediator und Marktrecher gegenseitig ein Vertrauensverhältnis aufbauen können.
+\subsection{Schlussfolgerung}
 
-\subsection{Benutzerauthentifizierung} 
+Die Wibu-Keys können für die sichere Verteilung der Client-Zertifikate genutzt werden, die für die Benutzer-Kommunikation nötig sind. Für die Authentifizierung und die Autorisierung von Benutzern ist CodeMeter allerdings gänzlich ungeeignet, da die Überprüfung derer, sowie von etwaigen Berechtigungsnachweisen dem Reverse Proxy überlassen wird, der nicht von der Wibu-System AG zu erwerben ist. Ob der Einsatz von Wibu-Keys zur Verteilung von Client-Zertifikaten wirtschaftlich ist, muss gesondert von der Firma ECKELMANN evaluiert werden. Für die prototypische Implementierung wird die CodeMeter Middleware daher nicht eingesetzt.
 
-Die einseitige Authentifizierung gegenüber dem Benutzer hat administrative Gründe. Den obwohl der Einsatz einer gegenseitigen Authentifizierung aus sicherheitstechnischen Gründen durchaus ratsam ist, so ist die Administration von Personen, die einer hohen Fluktuation unterliegen, schwierig und dadurch sehr kostenintensiv. Abbildung~\ref{fig:design_authu} zeigt eine Integration des RestGateway mit verschiedenen Authentifizierungslösungen. Unternehmen haben in der Regel eine existierende Lösung, um Benutzer zu authentifizieren. Das, als Mediator fungierende, RestGateway soll deshalb mit diesen Lösungen integrieren werden. Dadurch muss keine eigene Lösung zur Benutzerauthentifizierung implementiert werden, wodurch sich das RestGateway auf seine Kernaufgabe konzentrieren kann. Zudem sind die Systeme, wie etwa LDAP oder Radius, seit Jahren im Einsatz und dadurch verlässlicher als eine eigene Lösung. Ein weiterer Vorteil ist die Vermeidung von Redundanzen, da die Benutzer im Fernservicenetzwerk zentral verwaltet werden. Hinzu kommt das Poltische Umfeld, indem viele Unternehmen eigene Richtlinien an Authentifizierungsmaßnahmen haben, beispielsweise Passwortregeln oder zwei Faktor-Anmeldung mit Hardwaretoken, welche einen enormen Implementierungsaufwand für das RestGateway bedeuten würde.
+Der Marktrechner ist in der Lage mit Hilfe der Client-Library den FreeRADUIS-Server zur Authentifizierung und Autorisierung zu kontaktieren. Durch die Multiplexer Funktionalität sind zudem die meisten Authentifizierungsserver abgedeckt, welche eine Fernservice-Zentrale zur Verwaltung ihrer Benutzer nutzen könnte. Dadurch ist der FreeRADUIS-Server bestens geeignet die Authentifizierung und die Autorisierung für den Marktrechner durchzuführen. Eine Instanz soll deshalb für die prototypische Implementierung aufgesetzt werden.
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[scale=0.5]{images/design_architecture_auth_user.pdf}
-\caption{Komponentenarchitektur}
-\label{fig:design_authu}
-\end{figure}
+\section{Prototypische Implementierung}
 
-\subsection{Maschine-to-Maschine Authentifizierung}
 
-Die gegenseitige Authentifizierung von Mediator und Marktrechner, sollte nicht durch Passwörter geschehen, da diese zwangsläufig im Klartext, in einer Konfigurationsdatei gespeichert werden müssen. Bei der Maschine-to-Maschine (M2M) Kommunikation ist es daher sinnvoll schlüsselbasierende oder zertifikatbasierende Kryptosysteme zu nutzen. Im folgenden Abschnitt wird das Design einer asymmetrischen Authentifizierung für die M2M-Kommunikation genommen. Symmetrische Authentifizierung spielt hier keine Rolle, da diese zwingend einen zweiten Kanal für den Schlüsselaustausch benötigt.
 
-\subsubsection{Key Continuous Management}
+\subsection{Voraussetzungen}
 
-Die Kryptographie von Authentifizierungslösungen wurde vor Jahrzehnten entworfen und ist dementsprechend erprobt. In Abschnitt~\ref{sec:design_crypto} wurde bereits erläutert, dass diese keine Schwachstelle in der Authentifizierungskette darstellt. Damit die Kryptographie funktioniert, werden Schlüssel benötigt. Die primäre Problemstellung bei der Schlüsselverwaltung ist---Wie gelangt ein Schlüssel vom Erzeuger zu den vorgesehenen Empfängern? Das populärste Modell der Schlüsselverteilung ist das "Schlüssel fallen aus dem Himmel"-Modell. Es ist deshalb so weit verbreitet, weil durch die Komplexität des Problems, Entwickler von Sicherheitsprotokollen es gerne ignorieren und jemand anderem zuschieben. Ein Konzept, das nicht dem "Schlüssel fallen aus dem Himmel"-Modell unterliegt, ist das der Schlüsselkontinuität. Ihm zugrunde liegt das Konzept der Beständigkeit, dass bedeutet anhand des Schlüssel kann überprüft werden, ob die Entität, mit welcher gestern kommuniziert wurde auch heute noch dieselbe ist. Die Schlüsselkontinuität unterliegt allerdings einer Schwachstelle, denn beim initialen Austausch ist eine MITM-Attacke möglich. Ein Angreifer hat dementsprechend exakt eine Chance die Verbindung zu kompromittieren. Wenn er zu diesem Zeitpunkt die Attacke nicht durchführen kann, hat er seine Chance vertan. Ein derartiger Angriff ist nicht auszuschließen, jedoch ist das Wahrscheinlichkeit sehr gering und daher das Risiko akzeptable.
+* FreeRaduis, ApacheDS, ApacheHTTP, Client-Library, openssl
 
-\subsubsection{Authentifizierungsprozess}
+\subsection{Benutzer-Kommunikation}
 
-Bei der asymmetrische Authentifizierung, ist es möglich den Öffentlichen Schlüssel oder ein selbst-signiertes Zertifikat, über einen unsicheren Kommunikationskanal auszutauschen. In Abbildung~\ref{fig:design_authm2m} ist das Vorgehen einer Authentifizierung, die der Schlüsselkontinuität genügt, gezeigt. Der initiale Austausch unterliegt dem erwähnten Risiko einer MITM-Attacke, deshalb empfiehlt die Schlüsselkontinuität einen Fingerprint zu erstellen und diesen über einen zweiten Kanal auszutauschen. Anhand des Fingerprints kann festgestellt  werden, ob der Schlüssel während des Austausches manipuliert wurde. Nachdem der Schlüssel durch den Fingerprint verifiziert wurde, muss dieser mit einem Identifikator (ID), welcher die Entität des Schlüsselerzeugers eindeutig nachweist, abspeichern werden. Die ID besteht, beispielsweise aus Domain und Port. Als weitere Sicherheitsmaßnahme dürfen IDs für den Fall, dass ein Angreifer lesenden Zugriff erhält, nur als Hash mit dem Schlüssel oder Zertifikat gespeichert. Der Fingerprint dient lediglich der Verifizierung und wird nicht mit abgespeichert.
-Bei einer erneuten Verbindung überprüfen beide Teilnehmer, ob die Entität des Anderen mit dem bekannten Schlüssel übereinstimmt. Eine Authentifizierung ist, in diesem Fall, erfolgreich. 
+\subsection{M2M-Kommunikation}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[scale=0.7]{images/design_architecture_auth_m2m_h.pdf}
-\caption{M2M-Authentifizierung}
-\label{fig:design_authm2m}
-\end{figure} 
 
-Protokolle die Ansätze des Key Continuous Management implementieren sind Secure Shell (SSH) und Pretty Good Privacy (PGP). SSH führt eine auf dem Öffentlichen Schlüssel basierenden Vergleich, der jedem Verbindungsaufbau durchgeführt wird. Bei jeder neuen SSH Verbindung wird auch ein Fingerprint generiert, welcher getauscht werden kann. Allerdings besitzt SSH kein Konzept Schlüssel auf geeignete Weise zu sichern und wieder einzuspielen, beispielsweise beim neu aufsetzen eines Servers. Zudem verbieten die meisten Firewalls SSH-Zugriffe aus dem Internet, weshalb es nicht als Protokoll in Frage kommt. PGP hingegen erfüllt alle Anforderungen an Key Continuous Management, wird jedoch fast ausschließlich für E-Mail Kommunikation genutzt. Für den Marktrechner soll HTTP beziehungsweise HTTPS genutzt werden, dieses verfügt jedoch nicht über ein Konzept zur Schlüsselkontinuität. Vielmehr vertraut es auf den Einsatz von Zertifizierungsstellen, welche ein Single-Point-of-Failure in der Authentifizierungskette sind. Des Weiteren ist für die Authentifizierung wichtig, dass leidlich der Zertifikatsinhaber und die Zertifizierungsstelle miteinander bekannt sind. Der Client, welcher die Zertifizierungsstelle zu Überprüfung des Zertifikates konsultiert, hat zu dieser keine Beziehung. Damit HTTP(S) Schlüsselkontinuität unterstützt, gibt es zwei Möglichkeiten, zum einen anpassen des HTTP-Protokolls. Da HTTP weltweit auf allen Webservern eingesetzt wird, wäre dies eine extrem langwieriger Prozess mit sehr geringer Umsetzungswahrscheinlichkeit. Zum anderen bietet sich die Möglichkeit ein weiteres Protokoll auf HTTP zu implementieren. Dies ist nicht optimal, jedoch durchaus umsetzbar.
-
-\subsection{Lokale Authentifizierung}
-
-Die Authentifizierung lokal am CI4000 ist ausschließlich dem Eigentümer vorbehalten. Dieser soll in der Lage einen lokalen Zugriff für einem Partner, der die Anlage in Betrieb nimmt, überwacht und wartet, freizugeben. Für den Fernzugriff auf die Anlage können Verbindungen zu Mediatoren angelegt werden. Weitere Sonderauthentifizierungen sind in Abschnitt~\ref{sec:extra_auth} erläutert. Lokal über Mediator
-
-\subsection{Sonderauthentifizierung} \label{sec:extra_auth}
-
-Bei den Sonderauthentifizierungen handelt es sich, um explizit durch den Eigentümer oder dessen Vertreter, in Form eines Service-Partners (FSZ), ausgestellte Erlaubnis auf das System zuzugreifen.
-
-\paragraph{Die zeitbeschränkte Authentifizierung} erlaubt es einem Benutzer für einen bestimmten Zeitraum, beispielsweise 24 Stunden, auf die Anlage zuzugreifen. 
-
-\paragraph{Die Einmal-Authentifizierung} erlaubt es über einen generierten Schlüssel oder Passwort einmalig Zugriff auf den Marktrechner zu erlangen.
-
-Die Umsetzung dieser Authentifizierungen kann auf zwei Ebenen erfolgen. Zum einen auf Benutzerlevel, dann werden über die am Mediator verknüpfte Benutzerverwaltung entsprechende Freigaben erteilt. Zum anderen im Marktrechner, im diesem Fall generiert der Marktrechner auf Anforderung eines Lokalen Administrators, beispielsweise des Eigentümer, einen Schlüssel über welchen sich einmalig oder zeitbeschränkt angemeldet werden kann. Der Mediator benötigt dazu die Möglichkeit, die Benutzerverwaltung zu übergehen und sendet den generierten Schlüssel an den Marktrechner. Ob der Zugriff dabei einmalig oder zeitbeschränkt ist, spielt für den Mediator keine Rolle. Beim Anlegen der Sonderberechtigung muss eine entsprechende Rolle für die Autorisierung angegeben werden. Der Mediator soll selbst keine Berechtigungsnachweise für Benutzer hinterlegt haben.
-
-\section{Autorisierung}
-
-Die Autorisierung der Benutzer erfolgt am Mediator und ist rollenbasiert. Bei der Authentifizierung verlässt sich der Mediator auf die verknüpfte Benutzerverwaltung. Diese teilt ihm die Rollen eines authentifizierten Benutzers mit. Die Rollen für die Autorisierung wurden in Abschnitt~\ref{sec:roles} benannt und sollen so umgesetzt werden. Vom Mediator  werden die Rollen an den Marktrechner gesendet, welcher daraufhin entsprechende Funktionen freigibt. Für die verschiedenen Rollen gelten bestimmte Einschränkungen, die im Folgenden erläutert werden.
-
-\subsection{Rollen}
-
-Der Inbetriebnehmer und der Projektierter sorgen dafür, dass eine Kälteanlage ihren Betrieb aufnehmen kann. Während der Inbetriebnahme dürfen ausschließlich diese beiden Rollen auf den Marktrechner zugreifen. Dazu müssen Sie lesend und schreiben auf das System zugreifen können. Nachdem ihre Tätigkeit abgeschlossen ist, geben Sie den Zugriff für andere Rollen frei. System-Analyst und Marktpersonal sollen nur lesenden Zugriff auf benötigte Funktionen erhalten. Die für Überwachung und Wartung zuständigen Rollen Service-Monteur und Fernservice-Mitarbeiter benötigen hingegen auch schreibenden Zugriff, um regulierend in die Anlage eingreifen zu können. Die Rolle des Herstellers ist eine Ausnahme, sie soll zu jeder Zeit vollen Zugriff erhalten können, jedoch ausschließlich, wenn dieser vorher durch die Fernservice-Zentrale oder den Eigentümer freigegeben wurde. Außerdem soll der Zugriff des Herstellers immer zeitlich begrenzt sein, beispielsweise für 24 Stunden.
-
-Durch die Authentifizierung wird ein Vertrauensverhältnis mit booleschen Zuständen, nämlich Vertrauen und kein Vertrauen, erreicht. In der realen Welt ist Vertrauen allerdings selten boolesch, sondern baut sich langsam auf, beziehungsweise ab. Um ein derartiges gestaffeltes Vertrauensverhältnis herzustellen kann, beispielsweise angenommen werden, je öfter man mit derselben Entität bereits verbunden war, desto vertrauenswürdiger ist diese. Die Autorisierung könnte über ein mehrstufiges Vertrauen, beispielsweise das Recht Änderungen an der Anlage zu tätigen von einen Vertrauenswert abhängig machen, der erst nach drei Tagen erreicht werden kann. Ein Angreifer, der es schafft sich als Mediator auszugeben, müsste dann mehrere Tage aktiv das Netzwerk kompromittieren, bevor er das System manipulieren kann. Dadurch ist das Risiko entdeckt zu werden und die Wahrscheinlichkeit, dass die Beschützer den Angreifer enttarnen deutlich erhöht.
-
-\section{Audit}
-
-\end{comment}
 
 \chapter{Evaluation} \label{chap:evaluation}
 \epigraphhead[70]{\epigraph{Wisdom consists in being able to distinguish among dangers and make a choice of the least harmful.}{\textit{Niccolo Machiavelli, The Prince}}}
@@ -889,13 +850,6 @@ Kriterien, siehe Kapitel 6 \cite{walt}
 \section{Radius}
 
 \section{Gegenüberstellung}
-
-\chapter{Implementierung} \label{chap:implementation}
-
-Beschreibung der Implementierung, der aus der Evaluation gewählten Lösung. Was wenn keine der beiden Lösungen passt?
-
-* Performance von bestimmten Algorithmen testen---libsodium als Testlibrary 
-* Prototyp---Implementierung von WIBU oder Radius, alternative KCM mit libsodium
 
 \chapter{Fazit}
 
