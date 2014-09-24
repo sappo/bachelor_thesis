@@ -822,18 +822,52 @@ Die Wibu-Keys können für die sichere Verteilung der Client-Zertifikate genutzt
 
 Der Marktrechner ist in der Lage mit Hilfe der Client-Library den FreeRADUIS-Server zur Authentifizierung und Autorisierung zu kontaktieren. Durch die Multiplexer Funktionalität sind zudem die meisten Authentifizierungsserver abgedeckt, welche eine Fernservice-Zentrale zur Verwaltung ihrer Benutzer nutzen könnte. Dadurch ist der FreeRADUIS-Server bestens geeignet die Authentifizierung und die Autorisierung für den Marktrechner durchzuführen. Eine Instanz soll deshalb für die prototypische Implementierung aufgesetzt werden.
 
-\section{Prototypische Implementierung}
+\section{Implementierung}
 
 
 
-\subsection{Voraussetzungen}
+\subsection{Konzept}
 
-* FreeRaduis, ApacheDS, ApacheHTTP, Client-Library, openssl
+Das Konzept der prototypischen Implementierung ist zweigeteilt. Auf der einen Seite die Benutzer-Kommunikation zum Marktrechner hingehend und auf der anderen Seite die Authentifizierung und Autorisierung vom Marktrechner ausgehend. In der Abbildung~\ref{fig:konzept_proto_impl} sind alle Komponenten gezeigt.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=1]{images/design_architekture.pdf}
+\caption{Konzept prototypische Implementierung}
+\label{fig:konzept_proto_impl}
+\end{figure}
+
+Für die Benutzer-Kommunikation wird als Client der Firefox-Browser eingesetzt. Dieser stellt seine Anfrage gegen den Reverse Proxy, welcher durch einen lighttpd-Webserver realisiert wird. Dieser liefert ein Server-Zertifikat aus und prüft, ob das Client-Zertifikat des Benutzers von seinem Server-Zertifikat signiert wurde. Ist die Prüfung des Client-Zertifikates erfolgreich leitet der lighttpd die Anfrage an den Marktrechner weiter, anderenfalls wird die Anfrage bereits hier terminiert. Der Marktrechner entnimmt Benutzername und Passwort aus den Anfrageparametern. Mit Hilfe der FreeRADIUS-Client-Library sendet er eine Access-Request-Nachricht an den FreeRADIUS-Server. Zusätzlich gibt er über ein benutzerdefiniertes Attribute-Value-Pair an welchen Service der Benutzer anfragen möchte. Der RADIUS-Server meldet sich bei der Benutzerverwaltung ApacheDS an, welche das LDAP-Protokoll implementiert und liest das Passwort des Benutzers, sowie dessen Rollen aus. Stimmen die Passwörter überein, führt der FreeRADIUS-Server eine rollenbasierte Autorisierung durch. Dazu gleicht er den vom Marktrechner übermittelten Service und die Rollen aus der Benutzerverwaltung mit seinen Richtlinien ab. Im Erfolgsfall sendet er eine Access-Accept-Nachricht, ansonsten eine Access-Reject-Nachricht. Dementsprechend beantwortet der Marktrechner die Benutzeranfrage mit dem Anfrage-Ergebnis oder dem HTTP-Fehlercode 503 (Forbidden).
 
 \subsection{Benutzer-Kommunikation}
 
+Step-By-Step Confluence-Beschreibung
+
+
 \subsection{M2M-Kommunikation}
 
+Um über die M2M-Verbindung zwischen Marktrechner und AAS Benutzer Authentifizieren zu können, benötigen wir eine Benutzerverwaltung. Das Lightweight Directory Access Protocol (LDAP) wird von den meisten Benutzerverwaltungen unterstützt und soll deshalb auch hier angewandt werden. Eine Benutzerverwaltung, die dieses Protokoll benutzt ist der ApacheDS-Server, welcher für diese Aufgabe ausgewählt wurde. LDAP legt Daten in einer Baumstruktur ab. Für die Benutzerverwaltung gibt es jedoch keine Vorgaben wie diese anzulegen ist. Jeder Knoten kann von beliebig vielen Objekt-Klassen erben. Anhand der Objekt-Klassen sind Attribute verfügbar und teilweise verpflichten. 
+
+
+Der Benutzerknoten in Auflistung~\ref{lst:ldif_user} erbt von zwei Objekt-Klassen. Über \textit{person} wird verpflichten das Attribute cn verfügbar, wie weitere Attribute für Vorname, Nachname und Passwort. Der Benutzername wird über uid angegeben und spielt eine wichtige Rolle für die spätere FreeRADIUS-Konfiguration. Die Objekt-Klasse \textit{radiusProfile} können wir Rollen hinzufügen, die der FreeRADIUS-Server als radiusGroupName-Attribute kennt und auslesen kann.
+
+\begin{lstlisting}[caption={Benutzerbeschreibung im LDIF-Format},label=lst:ldif_user]
+dn: cn=Kevin Sapper+sn=Sapper,ou=users,ou=radius,dc=meinedomain,dc=local
+objectClass: top
+objectClass: radiusProfile
+objectClass: person
+cn: Kevin Sapper
+givenName: Kevin
+sn: Sapper
+uid: ksapp
+userPassword:: e3NoYX1mRXFOQ2NvM1lxOWg1WlVnbEQzQ1pKVDRsQnM9
+radiusGroupName: analyst
+radiusGroupName: fernservice
+\end{lstlisting}
+
+FreeRadius
+
+Client-Lib
 
 
 \chapter{Evaluation} \label{chap:evaluation}

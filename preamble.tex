@@ -106,3 +106,18 @@
 \usepackage{comment}
 
 \usepackage{amsmath}
+
+\renewcommand{\lstlistingname}{Auflistung}
+
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{caption}
+
+\usepackage{calc} 
+\newlength\tdima \newlength\tdimb \setlength\tdima{ \fboxsep+\fboxrule} \setlength\tdimb{-\fboxsep+\fboxrule}
+
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{%
+  \parbox{\textwidth}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}\vskip-4pt}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
+\lstset{frame=lrb,rulecolor= \color{gray},xleftmargin=\tdima,xrightmargin=\tdimb}
