@@ -841,18 +841,27 @@ Für die Benutzer-Kommunikation wird als Client der Firefox-Browser eingesetzt. 
 
 \subsection{Benutzer-Kommunikation}
 
-Step-By-Step Confluence-Beschreibung
+Bevor mit dem Benutzer kommuniziert werden kann muss ein Client-Zertifikat erstellt werden. Dazu wird die openssl-Biblithek verwendet ... eigene CA ... 
+
+Das Client-Zertifikat im p12-Format kann nun im Firefox-Browser hinzugefügt werden. Über den folgenden Aufruf, sendet der Benutzer eine Anfrage an den Reverse-Proxy. Dieser liefert daraufhin sein Server-Zertifikat aus und fordert das Client-Zertifikat an. Dies geschieht für den Benutzer vollkommen transparent und dieser wird davon nur etwas mitbekommen, wenn die Validierung des Client-Zertifikates scheitert.
+
 
 
 \subsection{M2M-Kommunikation}
 
-Um über die M2M-Verbindung zwischen Marktrechner und AAS Benutzer Authentifizieren zu können, benötigen wir eine Benutzerverwaltung. Das Lightweight Directory Access Protocol (LDAP) wird von den meisten Benutzerverwaltungen unterstützt und soll deshalb auch hier angewandt werden. Eine Benutzerverwaltung, die dieses Protokoll benutzt ist der ApacheDS-Server, welcher für diese Aufgabe ausgewählt wurde. LDAP legt Daten in einer Baumstruktur ab. Für die Benutzerverwaltung gibt es jedoch keine Vorgaben wie diese anzulegen ist. Jeder Knoten kann von beliebig vielen Objekt-Klassen erben. Anhand der Objekt-Klassen sind Attribute verfügbar und teilweise verpflichten. 
+Zur Benutzerauthentifizierung benötigt es eine Benutzerverwaltung. Das Lightweight Directory Access Protocol (LDAP) wird von den meisten Benutzerverwaltungen unterstützt und soll deshalb hier angewandt werden. Eine Benutzerverwaltung die dieses Protokoll unterstützt, ist der ApacheDS-Server. LDAP legt Daten in einer Baumstruktur ab. Für eine Benutzerverwaltung gibt es jedoch keine Vorgaben, wie diese anzulegen ist. Jeder Knoten kann von beliebig vielen Objekt-Klassen erben. Anhand der Objekt-Klassen sind Attribute verfügbar, die teilweise verpflichtend sind. 
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=1]{images/ldap_structure.pdf}
+\caption{LDAP Struktur}
+\label{fig:ldap_sturcture}
+\end{figure}
+In Abbildung~\ref{fig:ldap_sturcture} ist die Struktur dargestellt, die für die prototypische Implementierung gewählt wurde. Von root-Knoten, mit den Domain Components \textit{dc=meinedomain,dc=local}, ausgehend, wurden drei Kinderknoten, die von der Objekt-Klasse \textit{organizationalUnit} erben, erzeugt. Diese Objekt-Klasse verpflichtet zur Angabe des Namens der Unternehmenseinheit (\textit{ou}). Zunächst wurde die Einheit \textit{radius} gewählt, welche die Untereinheiten \textit{users} und \textit{admins} hat. Diese beiden beinhalten jeweils Benutzerknoten.
 
-
-Der Benutzerknoten in Auflistung~\ref{lst:ldif_user} erbt von zwei Objekt-Klassen. Über \textit{person} wird verpflichten das Attribute cn verfügbar, wie weitere Attribute für Vorname, Nachname und Passwort. Der Benutzername wird über uid angegeben und spielt eine wichtige Rolle für die spätere FreeRADIUS-Konfiguration. Die Objekt-Klasse \textit{radiusProfile} können wir Rollen hinzufügen, die der FreeRADIUS-Server als radiusGroupName-Attribute kennt und auslesen kann.
+Der Benutzerknoten, in Auflistung~\ref{lst:ldif_user} im LDIF-Format dargestellt, erbt von zwei Objekt-Klassen. Der Distinguished Name (\textit{dn}) erlaubt es einen Knoten eindeutig im Baum zu finden. Über \textit{person} wird verpflichten das Attribut Common-Name (\textit{cn}) verfügbar, sowie weitere optionale Attribute für Vorname, Nachname, Benutzername und Passwort. Der Benutzername wird über uid angegeben und spielt eine wichtige Rolle für die spätere FreeRADIUS-Konfiguration. Die Objekt-Klasse \textit{radiusProfile} können wir Rollen hinzufügen, die der FreeRADIUS-Server als radiusGroupName-Attribute kennt und auslesen kann.
 
 \begin{lstlisting}[caption={Benutzerbeschreibung im LDIF-Format},label=lst:ldif_user]
-dn: cn=Kevin Sapper+sn=Sapper,ou=users,ou=radius,dc=meinedomain,dc=local
+dn: cn=Kevin Sapper,ou=users,ou=radius,dc=meinedomain,dc=local
 objectClass: top
 objectClass: radiusProfile
 objectClass: person
@@ -865,19 +874,19 @@ radiusGroupName: analyst
 radiusGroupName: fernservice
 \end{lstlisting}
 
-FreeRadius
+Der komplette Inhalt des LDAP-Server, im LDIF-Format, ist im Anhang zu finden. Die Konfiguration des FreeRADIUS-Server beginnt mit dem Einrichten der LDAP-Verbindung. Zunächst muss eine Verbindung mit dem LDAP-Server aufgebaut werden. Der FreeRADIUS-Server loggt sich dazu über den Berechtigungsnachweis eines Benutzers der Unternehmenseinheit \textit{admins} ein. Über das \textit{identity}-Attribute wird dieser Benutzer angegeben. Für die prototypische Implementierung wurde hierzu der Benutzer \textit{cn=binduser} angelegt. Damit die Admin-Benutzer nicht für die Authentifizeriung benutzt werden können, wird ein Basisknoten anhand seines Distinguished Name angegeben. Über das \textit{basedn}-Attribute wird die \textit{users} Unternehmenseinheit als Basisknoten für die Benutzersuche gesetzt. Für FreeRADUIS valide Benutzerknoten erben von der \textit{radiusprofile} Objekt-Klasse und haben das \textit{uid}-Attribute für den Benutzernamen. Findet der FreeRADIUS-Server ein im Benutzernamen übereinstimmenden Benutzerknoten liest er dessen Passwort aus und vergleicht es mit dem übermittelten. Ist dies erfolgreich markiert der FreeRADIUS-Server den Access-Request mit \textit{accept} und liest er die Rollen des Benutzers über die \textit{radiusGroupName}-Attribute aus.
 
-Client-Lib
+Bevor ein Marktrechner eine Anfrage an den FreeRADIUS-Server stellen kann muss dieser als Client-konfiguriert werden. Clients werden anhand einer IP-Adresse oder Domain unterschieden und bekommen ein Geheimnis. Dieses Geheimnis muss dann anschließend mit dem Marktrechner geteilt werden. Dieser konfiguriert einen oder mehrere RADIUS-Server mit entsprechendem Geheimnis. Dieses Geheimnis wird genutzt, um die übertragenen Attribute einer Anfrage zwischen Server und Client zu verschlüsseln. Um die rollenbasierte Authentifizierung durchführen zu können muss zusätzlich das Wörterbuch, dass die Client-Library nutzt und das Wörterbuch des FreeRADIUS-Server um das \textit{service}-Attribute erweitert werden.
 
+In einer Richtliniendatei sind den möglichen Services des Marktrechners die erlaubten Rollen zugeordnet, die aus dem LDAP-Server ausgelesen werden.
 
 \chapter{Evaluation} \label{chap:evaluation}
 \epigraphhead[70]{\epigraph{Wisdom consists in being able to distinguish among dangers and make a choice of the least harmful.}{\textit{Niccolo Machiavelli, The Prince}}}
 
-Vorstellung und Evaluation der beiden Systeme WIBU und Radius anhand des Entwurfs oder Designs in Kapitel~\ref{chap:design}.
-
-Sicherheitsdesign dient als Grundlage, an welcher die Produkte gemessen werden.
-
-Kriterien, siehe Kapitel 6 \cite{walt}
+* Secret key
+** keine verschlüsselung, sondern obfuscation (nur attribute, username plaintext)
+** muss sicher sein, austauschen kann teuer werden
+** auf jeden fall zweiter austauschkanal
                                             
 \section{WIBU Systems}
 
