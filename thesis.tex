@@ -921,17 +921,39 @@ Abschließend wird über \textit{rc\_auth} die Anfrage versendet. Der Rückgabew
 \chapter{Evaluation} \label{chap:evaluation}
 \epigraphhead[70]{\epigraph{Wisdom consists in being able to distinguish among dangers and make a choice of the least harmful.}{\textit{Niccolo Machiavelli, The Prince}}}
 
-In diesem Kapitel soll herausgefunden werden, ob der FreeRADIUS-Server für die Authentifizierung und Autorisierung eines Fernzugriffes auf eine Automatisierungsanlage eignet.
+In diesem Kapitel soll herausgefunden werden, ob der FreeRADIUS-Server für die Authentifizierung und Autorisierung eines Fernzugriffes auf eine Automatisierungsanlage geeignet ist. Als Grundlage für die Evaluation dienen die Anforderungen aus Kapitel~\ref{chap:implementation}. Zusätzlich werden die Aspekte Installation, Dokumentation und Wartung mit einbezogen.
 
+\section{Installation \& Dokumentation}
 
-Unterstützte Bentuzer....
+Die Installation des FreeRADIUS-Server auf einem Ubuntu System erfolgt ganz einfach über das Paketverwaltungssystem APT. Alternativ ist die Installation über die Quellen ohne Probleme zu bewerkstelligen. Die FreeRADIUS-Dokumentation führt den Benutzer Schritt für Schritt durch diesen Prozess, sodass auch ein Laie diese durchführen könnte. Die darauf folgende Basiskonfiguration des Servers ist sehr gut dokumentiert. Alle Module darunter auch das LDAP-Module sind allerdings in der Dokumentation nicht beschrieben. Die existierende Dokumentation des LDAP-Module ist gerade für das nötigste brauchbar, beispielsweise die Funktionalität zum Auslesen der LDAP-Gruppen sehr vage gehalten. Auch die Literatur über den FreeRADIUS-Server ist mit zwei Büchern sehr überschaubar. Das Buch FreeRADIUS for Beginner's war bei der Konfiguration des LDAP-Modules unerlässlich und behandelt alle Aspekte des FreeRADIUS-Server zumindest oberflächlich \cite{walt}. 
+
+Die Installation der FreeRADIUS-Client-Library ist dagegen extrem aufwändig. Zunächst bekommt man auf der Projektwebseite nur den Code der letzten offiziellen Version 1.1.6, welche 2007 veröffentlicht wurde. Durch gründliches suchen und mit etwas Glück findet man den aktuellen Quellcode auf github. In der Projektgeschichte aus den letzten Jahren ist zu sehen, dass die Client-Library seit dem weiter gepflegt wurde. Der Quellcode lässt sich dank GNU autotool reibungslos kompilieren und installieren. Die Dokumentation ist allerdings sehr spärlich und zudem verstreut. Es ist notwendig die relevanten Teile aus diversen README-Dateien und Quellcode-Kommentaren zusammenzufügen, bis das Gesamtgefüge einen Sinn ergibt. Zudem sind die API Zusammenhänge nur mit Hilfe von Beispielcode zu verstehen.
+
+Die Installation des FreeRADUIS-Server geht einfach von statten, auch die erste Konfiguration ist ohne Probleme zu bewältigen. Je mehr man jedoch in Detail der Konfiguration geht, desto spärlicher werden die Informationen. Durch die große Verbreitung des FreeRADIUS Projektes, lassen sich die Informationen mehr oder weniger leicht aus verschiedenen Internetquellen zusammensuchen. Zudem besteht die Möglichkeit sich Support von der Firma Network RADIUS SARL zu kaufen, welche die Entwicklung des Projektes vorantreibt. Diese bieten Supportleistungen gibt ab 2000 € bis 5000 € pro Jahr an.
+
+Die Client-Library ist zwar einfach zu installieren, allerdings erfordert die Konfiguration und Nutzung erfahrene C-Entwickler, die die Zusammenhänge aus dem Quellcode herauslesen können. 
+
+\section{Sicherheit}
+
 
 Server-Client
 * Secret key
-** keine verschlüsselung, sondern obfuscation (nur attribute, username plaintext)
+** keine Verschlüsselung, sondern obfuscation (nur attribute, username plaintext)
 ** muss sicher sein, austauschen kann teuer werden
 ** auf jeden fall zweiter austauschkanal
-                                          
+
+\section{Wartung}
+
+Wartung Benutzer super über LDAP
+
+Wartung Marktrechner secrect Austausch katastrophal 
+
+Sicherheitsdesign dient als Grundlage, an welcher die Produkte gemessen werden.
+Kriterien:
+* Installation - Voraussetzungen, Software, Hardware, Dokumentation
+* Wartung - Hinzufügen, ändern oder löschen von Benutzern, Marktrechnern, (Mediatoren)
+* Sicherheit - Eingesetzte Authentifizierung, Algorithmus geprüft? --- Verschlüsselung der Daten, Algorithmus geprüft?
+* Effizienz - Mechanismus                                           
 
 \chapter{Fazit}
 
