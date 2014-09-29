@@ -39,15 +39,8 @@
 \chapter{Einführung} \label{chap:intro}
 \epigraphhead[70]{\epigraph{Companies spend millions of dollars on firewalls, encryption and secure access devices, and it’s money wasted, because none of these measures address the weakest link in the security chain.}{\textit{Kevin Mitnick}}}
 
-\begin{itemize}
-\item Automatisierungsanlage
-\item Entwurf 
-\item Sicherheitskonzept
-\item Authentifizierung \& Autorisierung
-\item Fernzugriff
-\item Evaluation
-\item prototypische Implementierung
-\end{itemize}
+Der Titel dieser Thesis konzentriert sich auf eine Automatisierungsanlage. Eine Automatisierungsanlage ist eine Reihe von Sensoren und Aktoren die zentral oder dezentral automatisiert gesteuert werden. In dieser Thesis wird eine Kälteanlage mit Steuerungstechnik der Firma Eckelmann betrachtet. Der Entwurf eins Sicherheitskonzeptes ist dabei Hauptbestandteil. Der Fokus liegt dabei ganz klar auf der Authentifizierung und Autorisierung. Des Weitern gibt es die Möglichkeit sich lokal oder aus der Ferne am System anzumelden. Der weitaus schwierigere Fernzugriff wird dabei in den Fokus gerückt. Der Entwurf ist die zwingende Vorarbeit für eine spätere prototypische Implementierung, unter Verwendung von existierenden Sicherheitslösungen. Abschließend wird durch eine Evaluation die prototypische Implementierung für den produktiven Einsatz bewertet.
+
 
 \chapter{Grundlagen} \label{chap:basics}
 
@@ -831,7 +824,7 @@ Die Wibu-Keys können für die sichere Verteilung der Client-Zertifikate genutzt
 
 \paragraph{FreeRADIUS}
 
-Der Marktrechner ist in der Lage mit Hilfe der Client-Library den FreeRADUIS-Server zur Authentifizierung und Autorisierung zu kontaktieren. Durch die Multiplexer Funktionalität sind zudem die meisten Authentifizierungsserver abgedeckt, welche eine Fernservice-Zentrale zur Verwaltung ihrer Benutzer nutzen könnte. Dadurch ist der FreeRADUIS-Server bestens geeignet die Authentifizierung und die Autorisierung für den Marktrechner durchzuführen. Lediglich die Authentifizierung und Verschlüsselung zwischen Client und Server auf Basis des geteilten Geheimnisses erfüllt nicht die Anforderungen. Weder KCM noch PFS können hierbei unterstützt werden, noch ist der Mechanismus erweiterbar. Unter diesen Bedingungen erhält der Einsatz eines RADIUS-Server die Auflage, das Anfragen nicht über das Internet gestellt werden sollen, da das Risiko dort angegriffen zu werden zu hoch ist. Trotz dieser Einschränkung ist der FreeRADIUS-Server eine sinnvolle Lösung und soll deshalb für die prototypische Implementierung aufgesetzt werden.
+Der Marktrechner ist in der Lage mit Hilfe der Client-Library den FreeRADUIS-Server zur Authentifizierung und Autorisierung zu kontaktieren. Durch die Multiplexer Funktionalität sind zudem die meisten Authentifizierungsserver abgedeckt, welche eine Fernservice-Zentrale zur Verwaltung ihrer Benutzer nutzen könnte. Dadurch ist der FreeRADUIS-Server bestens geeignet die Authentifizierung und die Autorisierung für den Marktrechner durchzuführen. Lediglich die Authentifizierung und Verschlüsselung zwischen Client und Server auf Basis des geteilten Geheimnisses erfüllt nicht die Anforderungen. Weder KCM noch PFS können hierbei unterstützt werden, noch ist der Mechanismus erweiterbar.  Trotzdem ist der FreeRADIUS-Server eine sinnvolle Lösung und soll deshalb für die prototypische Implementierung aufgesetzt werden. Im Kapitel~\ref{chap:evaluation} wird dann ausführlich die Übertragung von Daten zwischen Client und Server auf deren Einschränkungen evaluiert.
 
 \section{Prototyp}
 
@@ -852,9 +845,11 @@ Für die Benutzer-Kommunikation wird als Client der Firefox-Browser eingesetzt. 
 
 \subsection{Benutzer-Kommunikation}
 
-Bevor mit dem Benutzer kommuniziert werden kann muss ein Client-Zertifikat erstellt werden. Dazu wird die openssl-Biblithek verwendet ... eigene CA ... 
+Bevor mit dem Benutzer kommuniziert werden kann, muss die Verbindung zu diesem authentifiziert und verschlüsselt werden. Für die folgenden Schritte wird das OpenSSL Kommandozeilen-Tool (openssl) verwendet. Die Verschlüsselung wird über TLS 1.2 und ein serverseitig selbst signiertes X.509-Zertifikat realisiert. Als erstes wird dafür ein Certificate Signing Request (CSR) erzeugt, welcher alle Zertifikatsinformationen inklusive des öffentlichen Schlüssels beinhaltet. Zu diesem öffentlichen wird auch ein passender private Schlüssel angelegt. Anschließend wird der CSR zu einem X.509-Zertifikat, indem er mit dem privaten Schlüssel signiert wird. Der private Schlüssel wird nun mit dem Zertifikat zu einer PEM-Datei konkateniert und dem lighttpd-Server für die Umsetzung der HTTPS-Verbindung übergeben. Zusätzlich wird die Chiffrenliste angepasst, sodass nur Perfekt-Forward-Security-Chiffren erlaubt sind. Außerdem werden die veralteten Versionen SSLv2 und SSLv3 verboten.
 
-Das Client-Zertifikat im p12-Format kann nun im Firefox-Browser hinzugefügt werden. Über den folgenden Aufruf, sendet der Benutzer eine Anfrage an den Reverse-Proxy.
+Für die Authentifizierung der Clients mittels Client-Zertifikaten, benötigt es einer Certificate Authority (CA). Diese wird im Kontext des lighttpd-Server angelegt. Für den Client wird nun eine eigener CSR erzeugt. Dieser wird mit dem Zertifikat des Server und dessen privaten Schlüssel signiert, welcher anschließend zu einem X.509-Zertifikat im CRT-Format wird. Zum Schluss wird das Client-Zertifikat ins p12-Format konvertiert. Dadurch wird das Zertifikat durch ein Passwort geschützt, wodurch es für einen Angreifer, der irgendwie an dieses gelangt wertlos ist. 
+
+Im Firefox-Browser kann dieses p12-Zertifikat durch die Eingabe des Passwortes importiert werden. Über den folgenden Aufruf kann ein Benutzer nun eine Anfrage an den Reverse-Proxy senden. 
 
 \begin{lstlisting}[caption=HTTPS-Anfrage an Reverse Proxy, label=lst:https_request]
 https://marktrechner.eckelmann.de/rest/1.0/controller?user=ksapp&pass=123456
@@ -891,7 +886,7 @@ radiusGroupName: fernservice
 
 Der komplette Inhalt des LDAP-Server, im LDIF-Format, ist im Anhang zu finden. 
 
-Die Konfiguration des FreeRADIUS-Server beginnt mit dem Einrichten der LDAP-Verbindung. Zunächst muss eine Verbindung mit dem LDAP-Server aufgebaut werden. Der FreeRADIUS-Server loggt sich dazu über den Berechtigungsnachweis eines Benutzers, der Unternehmenseinheit \textit{admins}, ein. Über das \textit{identity}-Attribute wird dieser Benutzer angegeben. Für die prototypische Implementierung wurde hierzu der Benutzer \textit{cn=binduser} angelegt. Damit die Admin-Benutzer nicht für die allgemeine Authentifizierung genutzt werden können, wird die Unternehmenseinheit \textit{users} Basisknoten, über das \textit{basedn}-Attribute festgelegt. Valide Benutzerknoten erben von der \textit{radiusprofile} Objekt-Klasse und besitzen das \textit{uid}-Attribute für den Benutzernamen. Findet der FreeRADIUS-Server einen übereinstimmenden Benutzernamen, liest er dessen Passwort aus und vergleicht es mit dem übermittelten. Ist dies erfolgreich markiert der FreeRADIUS-Server den Access-Request mit \textit{accept} und liest er die Rollen des Benutzers über die \textit{radiusGroupName}-Attribute aus. Die Verbindung zwischen FreeRADIUS-Server und LDAP-Server ist zunächst komplett unverschlüsselt. Über die STARTTLS Funktionalität, wie sie auch bei E-Mail Servern und Clients genutzt wird, kann diese Verbindung auf eine sichere Verbindung aufgerüstet werden. Dazu werden die selben Zertifikate und Schlüssel benötigt, die bereits bei der Benutzerkommunikation eingesetzt wurden .......... 
+Die Konfiguration des FreeRADIUS-Server beginnt mit dem Einrichten der LDAP-Verbindung. Zunächst muss eine Verbindung mit dem LDAP-Server aufgebaut werden. Der FreeRADIUS-Server loggt sich dazu über den Berechtigungsnachweis eines Benutzers, der Unternehmenseinheit \textit{admins}, ein. Über das \textit{identity}-Attribute wird dieser Benutzer angegeben. Für die prototypische Implementierung wurde hierzu der Benutzer \textit{cn=binduser} angelegt. Damit die Admin-Benutzer nicht für die allgemeine Authentifizierung genutzt werden können, wird die Unternehmenseinheit \textit{users} Basisknoten, über das \textit{basedn}-Attribute festgelegt. Valide Benutzerknoten erben von der \textit{radiusprofile} Objekt-Klasse und besitzen das \textit{uid}-Attribute für den Benutzernamen. Findet der FreeRADIUS-Server einen übereinstimmenden Benutzernamen, liest er dessen Passwort aus und vergleicht es mit dem übermittelten. Ist dies erfolgreich markiert der FreeRADIUS-Server den Access-Request mit \textit{accept} und liest er die Rollen des Benutzers über die \textit{radiusGroupName}-Attribute aus. Die Verbindung zwischen FreeRADIUS-Server und LDAP-Server ist zunächst komplett unverschlüsselt. Über die STARTTLS Funktionalität, wie sie auch bei E-Mail Servern und Clients genutzt wird, kann diese Verbindung auf eine sichere Verbindung aufgerüstet werden. Alternativ kann der FreeRADIUS-Server eine Client-Zertifikat des LDAP-Servers prüfen, wie dies bei der Benutzerkommunikation der Fall ist. Für die prototypische Implementierung soll die STARTTLS-Funktionalität genügen.
 
 Bevor ein Marktrechner eine Anfrage an den FreeRADIUS-Server stellen kann, muss dieser als Client-konfiguriert werden. Clients werden anhand einer IP-Adresse oder Domain unterschieden und bekommen ein Geheimnis. Dieses Geheimnis muss dann anschließend mit dem Marktrechner geteilt werden. Dieser konfiguriert ebenfalls einen RADIUS-Server, anhand von IP-Adresse oder Domain, mit dem geteilten Geheimnis. Dieses Geheimnis wird genutzt, um die übertragenen Attribute einer Anfrage zwischen Server und Client zu verschlüsseln. Um die rollenbasierte Authentifizierung durchführen zu können muss zusätzlich das Wörterbuch, des Marktrechners und das Wörterbuch des FreeRADIUS-Server, um das \textit{service}-Attribute, erweitert werden. In einer Richtliniendatei kann der FreeRADIUS-Server anhand des übermittelten \textit{services}-Attributes nachschauen, ob der Benutzer die erforderliche Rolle, zum Aufruf diese Services, besitzt. Ist dies nicht der Fall manipuliert der RADIUS-Server das Authentifizierungsergebnis auf \textit{reject}. Auflistung~\ref{lst:policy} zeigt einen Auszug der Richtlinien für die Autorisierung. Hier für den Service \textit{controller}, der die Gruppen \textit{hersteller} und \textit{fernservice} erlaubt. Alle anderen werden abgelehnt.
 
@@ -913,7 +908,7 @@ Nach der Konfiguration aller beteiligten Module, ist die eigentlich Implementier
 \begin{itemize}
 \item Benutzername (USER\_NAME),
 \item Passwort (USER\_PASSWORD) und
-\item Service (SERVICE\_CALL)
+\item RestService (REST\_SERVICE)
 \end{itemize}
 
 Abschließend wird über \textit{rc\_auth} die Anfrage versendet. Der Rückgabewert 0 zeigt eine erfolgreiche Authentifizierung und Autorisierung an. Mit dem Rückgabewert 1 wird eine Ablehnung seitens des FreeRADIUS-Servers übermittelt und der Rückgabewert 2 sagt aus, dass keine Verbindung zum Server aufgebaut werden konnte.
@@ -935,123 +930,29 @@ Die Client-Library ist zwar einfach zu installieren, allerdings erfordert die Ko
 
 \section{Sicherheit}
 
-Die sicher Übertragung von Daten zwischen dem FreeRADIUS-Server und dem FreeRADIUS-Client beruht einzig auf einem gut gewählten Geheimnis. Falls Geheimnisse von Werk aus aufgespielt sollen, müssen entsprechende Sicherheitsmaßnahmen getroffen werden, dass niemand außer den berechtigten Administratoren Einfluss auf die Generierung nehmen, das die Generatoren selbst sichere zufällige Ergebnisse liefern und dass das Geheimnis sicher bei einem entsprechenden FreeRADIUS-Server ankommt.
+Für die Evaluierung der Sicherheit wurde der Datenverkehr zwischen FreeRADIUS-Client und FreeRADIUS-Server mit dem wireshark Netzwerkprotokoll-Analysierprogramm untersucht. In Abbildung~\ref{fig:radius_wire} ist der Inhalt einer RADIUS Access-Request-Nachricht von wireshark dargestellt.
 
-In der Beschreibung des FreeRADIUS-Server, wird von Verschlüsselung der Attribute-Value-Pairs gesprochen, nicht aber durch welchen Algorithmus. Weder die Dokumentation noch eine sonstige Quelle können genau angaben darüber treffen welche Inhalte und wie verschlüsselt werden. Diese Methode wird in der Kryptographie auch obfuscation genannt, also verschleiern. Daher sollte eine Verbindung von FreeRADIUS-Client zu FreeRADIUS-Server niemals über das Internet erfolgen. Dort ist das Risiko zu groß von einem Angreifer attackiert zu werden, der hinter die Verschleierung blicken kann.
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=1]{images/radius_request_wireshark.png}
+\caption{RADIUS Access-Request in wireshark}
+\label{fig:radius_wire}
+\end{figure}
 
+Dort ist zusehen, dass außer dem Wert des Benutzerpasswortes nichts verschlüsselt wird. Ein Angreifer kann also ohne Hindernisse die Metadaten der Nachricht und auch den Benutzer, der sich anmelden möchte, mitlesen. Die Sicherheit des verschlüsselten Passwortes hängt zudem von einem gut gewählten Geheimnis ab. Des Weiteren geht weder aus der Dokumentation noch aus einer sonstigen Quelle hervor, wie das Passwort mit dem Geheimnis verschlüsselt wird. Diese Methode wird in der Kryptographie auch obfuscation genannt, also Verschleierung, und unterliegt der Sicherheitsannahme, das niemand weiß wie die Kryptographie funktioniert. Dieses Vorgehen ist hochgradig Riskant, weshalb der FreeRADIUS-Server niemals über das Internet Anfragen annehmen sollte. Für Unternehmensnetzwerke empfiehlt es sich den Netzwerkverkehr zwischen Marktrechner und FreeRADIUS-Server möglichst unzugänglich zu machen, etwa durch VLANS.
 
+Falls Geheimnisse von Werk aus aufgespielt sollen, müssen entsprechende Sicherheitsmaßnahmen getroffen werden, dass niemand außer den berechtigten Administratoren Einfluss auf die Generierung nehmen, das die Generatoren selbst sichere zufällige Ergebnisse liefern und dass das Geheimnis sicher zu einem entsprechenden FreeRADIUS-Server kommt.
 
-Server-Client
-* Secret key
-** keine Verschlüsselung, sondern obfuscation (nur attribute, username plaintext)
-** muss sicher sein, austauschen kann teuer werden
-** auf jeden fall zweiter austauschkanal
+Die LDAP-Anbindung über STARTTLS oder Client-Zertifikate ist gegenüber der FreeRADIUS-Client/Server Anbindung tatsächlich komplett verschlüsselt. Dadurch ist das Risiko ein LDAP über eine Internetverbindung anzubinden durchaus überschaubar. Hierbei sind Client-Zertifikate der STARTTLS Funktionalität vorzuziehen, da diese das Risiko einer MITM-Attacke deutlich senken.
 
 \section{Wartung}
 
-Die Wartung der Benutzer über die firmeneigene Benutzerverwaltung, erleichtert die Arbeit für die Administratoren in den Fernservice-Zentralen. Einzig die Zertifikat, die für STARTTLS benötigt werden müssen in regelmäßigen Abständen gewechselt werden.
+Die Wartung der Fernservice-Benutzer über die firmeneigene Benutzerverwaltung sollte jeder Administrator begrüßen, da er dadurch nicht in die Lage versetzt wird Redundanzen pflegen zu müssen. Deutlichen Aufwand hingegen bedeutet die Installation der Client-Zertifikate auf den Benutzersystemen. Neben der Installation müssen diese auch regelmäßig, etwa alle zwei Jahre, erneuert werden, da diese eine Ablaufdatum besitzen. Dieser Aufwand bedeutet allerdings gleichzeitig eine deutliche Reduzierung des Angriffsrisikos, was durchaus gut im Verhältnis zu den darauf entstehenden Kosten liegt. Das gleiche gilt beim Einsatz von Client-Zertifikaten bei LDAP-Servern. STARTTLS zwar in der Wartung einfacher, kann jedoch keine Authentifizierung des LDAP-Server durchführen. 
 
-
-
-Wartung Marktrechner secrect Austausch katastrophal 
-
-Sicherheitsdesign dient als Grundlage, an welcher die Produkte gemessen werden.
-Kriterien:
-* Installation - Voraussetzungen, Software, Hardware, Dokumentation
-* Wartung - Hinzufügen, ändern oder löschen von Benutzern, Marktrechnern, (Mediatoren)
-* Sicherheit - Eingesetzte Authentifizierung, Algorithmus geprüft? --- Verschlüsselung der Daten, Algorithmus geprüft?
-* Effizienz - Mechanismus                                           
+Die Wartung der Geheimnisse zwischen FreeRADIUS-Client und FreeRADIUS-Server ist dagegen eine kleine Katastrophe. Obwohl diese Geheimnisse kein Ablaufdatum, wie die Zertifikate besitzen, ist es durchaus sinnvoll diese in bestimmten Intervallen zu wechseln. Dies darf nicht über einen unsicheren Kommunikationskanal, beispielsweise das Internet erfolgen. Die meisten Anlagen werden allerdings mehrfach pro Jahr gewartet, dabei wäre es denkbar, dass ein Service-Monteur ein neues Geheimnis aufspielt, das er zuvor von der Firmenzentrale erhalten hat. Ist der Austauschmechanismus einfach zu handhaben sind die dadurch anfallenden Kosten überschaubar. Trotzdem besteht hier das Risiko einer totalen Komprimierung aller Marktrechner, beispielsweise durch einen Softwarefehler im Marktrechner oder in der FreeRADIUS-Server Implementierung. Wenn zu einem Zeitpunkt alle Geheimnisse ausgetauscht werden müssen, ist dies zum einen extrem teuer und zum anderen über einen kurzen Zeitraum nicht zu bewältigen, da es deutlich mehr Marktrechner als Service-Monteure gibt. Wurden etwa VLAN-Vorkehrungen getroffen, ist das Risiko durch eine solche Komprimierung, nicht in einen kritischen Zustand zu verfallen, jedoch überschaubar.
 
 \chapter{Fazit}
 
-%%%%%%%%%
-% TABLE %
-%%%%%%%%%
-\begin{comment}
-\begin{table}[htbp] % htbp ~ here, top, bottom, page
-\centering
-\begin{tabular}{|r|c|l|l|}
-\hline
-\textbf{Name} & \textbf{Adresse} & \textbf{Wohnort} & \textbf{Telefon} \\ 
-\hline\hline
-Susi Sinnlos & Eichenstrasse 5 & 12345 Unterstadt & 24927749242 \\
-Horst Kurz & Schnellweg 17 & 42420 Rapid & 999 \\\hline
-Jochanaan Leuchtentrager & Hochstraße zu & 666 Hell & 1-800-33845\\\hline
-\end{tabular}
-\caption{Adressliste}
-\label{tab:meinetab}
-\end{table}
-
-%%%%%%%%%
-% ITEMS %
-%%%%%%%%%
-\begin{itemize}
-\item Jede Tabelle, jedes Bild und jedes Listing ist ein Fließobjekt.
-\item Zentrieren Sie Bilder und Tabellen.
-\item Jedes Fließobjekt hat eine Bildunterschrift (Caption) mit
-  einem Label und wird im Text passend referenziert.
-\end{itemize}
-\end{commit}
-
-%%%%%%%%%%
-% IMAGES %
-%%%%%%%%%%
-
-\begin{wrapfigure}{r}{6cm}
-  \centering
-  \includegraphics[width=4cm]{gnu}
-  \caption{GNU-Logo~\cite{gnulogo,fal}}
-  \label{fig:gnu}
-\end{wrapfigure}
-
-\begin{figure}[htb]
-\centering
-\includegraphics[width=.6\textwidth]{zeichnung} % pdflatex ohne Endung
-\caption{Die tolle Konzeptzeichnung}
-\label{fig:tk}
-\end{figure}
-
-\begin{comment}
-\begin{figure}[htb]
-\centering
-\subfloat[Vektor]{\label{fig:vektor}
-  \includegraphics[width=.3\textwidth]{zeichnung}}
-\subfloat[JPG]{\label{fig:jpg}
-  \includegraphics[width=.3\textwidth]{zeichnungjpg}}
-\subfloat[PNG]{\label{fig:png}
-  \includegraphics[width=.3\textwidth]{zeichnungpng}}
-\caption{Die tolle Konzeptzeichnung in unterschiedlichen Formaten}
-\label{fig:tk2}
-\end{figure}
-
-\begin{figure}[htb]
-\centering
-\includegraphics[width=.4\textwidth]{zeichnungdraft} 
-\caption{Die tolle Konzeptzeichnung als Draft}
-\label{fig:tkdraft}
-\end{figure}
-
-%%%%%%%%%%%
-% LISTING %
-%%%%%%%%%%%
-
-
-\begin{listing}[htbp]
-\lstset{basicstyle=\rmfamily, columns=[l]flexible, mathescape=true, showstringspaces=true, numbers=none, language=java}
-\begin{lstlisting}
-public static int ggt(int x, int y) {
-    while (x != 0) {
-      int h = x;
-      x = y%x;
-      y = h;
-    }
-    return y;
-}
-\end{lstlisting}
-\caption{ggT --- Java}
-\label{code:ggtjava}
-\end{listing}
-\end{comment}
 
 \newpage
 
@@ -1070,7 +971,7 @@ public static int ggt(int x, int y) {
 \section*{Online-Quellen}
 \btPrintCited
 \end{btSect}
-% dann mit "bibtex thesis1" und "bibtex thesis2" arbeiten
+% dann mit "make bib" arbeiten
 
 \end{document}
 ;;; Local Variables:
