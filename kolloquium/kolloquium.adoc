@@ -1,0 +1,58 @@
+= Kolloquimsvortrag 
+:revealjs_theme: solarized
+:revealjs_controls: false
+:revealjs_progress: true
+:revealjs_slideNumber: true
+:revealjs_transition: none
+
+== Entwurf, prototypische Implementierung und Evaluation eines Sicherheitskonzepts für die Authentifizierung und Autorisierung von Fernzugriffen auf eine Automatisierungsanlage
+
+Kolloquiumsvortrag Kevin Sapper +
+20.10.14
+
+== Grundlagen   
+
+* Kälteanlage 
+
+.Übersicht Kälteanlage
+image::../images/cairo/kaelteanlage_uebersicht.svg[img-kaelte]
+
+* Marktrechner 
+* BSI Kataloge 
+* PSM -> SSM und DFD
+
+== Angreifertypen
+
+[.step]
+* Spionage
+* Cyberkrieg
+* Finanziell motiviert
+* Selbstbestätigung des Egos
+* Frustrierte oder verärgerte Mitarbeiter
+
+== Hauptgefährdungen   
+
+** (D/L)DoS 
+** MITM
+
+== Distributionsproblem
+
+* Eigentlich Vertrauensproblem
+* "Keys fall from the sky" vs "Key Continuity Management" 
+
+== Prototypische Implementierung (1)
+
+.Design prototypische Implementierung
+image::../images/cairo/design_architekture.svg[img-architekture]
+
+== Prototypische Implementierung (2)
+
+* Architekturbild
+* Client-Zertifikate (Benuter) -> Reverse Proxy (MITM, HTTPS)
+* Shared Secret (M2M) für AVP -> wireshark, nee is nich, nur Passwort.
+* LDAP-Rollen/Sevice-Name -> Policy check
+
+== Demo
+
+* Screenshots von FreeRADIUS-Server Debug.
+* Screenshots von LDAP, via ApacheDSM
