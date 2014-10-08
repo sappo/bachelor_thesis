@@ -10,16 +10,36 @@
 Kolloquiumsvortrag Kevin Sapper +
 20.10.14
 
-== Grundlagen   
+== Grundlagen - Kälteanlage 
 
-* Kälteanlage 
-
+[.step]
 .Übersicht Kälteanlage
 image::../images/cairo/kaelteanlage_uebersicht.svg[img-kaelte]
 
-* Marktrechner 
-* BSI Kataloge 
-* PSM -> SSM und DFD
+[NOTE.speaker]
+--
+* Kälteanlage langsame Prozesse (Kühlen/Erwärmen)
+* TCP/CAN
+--
+
+== Grundlagen - Marktrechner
+
+[.step]
+.Marktrechner
+image::../images/cairo/CI4000_Hardware_Sticker.svg[img-marktrechner]
+
+== Grundlagen - BSI Kataloge
+
+* Bausteine
+[.step]
+** Gefährdungen
+** Maßnahmen
+
+== Grundlagen - Problem Structuring Methods
+
+[.step]
+* Soft Systems Methodology
+* Data Flow Diagram
 
 == Angreifertypen
 
@@ -32,27 +52,30 @@ image::../images/cairo/kaelteanlage_uebersicht.svg[img-kaelte]
 
 == Hauptgefährdungen   
 
+[.step]
 ** (D/L)DoS 
 ** MITM
 
 == Distributionsproblem
 
-* Eigentlich Vertrauensproblem
+[.step]
+* Resultiert aus Vertrauensproblem
 * "Keys fall from the sky" vs "Key Continuity Management" 
 
 == Prototypische Implementierung (1)
 
-.Design prototypische Implementierung
+.Design Prototypische Implementierung
 image::../images/cairo/design_architekture.svg[img-architekture]
 
 == Prototypische Implementierung (2)
 
+[.step]
 * Architekturbild
-* Client-Zertifikate (Benuter) -> Reverse Proxy (MITM, HTTPS)
+* Client-Zertifikate (Benutzer) -> Reverse Proxy (MITM, HTTPS)
 * Shared Secret (M2M) für AVP -> wireshark, nee is nich, nur Passwort.
 * LDAP-Rollen/Sevice-Name -> Policy check
 
 == Demo
 
-* Screenshots von FreeRADIUS-Server Debug.
-* Screenshots von LDAP, via ApacheDSM
+* Screenshots von FreeRADIUS-Server, Debug.
+* Screenshots von LDAP, via Apache Directory Studio™
