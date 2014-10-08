@@ -693,7 +693,7 @@ Die Protokollierung auf dem Marktrechner findet lokal statt, sodass die Aspekte 
 \label{fig:dfd_logs_threat}
 \end{figure}
 
-\subsection{Maßnahmen}
+\subsection{Maßnahmen} \label{sec:mod_measures_log}
 
 Aus den Gefährdungen ergeben sich folgende Maßnahmen, welche zur Sicherung der Informationsflüsse durchgeführt werden müssen. Für Unix Systeme, unter welche Linux aus der Sicht des BSI fällt, gibt es die Maßnahme 4.25 "Einsatz der Protokollierung im Unix-System" \cite{bsi_m4025}. Diese weist darauf hin, dass die Protokolldateien möglichst von Systemtools zu erstellen sind. Log- und Audit-Daten dürfen in einer Datei oder Datenbank abgelegt werden. Dabei weist der BSI darauf hin, dass die Datei-Attribute ausschließlich dem Systembenutzer für Logging und Auditing modifizierende Rechte geben soll. Dabei wird angenommen, dass Datei-/Datenbankzugriffsmechanismus sowie Systemauthentifizierung nicht komprimiert sind. Der BSI empfiehlt für die Protokollierung mindestens folgende Ereignisse zu berücksichtigen: Logins (auch Fehlversuche), Aufruf von su, Fehlerprotokollierungsdatei / Protokollierung wichtiger Vorgänge (errorlog) und Administratortätigkeiten (insbesondere von root ausgeführte Befehle). Für die Alarmierung verweist das BSI zusätzlich noch auf halbautomatische Logfileparser des Systems, beispielsweise swatch, logsurfer oder checksyslog. Das Betrachten der Daten darf nur durch einen Administrator geschehen, der durch die Datei-Attribute ausschließlich lesenden Zugriff erhält. In der Maßnahme 2.33 "Aufteilung der Administrationstätigkeiten unter Unix" weißt der BSI daraufhin, dass unter Linux Administratoren meist mit Super-User Rechten versehen werden \cite{bsi_m2033}. In diesem Fall ist es einem Benutzer möglich, alle Dateien zu lesen, schreiben und auszuführen. Als eine mögliche Lösung werden daher Linux-Systembenutzer vorgeschlagen. Diese sind Eigentümer, der für ihre Prozesse benötigten Programmen und Dateien. Darüber hinaus haben diese keine weiteren Rechte. Für das Betrachten der Protokolldaten bedeutet dies, dass es einen Benutzer gibt, der das alleinige Leserecht auf diese Daten hat. Durch das Vermeiden von vielen Benutzern mit Super-User Rechten wird zudem das Risiko gesenkt, dass die Betrachtungsfunktion von einem Angreifer modifiziert wurde, da die potentiellen Opferkandidaten reduziert wurden. Bei der Auswahl eines Administrators muss trotzdem mit besonderer Sorgfalt vorgegangen werden. Der BSI empfiehlt dies in der Maßnahme 3.10 "Auswahl eines vertrauenswürdigen Administrators und Vertreters" \cite{bsi_m3010}. Dort wird zudem darauf aufmerksam gemacht, dass der Administrator eine wichtige Schlüsselrolle ist und daher in seiner Abwesenheit genügend qualifizierte und natürlich auch vertrauenswürdige Vertreter vorhanden sein müssen. Ist die Betrachtungsfunktion eine Web-Anwendung, benötigt sie eine Authentifizierung, die mit der Systemauthentifizierung integriert ist. Log- und Audit-Daten müssen vor der Darstellung durch einen Sanitizer von schadhaften Inhalten befreit werden. Wurden solche Daten entfernt, muss der Administrator darauf hingewiesen werden. Der Administrator weist sich durch seinen Berechtigungsnachweis aus, dieser wird von ihm vor fremden Zugriff geschützt. Weiterhin erfolgt erneut die Annahme, dass die Systemauthentifizierung nicht komprimiert wurde. Als letzten Punkt der Maßnahme 4.25 empfiehlt der BSI die Sicherung der Protokollierung und verweist dabei auf gesetzliche und vertragliche Fristen.
 
@@ -775,7 +775,7 @@ Die Kryptographie von Authentifizierungslösungen wurde vor Jahrzehnten entworfe
 
 \chapter{Prototypische Implementierung} \label{chap:implementation}
 
-In diesem Kapitel wird eine prototypische Implementierung, anhand der in den vorherigen Kapiteln besprochenen Maßnahmen, gezeigt. Zunächst werden Kriterien festgelegt, die die prototypische Implementierung erfüllen soll. Als Leitfaden dienen die Security Assurance Requirements (SAR) aus dem Protection Profile der Common Criteria. Diese definieren in einer standardisierten Sprache die notwendigen Aufgaben für die verschiedenen Stufen der Vulnerability Analysis (AVA\_VAN).
+In diesem Kapitel wird eine prototypische Implementierung anhand der in den vorherigen Kapiteln besprochenen Maßnahmen, gezeigt. Zunächst werden Kriterien festgelegt, die die prototypische Implementierung erfüllen soll. Als Leitfaden dienen die Security Assurance Requirements (SAR) aus dem Protection Profile der Common Criteria. Diese definieren in einer standardisierten Sprache die notwendigen Aufgaben für die verschiedenen Stufen der Vulnerability Analysis (AVA\_VAN).
 
 \section{Schlüsselwörter}
 
@@ -786,20 +786,20 @@ In diesem Abschnitt werden die folgenden Schlüsselwörter definiert, welche als
 \end{center} 
 
 \begin{enumerate}
-\item \textbf{MUSS}~~~~Dieses Wort oder die Terme "SOLL" und "ERFORDERLICH" bedeuten, dass eine  Definition unverzichtbarer Teil einer Spezifikation sein soll.
+\item \textbf{MUSS}~~~~Dieses Wort oder der Term "SOLL" und "ERFORDERLICH" bedeuten, dass eine  Definition unverzichtbarer Teil einer Spezifikation sein soll.
 \item \textbf{SOLL NICHT}~~~~Diese Phrase bedeutet ein Verbot einer Definition als Teil einer Spezifikation.
-\item \textbf{DARF}~~~~Dieses Wort oder das Adjektiv "EMPFOHLEN" bedeuten, dass es  Gründe gibt, warum unter besonderen Umständen, auf diese Definition als Teil einer Spezifikation verzichtet werden darf. 
-\item \textbf{DARF NICHT}~~~~Diese Phrase bedeutet, dass auf ein Verbot, einer Definition als Teil einer Spezifikation, unter besonderen Umständen verzichtet werden darf.
-\item \textbf{KANN}~~~~Dieses Wort oder der Term "OPTIONAL" bedeuten, dass diese Definition als Teil einer Spezifikation nach belieben umgesetzt werden darf.
+\item \textbf{DARF}~~~~Dieses Wort oder das Adjektiv "EMPFOHLEN" bedeuten, dass es  Gründe gibt, warum unter besonderen Umständen auf diese Definition als Teil einer Spezifikation verzichtet werden darf. 
+\item \textbf{DARF NICHT}~~~~Diese Phrase bedeutet, dass auf ein Verbot einer Definition als Teil einer Spezifikation unter besonderen Umständen verzichtet werden darf.
+\item \textbf{KANN}~~~~Dieses Wort oder der Term "OPTIONAL" bedeuten, dass diese Definition als Teil einer Spezifikation nach Belieben umgesetzt werden darf.
 \end{enumerate}
 
 \section{Anforderungen}
 
-Die folgenden Anforderungen werden an die prototypische Implementierung gestellt. Diese soll Benutzer authentifizieren und autorisieren können. Die Anforderungen an Log- und Audit-Mechanismus werden der Vollständigkeit halber erfasst. Aufgrund des Aufwandes in der prototypischen Implementierung jedoch nicht weiter berücksichtigt.
+Die folgenden Anforderungen werden an die prototypische Implementierung gestellt. Die Anforderungen werden dabei aus den Maßnahmen der Kapitel~\ref{chap:threat_analysis} und \ref{chap:threat_modelling} zusammengestellt.
 
 \subsection{Log-/Audit-Mechanismus}
 
-Das System \textit{MUSS} einen Audit-Mechanismus implementieren, der Zugriffe \textit{SOLL} zumindest mit Benutzername, IP-Adresse, Zeitstempel und Häufigkeit protokolliert werden. Des Weiteren \textit{DARF} das System \textit{NICHT} Informationen protokollieren, die sensitive Daten oder datenschutzrechtlich illegal Inhalte beinhalten. Das System \textit{KANN} ein Frühwarnsystem haben, welches die Audit-Daten überwacht, ist dies nicht der Fall \textit{MUSS} die Möglichkeit bestehen, die Audit-Daten in Echtzeit mitzuverfolgen, um ein eigenes Frühwarnsystem zu installieren.
+Das System \textit{MUSS} einen Audit-Mechanismus, zur Erfüllung der Maßnahme M1 (vgl.~\ref{sec:analysis_measures}), implementieren, der zum Zweck der Nachvollziehbarkeit jegliche Benutzeraktivitäten protokolliert. Aus der BSI Maßnahme 4.33 (vgl. \ref{sec:mod_measures_log}) folgt, der Zugriff auf die Protokolldaten \textit{SOLL} ausschließlich dem Systembenutzer für Logging und Auditing möglich sein. Sonstige Rechte \textit{MUSS} dieser Benutzer entzogen bekommen. Des Weiteren \textit{DARF} das System \textit{NICHT} Informationen protokollieren, die sensitive Daten oder datenschutzrechtlich illegal Inhalte beinhalten, welches in Maßnahme 4.25 (vgl.~\ref{sec:mod_measures_log}) empfohlen wird. Das System \textit{KANN} ein Frühwarnsystem haben, das durch die Maßnahme M3 (vgl.~\ref{sec:analysis_measures}) gefordert wird. Ist dies nicht der Fall \textit{MUSS} die Möglichkeit bestehen, die Audit-Daten in Echtzeit mitzuverfolgen, um ein eigenes Frühwarnsystem zu installieren. Es wird \textit{EMPFOHLEN} (BSI Maßnahme 4.25, vgl.~\ref{sec:mod_measures_log}) ein eigenes Frühwarnsystem, über halbautomatische Logfileparser des Systems, umzusetzen.
 
 \subsection{M2M-Kommunikation}
 
@@ -809,7 +809,7 @@ Das System \textit{DARF} beidseitige asynchrone Authentifizierung unterstützten
 
 Der Benutzer wird zunächst eine Verbindung mit dem Marktrechner aufbauen. Der Marktrechner \textit{MUSS} das Client-Zertifikat prüfen, bevor eine Verbindung aufgebaut wird. Der Benutzer teilt anschließend seinen Berechtigungsnachweis mit. Anhand dessen bittet der Marktrechner das AAS-System um Validierung. Die Validierung \textit{MUSS} zu dem Ergebnis "Berechtigungsnachweis gültig" oder "Berechtigungsnachweis ungültig" kommen. Neben dem Validierungsergebnis \textit{SOLL(EN)} die Rolle(n) des Benutzers geprüft, oder an den Marktrechner übermittelt werden.
 
-\section{Analyse}
+\section{Beurteilung der Kandidaten}
 
 Für die prototypische Implementierung wurden vor Beginn der Thesis zwei Softwareprodukte herausgesucht, die anhand ihrer Beschreibungen zu dem Thesis-Thema passten. In diesem Abschnitt sollen die beiden Produkte anhand der Anforderungen auf Umsetzbarkeit geprüft werden. Zunächst wird die Middleware CodeMeter der Wibu-Systems AG betrachtet und anschließend der Open-Source RADUIUS-Server FreeRADIUS.
 
