@@ -849,7 +849,7 @@ Die Wibu-Keys können für die sichere Verteilung der Client-Zertifikate genutzt
 
 \paragraph{FreeRADIUS}
 
-Der Marktrechner ist in der Lage, mit Hilfe der Client-Library den FreeRADUIS-Server zur Authentifizierung und Autorisierung zu kontaktieren. Durch die Multiplexer Funktionalität sind zudem die meisten Authentifizierungsserver abgedeckt, welche eine Fernservice-Zentrale zur Verwaltung ihrer Benutzer nutzen könnte. Dadurch ist der FreeRADUIS-Server bestens geeignet, die Authentifizierung und die Autorisierung für den Marktrechner durchzuführen. Die Authentifizierung und Verschlüsselung zwischen Client und Server auf Basis des geteilten Geheimnisses ist der einzige Schwachpunkt, da aus der Projektdokumentation nicht ersichtlich ist, welche Algorithmen verwendet werden. Durch die Multiplexer Funktionalität ist der FreeRADIUS-Server sehr praktikabel, deshalb soll dieser, im Rahmen der prototypischen Implementierung, aufgesetzt werden.
+Der Marktrechner ist in der Lage, mit Hilfe der Client-Library den FreeRADUIS-Server zur Authentifizierung und Autorisierung zu kontaktieren. Durch die Multiplexer Funktionalität sind zudem die meisten Authentifizierungsserver abgedeckt, welche eine Fernservice-Zentrale zur Verwaltung ihrer Benutzer nutzen könnte. Die Authentifizierung und Verschlüsselung findet über ein symmetrisches Verfahren Basis eines geteilten Geheimnisses statt, was die Anforderungen zunächst erfüllt, doch aus der Projektdokumentation ist nicht ersichtlich welche Algorithmen dafür verwendet werden. Durch die Multiplexer Funktionalität ist der FreeRADIUS-Server sehr praktikabel, deshalb soll dieser, im Rahmen der prototypischen Implementierung, aufgesetzt werden.
 
 \section{Prototyp}
 
@@ -868,19 +868,42 @@ Das Konzept der prototypischen Implementierung ist zweigeteilt: Auf der einen Se
 
 Für die Benutzer-Kommunikation wird als Client der Firefox-Browser eingesetzt. Dieser stellt seine Anfrage gegen den Reverse Proxy, welcher durch einen lighttpd-Webserver realisiert wird. Nach erfolgreicher Zertifikatsprüfung wird eine Anfrage an den Marktrechner weitergeleitet. Das RestGateway-Modul entnimmt Benutzername und Passwort aus den Anfrageparametern. Mit Hilfe der FreeRADIUS-Client-Library sendet es eine Access-Request-Nachricht an den FreeRADIUS-Server. Der RADIUS-Server delegiert die Authentifizierung an den LDAP-Server ApacheDS und führt anschließend eine rollenbasierte Autorisierung durch. Im Erfolgsfall sendet er eine Access-Accept-Nachricht, ansonsten eine Access-Reject-Nachricht. Dementsprechend beantwortet der Marktrechner die Benutzeranfrage mit dem Anfrage-Ergebnis oder dem HTTP-Fehlercode 503 (Forbidden).
 
-\subsection{Benutzer-Kommunikation}
+\subsection{Feinkonzept}
 
-Bevor mit dem Benutzer kommuniziert werden kann, muss die Verbindung zu diesem authentifiziert und verschlüsselt werden. Für die folgenden Schritte wird das OpenSSL Kommandozeilen-Tool (openssl) verwendet. Die Verschlüsselung wird über TLS 1.2 und ein serverseitig selbst signiertes X.509-Zertifikat realisiert. Als erstes wird dafür ein Certificate Signing Request (CSR) erzeugt, welcher alle Zertifikatsinformationen inklusive des öffentlichen Schlüssels beinhaltet. Zu diesem öffentlichen wird auch ein passender privater Schlüssel angelegt. Anschließend wird der CSR zu einem X.509-Zertifikat, indem er mit dem privaten Schlüssel signiert wird. Der private Schlüssel wird nun mit dem Zertifikat zu einer PEM-Datei konkateniert und dem lighttpd-Server für die Umsetzung der HTTPS-Verbindung übergeben. Zusätzlich wird die Chiffrenliste angepasst, sodass nur Perfekt-Forward-Security-Chiffren erlaubt sind. Außerdem werden die veralteten Versionen SSLv2 und SSLv3 verboten.
+In diesem Abschnitt werden die einzelnen Komponenten aus dem Grobkonzept erklärt und ihre Umsetzung in der prototypischen Implementierung beschrieben.
 
-Für die Authentifizierung der Benutzer mittels Client-Zertifikaten benötigt es einer Certificate Authority (CA). Diese wird im Kontext des lighttpd-Servers angelegt. Für den Client wird nun eine eigener CSR erzeugt. Dieser wird mit dem Zertifikat des Servers und dessen privaten Schlüssel signiert, welcher anschließend zu einem X.509-Zertifikat im CRT-Format wird. Zum Schluss wird das Client-Zertifikat ins p12-Format konvertiert. Dadurch wird das Zertifikat durch ein Passwort geschützt, wodurch es für einen Angreifer, der irgendwie an dieses gelangt, wertlos ist. 
+\subsubsection{Reverse Proxy}
 
-Im Firefox-Browser kann dieses p12-Zertifikat durch die Eingabe des Passwortes importiert werden. Über den folgenden Aufruf kann ein Benutzer nun eine Anfrage an den Reverse-Proxy senden. 
+Der Reverse Proxy ist das Bindeglied zwischen Benutzer und Marktrechner. Zunächst werden die Anforderungen der Verschlüsselung durch TLS 1.2 umgesetzt. Dazu wird ein serverseitiges selbst signiertes X.509-Zertifikat genutzt. Für die folgenden Schritte wird das OpenSSL Kommandozeilen-Tool (openssl) verwendet. Als erstes wird dafür ein Certificate Signing Request (CSR) erzeugt, welcher alle Zertifikatsinformationen inklusive des öffentlichen Schlüssels beinhaltet. Zu diesem öffentlichen wird im selben Schritt auch ein passender privater Schlüssel angelegt. Anschließend wird der CSR zu einem X.509-Zertifikat, indem er mit dem privaten Schlüssel signiert wird. Der private Schlüssel wird nun mit dem Zertifikat zu einer PEM-Datei konkateniert und in der Serverkonfiguration bekannt gemacht. Zusätzlich wird in der Konfiguration die Chiffrenliste angepasst, sodass nur Chiffren erlaubt sind, die Perfekt-Forward-Security nutzen. Außerdem werden die veralteten TLS Versionen SSLv2 und SSLv3 verboten. Da laut Anforderung, nur Anfragen über HTTPS möglich sein sollen, werden die Anfragen, die lediglich das HTTP-Protokoll benutzen nach HTTPS weitergeleitet.
+
+Die Anforderungen legen fest, dass der lighttpd den ersten Teil der Two-Factor-Authentication durchführen muss. Für die Authentifizierung der Benutzer mittels Client-Zertifikaten benötigt es eine Certificate Authority (CA). Diese wird im Kontext des lighttpd-Servers angelegt. Für den Client wird nun eine eigener CSR erzeugt. Dieser wird mit dem Zertifikat des Servers und dessen privaten Schlüssel signiert. Das Ergebnis daraus ist ein X.509-Client-Zertifikat im CRT-Format. Dieses wird für den Import im Browser abschließend in das p12-Format konvertiert. Des Weiteren wird dadurch das Zertifikat durch ein Passwort geschützt, wodurch die Anforderung, Zertifikate nicht unverschlüsselt zu versenden, erfüllt wird.
+
+\subsubsection{Benutzer und Client}
+
+Die Voraussetzung für eine Kommunikation seitens des Benutzer ist der Besitz des Client-Zertifikates. Über den Versand dieses muss sich für die prototypische Implementierung keine Gedanken gemacht werden, da der Firefox-Browser und der Reverse Proxy auf der selben Maschine laufen. Im Firefox-Browser kann das verschlüsselte p12-Zertifikat durch die Eingabe des Passwortes importiert werden. Über den folgenden Aufruf kann ein Benutzer nun eine Anfrage an den Reverse-Proxy senden. 
 
 \begin{lstlisting}[caption=HTTPS-Anfrage an Reverse Proxy, label=lst:https_request]
 https://marktrechner.eckelmann.de/rest/1.0/controller?user=ksapp&pass=123456
 \end{lstlisting}
 
-Der Reverse-Proxy lässt ausschließlich HTTPS-Anfragen zu. Erfolgt ein HTTP-Aufruf, wird dieser nach HTTPS gezwungen. Der Reverse Proxy liefert daraufhin sein selbst signiertes Server-Zertifikat aus und fordert das mit diesem signierte Client-Zertifikat an. Dies geschieht vollkommen transparent für den Benutzer. Im Falle einer erfolgreichen Authentifizierung des Client-Zertifikates wird die Anfrage an den Marktrechner weitergeleitet.
+Der Reverse Proxy liefert daraufhin sein selbst signiertes Server-Zertifikat aus und fordert das mit diesem signierte Client-Zertifikat an. Bei der ersten Anfrage wird der Benutzer aufgefordert das relevante Client-Zertifikat auszuwählen. Anschließend geschieht dies vollkommen transparent für den Benutzer. Im Falle einer erfolgreichen Authentifizierung des Client-Zertifikates wird die Anfrage an den Marktrechner weitergeleitet. Die Anforderung, mit der Anfrage den Berechtigungsnachweis zu senden, wird über die GET-Parameter \textit{user} und \textit{pass} folge geleistet.
+
+\subsubsection{Marktrechner}
+
+Bevor ein Marktrechner eine Anfrage an den FreeRADIUS-Server stellen kann, muss dieser als Client-konfiguriert werden. Clients werden anhand einer IP-Adresse oder Domain unterschieden und bekommen ein Geheimnis. Dieses Geheimnis muss dann anschließend mit dem Marktrechner geteilt werden. Dieser konfiguriert ebenfalls, anhand von IP-Adresse oder Domain, einen RADIUS-Server mit dem geteilten Geheimnis. Dieses Geheimnis wird genutzt, um die übertragenen Attribute einer Anfrage zwischen Server und Client zu verschlüsseln. Um die rollenbasierte Authentifizierung durchführen zu können, müssen zusätzlich das Wörterbuch des Marktrechners sowie das Wörterbuch des FreeRADIUS-Server um das \textit{service}-Attribut erweitert werden. In einer Richtliniendatei kann der FreeRADIUS-Server anhand des übermittelten \textit{services}-Attributes nachschauen, ob der Benutzer die erforderliche Rolle, zum Aufruf diese Services, besitzt. Ist dies nicht der Fall, manipuliert der RADIUS-Server das Authentifizierungsergebnis auf \textit{reject}. Auflistung~\ref{lst:policy} zeigt einen Auszug der Richtlinien für die Autorisierung. Hier für den Service \textit{controller}, der die Gruppen \textit{hersteller} und \textit{fernservice} erlaubt. Alle anderen werden abgelehnt.
+
+\begin{lstlisting}[caption=Richtlinie für den controller-Service, label=lst:policy]
+if ("%{request:service}" == "controller") {
+    if (Ldap-Group == "hersteller" || Ldap-Group == "fernservice") {
+        noop
+    }
+    else {
+        reject
+    }
+}
+\end{lstlisting}
+
+Die Installation der FreeRADIUS-Client-Library ist dagegen extrem aufwändig. Zunächst bekommt man auf der Projektwebseite nur den Code der letzten offiziellen Version 1.1.6, welche 2007 veröffentlicht wurde. Durch gründliches suchen und mit etwas Glück findet man den aktuellen Quellcode auf github. In der Projektgeschichte aus den letzten Jahren ist zu sehen, dass die Client-Library seitdem weiter gepflegt wurde. Der Quellcode lässt sich dank GNU autotools reibungslos kompilieren und installieren. Die Dokumentation ist allerdings sehr spärlich und zudem verstreut. Es ist notwendig die relevanten Teile aus diversen README-Dateien und Quellcode-Kommentaren zusammenzufügen, bis das Gesamtgefüge einen Sinn ergibt. Zudem sind die API Zusammenhänge nur mit Hilfe von Beispielcode zu verstehen.
 
 \subsection{M2M-Kommunikation}
 
@@ -913,19 +936,6 @@ Der komplette Inhalt des LDAP-Servers, im LDIF-Format, ist im Anhang~\ref{sec:a_
 
 Die Konfiguration des FreeRADIUS-Servers beginnt mit dem Einrichten der LDAP-Verbindung. Zunächst muss eine Verbindung mit dem LDAP-Server aufgebaut werden. Der FreeRADIUS-Server loggt sich dazu über den Berechtigungsnachweis eines Benutzers, der Unternehmenseinheit \textit{admins}, ein. Über das \textit{identity}-Attribute wird dieser Benutzer angegeben. Für die prototypische Implementierung wurde hierzu der Benutzer \textit{cn=binduser} angelegt. Damit die Admin-Benutzer nicht für die allgemeine Authentifizierung genutzt werden können, wird die Unternehmenseinheit \textit{users} als Basisknoten, für die Benutzersuche, eingetragen. Valide Benutzerknoten erben von der \textit{radiusprofile} Objekt-Klasse und besitzen das \textit{uid}-Attribute für den Benutzernamen. Findet der FreeRADIUS-Server einen übereinstimmenden Benutzernamen, liest er dessen Passwort aus und vergleicht es mit dem übermittelten. Ist dies erfolgreich, markiert der FreeRADIUS-Server den Access-Request mit \textit{accept} und liest die Rollen des Benutzers über das \textit{radiusGroupName}-Attribute aus. Die Verbindung zwischen FreeRADIUS-Server und LDAP-Server ist zunächst komplett unverschlüsselt. Über die STARTTLS Funktionalität, wie sie auch bei E-Mail Servern und Clients genutzt wird, kann diese Verbindung auf eine sichere Verbindung aufgerüstet werden. Alternativ kann der FreeRADIUS-Server ein Client-Zertifikat des LDAP-Servers prüfen, wie dies bei der Benutzerkommunikation der Fall ist. Für die prototypische Implementierung soll STARTTLS genügen.
 
-Bevor ein Marktrechner eine Anfrage an den FreeRADIUS-Server stellen kann, muss dieser als Client-konfiguriert werden. Clients werden anhand einer IP-Adresse oder Domain unterschieden und bekommen ein Geheimnis. Dieses Geheimnis muss dann anschließend mit dem Marktrechner geteilt werden. Dieser konfiguriert ebenfalls, anhand von IP-Adresse oder Domain, einen RADIUS-Server mit dem geteilten Geheimnis. Dieses Geheimnis wird genutzt, um die übertragenen Attribute einer Anfrage zwischen Server und Client zu verschlüsseln. Um die rollenbasierte Authentifizierung durchführen zu können, müssen zusätzlich das Wörterbuch des Marktrechners sowie das Wörterbuch des FreeRADIUS-Server um das \textit{service}-Attribut erweitert werden. In einer Richtliniendatei kann der FreeRADIUS-Server anhand des übermittelten \textit{services}-Attributes nachschauen, ob der Benutzer die erforderliche Rolle, zum Aufruf diese Services, besitzt. Ist dies nicht der Fall, manipuliert der RADIUS-Server das Authentifizierungsergebnis auf \textit{reject}. Auflistung~\ref{lst:policy} zeigt einen Auszug der Richtlinien für die Autorisierung. Hier für den Service \textit{controller}, der die Gruppen \textit{hersteller} und \textit{fernservice} erlaubt. Alle anderen werden abgelehnt.
-
-\begin{lstlisting}[caption=Richtlinie für den controller-Service, label=lst:policy]
-if ("%{request:service}" == "controller") {
-    if (Ldap-Group == "hersteller" || Ldap-Group == "fernservice") {
-        noop
-    }
-    else {
-        reject
-    }
-}
-\end{lstlisting}
-
 \subsection{Implementierung}
 
 Nach der Konfiguration aller beteiligten Module ist die eigentlich Implementierung, als Erweiterung des RestGateway, mit vier Funktionsaufrufen aus der FreeRADIUS-Client-Library erledigt. Zunächst wird über \textit{rc\_read\_config} die Konfiguration eingelesen. In dieser ist unter anderem der FreeRADIUS-Server inklusive Geheimnis und einem Verweis auf das zu verwendende Wörterbuch enthalten. Anschließend wird über \textit{rc\_read\_dictionary} das Wörterbuch geladen. Danach werden einer Anfrage mit \textit{rc\_avpair\_add} Attribute-Value-Pairs hinzugefügt. Für eine Access-Request-Nachricht sind die Attribute-Value-Pairs:
@@ -938,20 +948,18 @@ Nach der Konfiguration aller beteiligten Module ist die eigentlich Implementieru
 
 Abschließend wird über \textit{rc\_auth} die Anfrage versendet. Der Rückgabewert 0 zeigt eine erfolgreiche Authentifizierung und Autorisierung an. Mit dem Rückgabewert 1 wird eine Ablehnung seitens des FreeRADIUS-Servers übermittelt und der Rückgabewert 2 sagt aus, dass keine Verbindung zum Server aufgebaut werden konnte.
 
-\chapter{Evaluation} \label{chap:evaluation}
-\epigraphhead[70]{\epigraph{Wisdom consists in being able to distinguish among dangers and make a choice of the least harmful.}{\textit{Niccolo Machiavelli, The Prince}}}
-
-In diesem Kapitel soll herausgefunden werden, ob der FreeRADIUS-Server für die Authentifizierung und Autorisierung eines Fernzugriffes auf eine Automatisierungsanlage geeignet ist. Als Grundlage für die Evaluation dienen die Anforderungen aus Kapitel~\ref{chap:implementation}. Zusätzlich werden die Aspekte Installation, Dokumentation und Wartung mit einbezogen.
-
-\section{Installation \& Dokumentation}
+\subsection{Installation \& Dokumentation}
 
 Die Installation des FreeRADIUS-Server auf einem Ubuntu System erfolgt ganz einfach über das Paketverwaltungssystem APT. Alternativ ist die Installation über die Quellen ohne Probleme zu bewerkstelligen. Die FreeRADIUS-Dokumentation führt den Benutzer Schritt für Schritt durch diesen Prozess, sodass auch ein Laie diese durchführen könnte. Die darauf folgende Basiskonfiguration des Servers ist sehr gut dokumentiert. Alle Module, darunter auch das LDAP-Modul, sind allerdings in der Dokumentation nicht beschrieben. Die existierende Dokumentation des LDAP-Moduls, ist gerade für das nötigste brauchbar, beispielsweise ist die Funktionalität zum Auslesen der LDAP-Gruppen nur sehr vage gehalten. Auch die Literatur über den FreeRADIUS-Server ist mit zwei Büchern  überschaubar. Das Buch FreeRADIUS for Beginner's war bei der Konfiguration des LDAP-Moduls unerlässlich und behandelt alle Aspekte des FreeRADIUS-Server zumindest oberflächlich \cite{walt}. 
-
-Die Installation der FreeRADIUS-Client-Library ist dagegen extrem aufwändig. Zunächst bekommt man auf der Projektwebseite nur den Code der letzten offiziellen Version 1.1.6, welche 2007 veröffentlicht wurde. Durch gründliches suchen und mit etwas Glück findet man den aktuellen Quellcode auf github. In der Projektgeschichte aus den letzten Jahren ist zu sehen, dass die Client-Library seitdem weiter gepflegt wurde. Der Quellcode lässt sich dank GNU autotools reibungslos kompilieren und installieren. Die Dokumentation ist allerdings sehr spärlich und zudem verstreut. Es ist notwendig die relevanten Teile aus diversen README-Dateien und Quellcode-Kommentaren zusammenzufügen, bis das Gesamtgefüge einen Sinn ergibt. Zudem sind die API Zusammenhänge nur mit Hilfe von Beispielcode zu verstehen.
 
 Die Installation des FreeRADIUS-Server geht einfach von statten. Auch die erste Konfiguration ist ohne Probleme zu bewältigen. Je mehr man jedoch ins Detail der Konfiguration geht, desto spärlicher werden die Informationen. Durch die große Verbreitung des FreeRADIUS Projektes lassen sich die Informationen mehr oder weniger leicht aus verschiedenen Internetquellen zusammensuchen. Zudem besteht die Möglichkeit sich Support von der Firma Network RADIUS SARL zu kaufen, welche die Entwicklung des Projektes vorantreibt. Diese bietet Supportleistungen, in unterschiedlichen Umfängen, ab 2000 € bis 5000 € pro Jahr an.
 
 Die Client-Library ist zwar einfach zu installieren, allerdings erfordert die Konfiguration und Nutzung erfahrene C-Entwickler, die die Zusammenhänge aus dem Quellcode herauslesen können. 
+
+\chapter{Evaluation} \label{chap:evaluation}
+\epigraphhead[70]{\epigraph{Wisdom consists in being able to distinguish among dangers and make a choice of the least harmful.}{\textit{Niccolo Machiavelli, The Prince}}}
+
+In diesem Kapitel soll herausgefunden werden, ob der FreeRADIUS-Server für die Authentifizierung und Autorisierung eines Fernzugriffes auf eine Automatisierungsanlage geeignet ist. Als Grundlage für die Evaluation dienen die Anforderungen aus Kapitel~\ref{chap:implementation}. Zusätzlich werden die Aspekte Installation, Dokumentation und Wartung mit einbezogen.
 
 \section{Sicherheit}
 
@@ -976,10 +984,6 @@ Die Wartung der Fernservice-Benutzer über die firmeneigene Benutzerverwaltung s
 
 Die Wartung der Geheimnisse zwischen FreeRADIUS-Client und FreeRADIUS-Server ist dagegen eine kleine Katastrophe. Obwohl diese Geheimnisse kein Ablaufdatum, wie die Zertifikate, besitzen, ist es durchaus sinnvoll diese in bestimmten Intervallen zu wechseln. Dies darf nicht über einen unsicheren Kommunikationskanal, beispielsweise das Internet, erfolgen. Da die meisten Anlagen mehrfach im Jahr gewartet werden, könnte hierbei ein neues Geheimnis aufgespielt werden, welches der Service-Monteur zuvor von der Firmenzentrale erhalten hat. Ist der Austauschmechanismus einfach zu handhaben sind die dadurch anfallenden Kosten überschaubar. Trotzdem besteht hier das Risiko einer totalen Komprimierung aller Marktrechner, beispielsweise durch einen Softwarefehler im Marktrechner oder in der FreeRADIUS-Server Implementierung. Wenn zu einem Zeitpunkt alle Geheimnisse ausgetauscht werden müssen, ist dies zum einen extrem teuer und zum anderen über einen kurzen Zeitraum nicht zu bewältigen, da es deutlich mehr Marktrechner als Service-Monteure gibt. Wurden VLAN-Vorkehrungen getroffen, ist das Risiko durch eine solche Komprimierung, nicht in einen kritischen Zustand zu verfallen, überschaubar.
 
-\chapter{Fazit}
-
-Im Rahmen dieser Thesis konnte ein Sicherheitskonzept zur Authentifizierung und Autorisierung von Fernzugriffen nur oberflächlich behandelt werden. In den Kapiteln Bedrohungsanalyse und Bedrohungsmodellierung wurden viele Maßnahmen angeschnitten, die Aufgrund der zeitlichen Beschränkung nur oberflächlich behandelt werden konnte. Allen voran der Logging- und Auditing-Mechanismus.
-
 \section{Ergebnisse}
 
 Die Authentifizierung und Autorisierung von Fernzugriffen auf den Marktrechner sollte in zwei getrennten Problemstellungen betrachtet werden. Die Benutzer-Kommunikation zum Marktrechner und die M2M-Kommunikation mit dem AAS-Server. 
@@ -993,6 +997,10 @@ Der Funktionsumfang, der M2M-Kommunikation zwischen Marktrechner und FreeRADIUS-
 Das größte bestehende Problem ist die Verteilung von Zertifikaten, Schlüsseln und Geheimnissen. Alle Umsetzungen, in der prototypischen Implementierung wählen das "Schlüssel fallen vom Himmel"-Modell und kümmern sich nicht weiter um deren Distribution. Der Versand auf einem Datenträger ist dabei eine gute und sichere Möglichkeit, welche durch die Maßnahme 5.23 des BSI ausführlich erläutert wurde. Von anderen Arten der Distribution, etwa E-Mail, sollte abgesehen werden, da diese nicht das nötige Vertrauensniveau schaffen können.
 
 Ein weiteres offenes Problem, das allerdings ausgiebig betrachtet wurde, ist der Logging- und Auditing-Mechanismus, welcher unter keinen Umständen bei einem produktiven System fehlen darf. Er ist als Grundgerüst anzusehen, auf welchem alle Module platziert werden müssen. Hierbei sollten die Maßnahmen des BSI, die unter Punkt 2.499 \cite{bsi_m2499} zusammengefasst sind, erarbeitet werden.
+
+\chapter{Fazit}
+
+Im Rahmen dieser Thesis konnte ein Sicherheitskonzept zur Authentifizierung und Autorisierung von Fernzugriffen nur oberflächlich behandelt werden. In den Kapiteln Bedrohungsanalyse und Bedrohungsmodellierung wurden viele Maßnahmen angeschnitten, die Aufgrund der zeitlichen Beschränkung nur oberflächlich behandelt werden konnte. Allen voran der Logging- und Auditing-Mechanismus.
 
 \section{Ausblick}
 
