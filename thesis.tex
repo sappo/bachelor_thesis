@@ -54,11 +54,11 @@ In the context of this thesis, a draft concept for security automation systems t
 \chapter{Einführung} \label{chap:intro}
 \epigraphhead[70]{\epigraph{Companies spend millions of dollars on firewalls, encryption and secure access devices, and it’s money wasted, because none of these measures address the weakest link in the security chain.}{\textit{Kevin Mitnick}}}
 
-Das Zielobjekt dieser Thesis ist eine Automatisierungsanlage, die ein Sicherheitskonzept zur Authentifizierung und Autorisierung des Fernzugriffes erhalten soll.
+Das Zielobjekt dieser Thesis ist eine Automatisierungsanlage, für diese soll ein Sicherheitskonzept zur Authentifizierung und Autorisierung von Fernzugriffen erstellt werden.
 
 Die Bachelorarbeit wird bei der Firma Eckelmann AG in Wiesbaden-Erbenheim absolviert. Die Eckelmann AG ist ein mittelständisches Unternehmen mit circa 350 Mitarbeitern. Die Firmengeschichte reicht über 35 Jahren zurück. Sie wurde im Jahr 1977 von Dr. Gerd Eckelmann als  Dr.-Ing. Eckelmann GmbH gegründet. Im Jahre 2001 findet die Umwandlung zur Eckelmann AG statt. Zur Eckelmann AG gehören mittlerweile 5 Tochtergesellschaften, davon drei in Deutschland, eine in China und eine in Tschechien. Seit 1986 gibt es den Standort in Erbenheim. Spezialisiert ist das Unternehmen in der elektrischen Automation von Maschinen und Anlagen. Die Leistungen gliedern sich dabei in die Bereiche Elektronische Entwicklung und Fertigung, Software-Entwicklung, Elektroanlagen und Schaltschrankbau sowie Vorgehensmodelle für die Entwicklung. Diese Leistungen werden in vielen verschiedenen Branchen, wie z.B. Maschinenbau, Chemie \& Pharma, Schiffbau oder Industriekälte \& Gewerbekälte, erbracht.
 
-Eine Automatisierungsanlage besteht aus einer Reihe von Sensoren und Aktoren, die zentral und/oder dezentral automatisiert gesteuert werden. Die Automatisierungsanlage, die in dieser Thesis betrachtet wird, ist eine Kälteanlage für Supermärkte mit Steuerungstechnik der Eckelmann AG. Für die Steuerungstechnik der Anlagen gibt es mehrere beteiligte Parteien. Der Hersteller, der Besitzer sowie die Kältetechnikunternehmen. Besitzer spielen im Verlauf lediglich eine untergeordnete Rolle, da diese meist die komplette Verantwortung an der Anlagen an die Kältetechnikunternehmen abgeben. Der Hersteller liefert die gesamte Technik, welche die Automatisierung und Überwachung der Anlage ermöglicht. Die Kältetechnikunternehmen sorgen für die Inbetriebnahme der Kälteanlage, führen regelmäßige Wartungsarbeiten durch und Überwachen die Funktionstüchtigkeit. Der wichtigste Aspekt hieraus für die Thesis ist die Überwachung, welche in Fernservice-Zentralen der Kältetechnikunternehmen stattfindet. Dazu wird ein Fernzugriff auf die Kälteanlage zwingend benötigt. Der Fernzugriff ist eine kostengünstige Möglichkeit für die Kältetechnikunternehmen, viele Kälteanlagen zentral überwachen zu können. Durch die Fernwartung ist es auch möglich, regulierend in das Ökosystem einer Kälteanlage einzugreifen, deswegen spielt der Aspekt der Nachvollziehbarkeit eine große Rolle für diese Unternehmen. Nachvollziehbarkeit wird durch Sicherheitsmaßnahmen erreicht, genauer durch Authentifizierung, Autorisierung und Auditing. Unter dem Schlagwort Industrie 4.0 werden immer mehr Firmen darauf aufmerksam, dass durch die zunehmende Vernetzung von Automatisierungsanlagen Sicherheitsrisiken durch Angreifer, welche das System aus der Ferne komprimieren können, entstehen. Um Maßnahmen gegen Angreifern umzusetzen muss zunächst ein Überblick der Möglichen Gefährdungen geschaffen werden. Aus diesem Grund werden Sicherheitskonzepte erstellt. Ein Entwurf eines solchen Sicherheitskonzeptes mit Fokus auf Authentifizierung und Autorisierung ist der Hauptbestandteil dieser Thesis. Für dessen Erstellung werden im Grundlagenteil verschiedene Vorgehensweisen betrachtet, dabei werden Vorgehen von Sicherheitsstandards und speziellen Methodiken zur Problemordnung aufgegriffen. Die Grundlagen in Kapitel~\ref{chap:basics} vermitteln zudem alle zum Verständnis benötigten Kenntnisse über die Steuerungstechnik und bestehende Hardware- und Softwaremodule. In Kapitel~\ref{chap:threat_analysis} werden als erster Teil des Sicherheitskonzeptes die Bedrohungen allgemein, das heißt ohne auf bestimmte Technologien einzugehen, erfasst und Maßnahmen gegen diese gefunden. Kapitel~\ref{chap:threat_modelling} geht anschließend auf ein konkretes System ein. Hierbei liegt der Informationsfluss der Systemkomponenten im Fokus. Anhand der Gegenmaßnahmen aus Kapitel~\ref{chap:threat_analysis} und \ref{chap:threat_modelling} führt Kapitel~\ref{chap:implementation} eine prototypische Implementierung durch. Diese wird es erlauben, dass sich der Benutzer aus der Ferne, sicher am System anmelden kann, um auf bestimmte Services zugreifen zu können. Abschließend wird durch eine Evaluation in Kapitel~\ref{chap:evaluation} die prototypischen Implementierung auf Tauglichkeit geprüft. Dadurch soll herausgefunden werden, ob sich das Konzept für den produktiven Einsatz eignet und welche Einschränkungen dort nötig sind.
+Eine Automatisierungsanlage besteht aus einer Reihe von Sensoren und Aktoren, die zentral und/oder dezentral automatisiert gesteuert werden. Die Automatisierungsanlage, die in dieser Thesis betrachtet wird, ist eine Kälteanlage für Supermärkte mit Steuerungstechnik der Eckelmann AG. Für die Steuerungstechnik der Anlagen gibt es mehrere beteiligte Parteien. Den Hersteller, den Besitzer sowie die Kältetechnikunternehmen. Besitzer spielen im Verlauf dieser Thesis lediglich eine untergeordnete Rolle, da diese meist die komplette Verantwortung an der Anlagen an die Kältetechnikunternehmen abgeben. Der Hersteller liefert die gesamte Technik, welche die Automatisierung und Überwachung der Anlage ermöglicht. Die Kältetechnikunternehmen sorgen für die Inbetriebnahme der Kälteanlage, führen regelmäßige Wartungsarbeiten durch und Überwachen die Funktionstüchtigkeit. Der wichtigste Aspekt für die Thesis ist die Überwachung, welche in Fernservice-Zentralen der Kältetechnikunternehmen stattfindet. Dazu wird ein Fernzugriff auf die Kälteanlage zwingend benötigt. Der Fernzugriff ist eine kostengünstige Möglichkeit für die Kältetechnikunternehmen viele Kälteanlagen zentral zu überwachen. Durch die Fernwartung ist es auch möglich, regulierend in das Ökosystem einer Kälteanlage einzugreifen, deswegen spielt der Aspekt der Nachvollziehbarkeit eine große Rolle für diese Unternehmen. Nachvollziehbarkeit wird durch Sicherheitsmaßnahmen erreicht, genauer durch Authentifizierung, Autorisierung und Auditing. Unter dem Schlagwort Industrie 4.0 werden immer mehr Firmen darauf aufmerksam, dass durch die zunehmende Vernetzung von Automatisierungsanlagen Sicherheitsrisiken durch Angreifer entstehen, welche das System aus der Ferne komprimieren können. Durch die Anwendungsintegration zwischen Kälteanlage und Fernservice-Zentrale werden die Daten auch für Angreifer immer einfacher zugreifbar. Dies liegt auch daran, dass die proprietären Datenformate des Herstellers, die zwischen den Komponenten der Steuerungstechnik genutzt werden, für die Fernservice-Zentralen interpretiert und in menschenlesbare Formate gepackt werden. Um Maßnahmen gegen Angreifer umzusetzen, muss zunächst ein Überblick der möglichen Gefährdungen geschaffen werden. Aus diesem Grund werden Sicherheitskonzepte erstellt. Ein Entwurf eines solchen Sicherheitskonzeptes, mit Fokus auf Authentifizierung und Autorisierung, ist der Hauptbestandteil dieser Thesis. Für dessen Erstellung werden im Grundlagenteil verschiedene Vorgehensweisen betrachtet, dabei werden Vorgehen von Sicherheitsstandards und spezielle Methodiken zur Problemstrukturierung bei der Bedrohungsanalyse aufgegriffen. Die Grundlagen in Kapitel~\ref{chap:basics} vermitteln zudem alle zum Verständnis benötigten Kenntnisse über die Steuerungstechnik und bestehende Hardware- und Softwaremodule. In Kapitel~\ref{chap:threat_analysis} werden als erster Teil des Sicherheitskonzeptes die Bedrohungen allgemein, das heißt ohne auf bestimmte Technologien einzugehen, erfasst und Maßnahmen gegen diese gefunden. Kapitel~\ref{chap:threat_modelling} geht anschließend auf ein konkretes System ein. Hierbei liegt der Informationsfluss der Systemkomponenten im Fokus. Anhand der Gegenmaßnahmen aus Kapitel~\ref{chap:threat_analysis} und \ref{chap:threat_modelling} führt Kapitel~\ref{chap:implementation} eine prototypische Implementierung durch. Diese wird es erlauben, dass sich der Benutzer aus der Ferne sicher am System anmelden kann, um auf bestimmte Services zugreifen zu können. Abschließend wird durch eine Evaluation in Kapitel~\ref{chap:evaluation} die prototypischen Implementierung auf Tauglichkeit geprüft. Dadurch soll herausgefunden werden, ob sich das Konzept für den produktiven Einsatz eignet und welche Einschränkungen vorhanden sind.
 
 \chapter{Grundlagen} \label{chap:basics}
 
@@ -909,7 +909,7 @@ Die hier beschriebene Erweiterung des RestGateway-Moduls konnte leider nicht auf
 Zur Benutzerauthentifizierung wird eine externe Benutzerverwaltung benötigt. Dazu wurde exemplarisch ApacheDS gewählt, welches das Lightweight Directory Access Protocol (LDAP) unterstützt. Die Wahl einer Benutzerverwaltungen mit LDAP Unterstützung wurde getroffen, weil dieses in den meisten Unternehmensbenutzerverwaltungen verfügbar ist. LDAP legt Daten in einer Baumstruktur ab. Für eine Benutzerverwaltung gibt es jedoch keine Vorgaben, wie die Baumstruktur anzulegen ist. Jeder Knoten kann von beliebig vielen Objekt-Klassen erben. Anhand der Objekt-Klassen sind Attribute verfügbar, die teilweise verpflichtend sind. 
 \begin{figure}[htbp]
 \centering
-\includegraphics[scale=1]{images/ldap_structure.pdf}
+\includegraphics[scale=1.2]{images/ldap_structure.pdf}
 \caption{LDAP Struktur}
 \label{fig:ldap_sturcture}
 \end{figure}
@@ -992,17 +992,17 @@ Die Wartung der Fernservice-Benutzer über die firmeneigene Benutzerverwaltung s
 
 Die Wartung der Geheimnisse zwischen FreeRADIUS-Client und FreeRADIUS-Server ist dagegen eine kleine Katastrophe. Obwohl diese Geheimnisse kein Ablaufdatum, wie die Zertifikate, besitzen, ist es durchaus sinnvoll diese in bestimmten Intervallen zu wechseln. Dies darf nicht über einen unsicheren Kommunikationskanal, beispielsweise das Internet, erfolgen. Da die meisten Anlagen mehrfach im Jahr gewartet werden, könnte hierbei ein neues Geheimnis aufgespielt werden, welches der Service-Monteur zuvor von der Firmenzentrale erhalten hat. Ist der Austauschmechanismus einfach zu handhaben sind die dadurch anfallenden Kosten überschaubar. Trotzdem besteht hier das Risiko einer totalen Komprimierung aller Marktrechner, beispielsweise durch einen Softwarefehler im Marktrechner oder in der FreeRADIUS-Server Implementierung. Wenn zu einem Zeitpunkt alle Geheimnisse ausgetauscht werden müssen, ist dies zum einen extrem teuer und zum anderen über einen kurzen Zeitraum nicht zu bewältigen, da es deutlich mehr Marktrechner als Service-Monteure gibt. Wurden VLAN-Vorkehrungen getroffen, ist das Risiko durch eine solche Komprimierung, nicht in einen kritischen Zustand zu verfallen, überschaubar.
 
-\chapter{Fazit}
+\chapter{Zusammenfassung}
 
-Im Rahmen dieser Thesis konnte ein Sicherheitskonzept zur Authentifizierung und Autorisierung von Fernzugriffen nur oberflächlich behandelt werden. In den Kapiteln Bedrohungsanalyse und Bedrohungsmodellierung wurden viele Maßnahmen angeschnitten, die Aufgrund der zeitlichen Beschränkung nur oberflächlich behandelt werden konnte. Allen voran der Logging- und Auditing-Mechanismus.
+Im Rahmen dieser Thesis sollte ein Entwurf eines Sicherheitskonzeptes zur Authentifizierung und Autorisierung von Fernzugriffen erstellt werden. Dabei wurde die Steuerungstechnik für Kälteanlagen der Eckelmann AG und deren Anbindung an Fernservice-Zentralen betrachtet. Durch die Industrie 4.0 Bewegung wurde angeregt, Daten auch in Unternehmensnetzwerken nicht mehr unverschlüsselt zu übertragen. Des Weiteren sollte es möglich werden, Systeminteraktionen der Mitarbeiter nachzuvollziehen. Zudem sollte die Flexibilität der Infrastruktur erweitert werden, um dem Hersteller vereinfachten Support zu ermöglichen. Denn zur Zeit müssen sich zunächst zwei IT-Abteilung zusammensetzten und eine VPN-Verbindung zwischen den Unternehmensnetzen einrchten, was in den meisten Fällen zu viel Zeit in Anspruch nimmt. Ein Wunsch an die Authentifizierung war es, dem Benutzer, unabhängig von seinem Standort, einen möglichst komfortablen Login zu ermöglichen.
 
-\section{Ausblick}
+Durch die Bedrohungsanalysen in den Kapiteln~\ref{chap:threat_analysis} und \ref{chap:threat_modelling} wurden viele Gefährdungen des aktuellen Systems und des Konzeptes für die prototypische Implementierung gefunden. Einen starken Einfluss hierauf hatten die Sicherheitskataloge des Bundesamtes für Sicherheit in der Informationstechnik. Durch die Kataloge konnte auf eine breite Basis von möglichen Gefährdungen zurückgegriffen werden. Anhand der gefundenen Gefährdungen wurden viele Maßnahmen formuliert, die in die Anforderungen der prototypischen Implementierung eingeflossen sind. Für den Benutzerlogin wurde eine Two-Factor-Authentication etabliert. Die erste Authentifizierung findet durch Client-Zertifikate statt, wodurch diese für den Benutzer fast transparent abläuft. Gleichzeitig wird möglichen Angreifern dadurch ein großes Hindernis in den Weg gestellt. Der Einsatz eines Reverse Proxy Servers verhindert zudem, dass DoS-Attacken die Steuerungstechnik der Kälteanlage überlasten können. Für die zweite Authentifizierung des Benutzers werden dessen Benutzername und Passwort benötigt. Diese Daten liegen bereits in den Benutzerverwaltungen der Fernservice-Zentralen vor, deshalb wurde mit dem FreeRADIUS-Server ein Authentifizierungsserver aufgesetzt, der als Multiplexer für alle gängigen Benutzerverwaltungen eingesetzt werden kann. 
 
-Diese Bachelorarbeit dient als Orientierungsrichtlinie zur Erstellung eines Sicherheitskonzeptes. Viele Aspekte, wie etwa die IT-Infrastruktur, Datensicherung, höhere Gewalt und Notfallversorgung wurden nur unzureichend oder überhaupt nicht betrachtet. Dazu wurde mehrfach das menschliche Versagen als Gefährdungsgrund vernachlässigt. Ein ganzheitliches Sicherheitskonzepts muss alle Aspekte berücksichtigen und ein höheres Maß an Detailreichtum bieten.
+Einige Probleme hat die prototypische Implementierung dennoch aufzuweisen. Die Kommunikation zum FreeRADIUS-Server, durch die Client-Bibliothek des FreeRADIUS Projektes, verschlüsselt, trotz eines geteilten Geheimnisses, die Kommunikationsdaten nur unzureichend. Weitere Probleme liegen gibt es bei der Nachvollziehbarkeit, durch eine unvollständige Umsetzung der Protokollierung von Benutzerinteraktionen. Des Weiteren konnte die Anforderung an ein Frühwarnsystem nicht umgesetzt werden. Eine große Lücke klafft zudem in der Distribution von Schlüsseln, Geheimnissen und Zertifikaten, welche für die Kommunikation der Komponenten untereinander benötigt werden.
 
-\section{Persönlich Einschätzung}
+Sollte in Betracht gezogen werden das Konzept der prototypische Implementierung in einer produktiven Umgebung umzusetzen, müssen vorher die bestehenden Probleme gelöst werden. Für die Kommunikation zum FreeRADIUS-Server ist eine einfache Lösung die Einrichtung eines SSH-Tunnels. Die Protokollierung muss auf allen Komponenten anhand der gegeben Anforderungen umgesetzt werden und zudem muss ein Frühwarnsystem gefunden werden, das die Daten der Protokollierung in Echtzeit auswerten kann. Für die Distribution der Schlüssel, Geheimnisse und Zertifikate müssen, in Zusammenarbeit mit den Fernservice-Zentralen, Prozesse definiert werden, die einen sicheren Austausch ermöglichen. 
 
-In Anbetracht der angewandten Zeit und des daraus resultierenden Ergebnisses, scheint es nicht wirtschaftlich die eigene Mitarbeiter auf diese Thematik anzusetzen, da diese durch die Aufgabe mindesten ein halbes Jahr an eine Tätigkeit gebunden werden, die in erster Linie keinen Profit erwirtschaftet. Abschließend muss bedacht werden, dass Sicherheit zwangsläufig einen Mehraufwand bedeutet, der durch Mehrkosten abgedeckt werden muss.
+Der Umfang der Bachelorarbeit hat es lediglich ermöglicht einen Entwurf eines Sicherheitskonzept zu erstellen, der als Orientierungshilfe dienen kann. Viele Aspekte, wie etwa die IT-Infrastruktur, Datensicherung, höhere Gewalt und Notfallversorgung wurden nur unzureichend oder überhaupt nicht betrachtet. Dazu wurde mehrfach das menschliche Versagen als Gefährdungsgrund vernachlässigt. Ein ganzheitliches Sicherheitskonzepts muss alle Aspekte berücksichtigen und ein höheres Maß an Detailreichtum bieten. In Anbetracht der angewandten Zeit und des daraus resultierenden Ergebnisses, scheint es nicht wirtschaftlich die eigenen Mitarbeiter auf diese Thematik anzusetzen, da diese durch die Aufgabe mindesten ein halbes Jahr an eine Tätigkeit gebunden werden, die in erster Linie keinen Profit erwirtschaftet. Abschließend muss bedacht werden, dass Sicherheit zwangsläufig einen Mehraufwand bedeutet, der durch Mehrkosten abgedeckt werden muss.
 
 \newpage
 
@@ -1091,27 +1091,27 @@ Auflistung aller Anforderungen und deren Ergebnisse aus der prototypischen Imple
 version: 1
 
 #  Top-level
-dn: dc=meinedomain,dc=local
+dn: dc=eckelmann,dc=de
 objectclass: top
 objectclass: domain
-dc: meinedomain
+dc: eckelmann
 
 #  radius Organisation
-dn: ou=radius,dc=meinedomain,dc=local
+dn: ou=kgl,dc=eckelmann,dc=de
 objectClass: top
 objectClass: organizationalUnit
 ou: people
 ou: radius
 
 #  admins Organisation
-dn: ou=admins,ou=radius,dc=meinedomain,dc=local
+dn: ou=admins,ou=kgl,dc=eckelmann,dc=de
 objectClass: top
 objectClass: organizationalUnit
 ou: people
 ou: admins
 
 #  Benutzer zum Anmelden am LDAP
-dn: cn=binduser,ou=admins,ou=radius,dc=meinedomain,dc=local
+dn: cn=binduser,ou=admins,ou=kgl,dc=eckelmann,dc=de
 objectClass: top
 objectClass: person
 cn: binduser
@@ -1119,14 +1119,14 @@ sn: freeradius
 userPassword:: e1NTSEF9U0F1c1UvcFZVaVhBb2lHUlhXR01lRWpFYURhcGw
 
 #  users Organisation
-dn: ou=users,ou=radius,dc=meinedomain,dc=local
+dn: ou=users,ou=kgl,dc=eckelmann,dc=de
 objectClass: top
 objectClass: organizationalUnit
 ou: radius
 ou: users
 
 #  Benutzer zur Authentifizierung und Autorisierung
-dn: cn=Kevin Sapper+sn=Sapper,ou=users,ou=radius,dc=meinedomain,dc=local
+dn: cn=Kevin Sapper+sn=Sapper,ou=users,ou=kgl,dc=eckelmann,dc=de
 objectClass: top
 objectClass: inetOrgPerson
 objectClass: radiusProfile
@@ -1141,7 +1141,7 @@ uid: ksapp
 userPassword:: e3NoYX1mRXFOQ2NvM1lxOWg1WlVnbEQzQ1pKVDRsQnM9
 radiusGroupName: analyst
 
-dn: cn=John Doe+sn=Doe,ou=users,ou=radius,dc=meinedomain,dc=local
+dn: cn=John Doe+sn=Doe,ou=users,ou=kgl,dc=eckelmann,dc=de
 objectClass: top
 objectClass: inetOrgPerson
 objectClass: radiusProfile
@@ -1156,7 +1156,7 @@ uid: jdoe
 userPassword:: e3NoYX1mRXFOQ2NvM1lxOWg1WlVnbEQzQ1pKVDRsQnM9
 radiusGroupName: fernservice
 
-dn: cn=Matthias Wolf+sn=Wolf,ou=users,ou=radius,dc=meinedomain,dc=local
+dn: cn=Matthias Wolf+sn=Wolf,ou=users,ou=kgl,dc=eckelmann,dc=de
 objectClass: top
 objectClass: inetOrgPerson
 objectClass: radiusProfile
