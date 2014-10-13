@@ -41,7 +41,7 @@ Im Rahmen dieser Thesis wird ein Entwurf eines Sicherheitskonzept für Automatis
 \begin{otherlanguage}{english} 
 \section*{\center\abstractname{}}
 
-In the context of this thesis, a concept for security automation systems to be developed with the example of Kälteanalgen with Control Engineering of Eckelmann AG. The design is tested on a prototype implementation which is finally evaluated for suitability.
+In the context of this thesis a security concept for automation systems is developed. As an example of such a system a refrigeration control systems with control engineering from the Eckelmann AG is used. The design is tested on a prototype implementation which is finally evaluated for suitability.
 
 \end{otherlanguage}
 \vfill
@@ -1087,7 +1087,7 @@ Auflistung aller Anforderungen und deren Ergebnisse aus der prototypischen Imple
 
 \section{LDAP-Inhalt} \label{sec:a_ldap_content}
 
-\begin{lstlisting}[caption=Inhalt im LDIF-Format, label=lst:ldap_content]
+\begin{lstlisting}[caption=LDAP-Inhalt im LDIF-Format, label=lst:ldap_content]
 version: 1
 
 #  Top-level
@@ -1096,7 +1096,7 @@ objectclass: top
 objectclass: domain
 dc: eckelmann
 
-#  radius Organisation
+#  KGL-Abteilung
 dn: ou=kgl,dc=eckelmann,dc=de
 objectClass: top
 objectClass: organizationalUnit
@@ -1134,7 +1134,6 @@ objectClass: person
 objectClass: organizationalPerson
 cn: Kevin Sapper
 sn: Sapper
-description: Master of the Universe
 givenName: Kevin
 mail: k.sapper@eckelmann.de
 uid: ksapp
@@ -1149,9 +1148,8 @@ objectClass: person
 objectClass: organizationalPerson
 cn: John Doe
 sn: Doe
-description: Master of the Universe
 givenName: John
-mail: j.doe@carrier.de
+mail: j.doe@fsz.de
 uid: jdoe
 userPassword:: e3NoYX1mRXFOQ2NvM1lxOWg1WlVnbEQzQ1pKVDRsQnM9
 radiusGroupName: fernservice
@@ -1164,7 +1162,6 @@ objectClass: person
 objectClass: organizationalPerson
 cn: Matthias Wolf
 sn: Wolf
-description: Second Master of the Universe
 givenName: Matthias
 mail: m.wolf@eckelmann.de
 uid: mwolf
