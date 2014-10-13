@@ -1,7 +1,7 @@
 \pdfminorversion=4
-\documentclass[11pt,a4paper]{report} 
+% \documentclass[11pt,a4paper]{report} 
 % Alternativ für doppelseitigen Ausdruck (nur bei > 60 Seiten sinnvoll)
-%\documentclass[11pt,a4paper,twoside,openright]{report}
+\documentclass[11pt,a4paper,twoside,openright]{report}
 
 \include{preamble} % alle Pakete und Einstellungen	
 \usepackage{hyperref}
@@ -606,7 +606,7 @@ Die genaue Planung der Protokollierung ist sehr wichtig. Da dieser Mechanismus z
 Der AAS ist für die Überprüfung von Berechtigungsnachweisen und deren Rollenzuordnung zuständig. Die technische Umsetzung eines AAS ist keine Maßnahme, die in dieser Thesis Beachtung finden soll. Es wird angenommen, dass diese Problematik bereits gelöst ist. Die folgenden Maßnahmen wurden für die M2M-Kommunikation festgelegt:
 
 \begin{enumerate}
-\item[M4] Die Authentifizierung zwischen Marktrechner und AAS soll über ein Public/Private-Key Verfahren erfolgen.
+\item[M4] Die Authentifizierung zwischen Marktrechner und AAS soll über ein Public-/Private-Key Verfahren erfolgen.
 \item[M5] Die Identität des Gegenüber muss durch einen zweiten Kommunikationskanal bestätigt werden.
 \item[M6] Eine Verbindung darf erst aufgebaut werden, wenn M4 und M5 erfüllt wurden.
 \item[M7] Der AAS (Akteur) soll dem Marktrechner die Rolle(n) des zu authentifizierten Kunden verifizieren, falls diese gesendet werden.
@@ -973,7 +973,7 @@ Der Funktionsumfang der M2M-Kommunikation zwischen Marktrechner und FreeRADIUS-S
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[scale=1]{images/radius_request_wireshark.png}
+\includegraphics[scale=0.95]{images/radius_request_wireshark.png}
 \caption{RADIUS Access-Request in wireshark}
 \label{fig:radius_wire}
 \end{figure}
