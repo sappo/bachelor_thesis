@@ -1,0 +1,30 @@
+= Praktikumsbericht
+Kevin Sapper <kevin.sapper@student.hs-rm.de>
+Matrikelnummer 470407
+
+:doctype: article
+:toc:
+:source-highlighter: coderay
+:listing-caption: Listing
+
+== Einleitung
+Als Teil der praktischen Hochschulausbildung dient im 6ten Semester das Praxisprojekt. In diesen Rahmen wurden 420 Stunden praktischer Tätigkeit bei der Eckelmann AG in Wiesbaden-Erbenheim absolviert. Die Eckelmann AG ist ein mittelständiges Unternehmen mit ca. 350 Mitarbeitern und Firmengeschichte von über 35 Jahren. Sie wurde im Jahr 1977 von Dr. Gerd Eckelmann, als  Dr.-Ing. Eckel­mann GmbH, gegründet. Im Jahre 2001 findet die Umwandlung zur Eckelmann AG statt. Zur Eckelmann AG gehören mittlerweile 5 Tochtergesellschaften, davon 3 in Deutschland, eine in China und eine in Tschechien. Seit 1986 gibt es den Standort in Erbenheim. Dieser wurde 2013 durch ein weiteres Gebäude, um 1600 Quadratmeter erweitert. Spezialisiert ist das Unternehmen in der elektrischen Automation von Maschinen und Anlagen. Die Leistungen gliedern sich dabei in die Bereiche Elektronische-Entwicklung und Fertigung, Software-Entwicklung, Elektroanlagen und Schaltschrankbau sowie Vorgehensmodelle für die Entwicklung. Diese Leistungen werden in vielen verschiedenen Branchen, wie z.B. Maschinenbau, Chemie & Pharma, Schiffbau oder Industriekälte & Gewerkekälte, erbracht. +
+
+Das Praktikum hat in der Abteilung Kälte- und Gebäudeleittechnik, im Team Datentechnik, statt gefunden. Im Bereich Kältetechnik werden Regelungstechnik zur Vernetzung und Überwachung von Kälteanlagen entwickelt. Hierzu gehören die Produkte aus der E*LDS Reihe. Diese beinhalten Verbundsteuerungen, zur Kälteerzeugung, Kühlstellenregler, zur temperaturgenauen Reglung aller Arten von Kühlmöbeln und Kühlräumen, Funk-Temperatursensoren und der Marktrechner, als zentrale Intelligenz einer Kälteanlage. Der Betrieb einer Kälteanlage hat viele Seiteneffekte, welche viele Synergien in der Gebäudeleittechnik hat. Eine der Synergien ist die Wärmeentwicklung, welche teilweise oder komplett konventionelle Heizungen und Warmwasseraufbereitung ersetzen kann. +
+Das Team Datentechnik besteht aus 9 Entwicklern, welche Software für die zentrale Intelligenz entwickeln. Dazu gehört der Marktrechner in verschiedenen Versionen, sowie etwaige Erweiterung wie z.B. ein Gateway zum Local Area Network (LAN).
+
+== Wochenberichte
+
+=== Woche 1 - W14 (01.04.14 - 04.04.14)
+
+Die erste Woche war geprägt von Einweisung, Einarbeitung und diversen Hilfsaufgaben. Am ersten Tag wurde mir zunächst das Entwicklerteam kurz vorgestellt. Anschließend ging es zu meinem Arbeitsplatz, welcher sich Aufgrund von Platzmangel in einem anderen Büro befand. Als Hardware bekam ich einen Desktop-PC mit Windows Betriebssystem und ein Notebook mit Xubuntu Betriebssystem. Zur Entwicklung wurde das Linux-Notebook verwendet. Der Desktop-PC diente hauptsächlich zur Anbindung an das Mail-System der Firma. Nachdem mir beide Systeme vorgestellt wurden ging es zur ersten Praktikumsaufgabe. Um einen neuen Teststand in Betrieb zu nehmen mussten diverse Can-Kabel gebaut werden. Diese werden benötigt, um Verbundsteuerungen, Kühlerregler und Marktrechner untereinander zu verbinden. Eine weitere Aufgabe in dieser Woche war es einen UMTS-Stick unter Linux zu konfiguriert und die einzelnen Schritte in der Wiki-Software Confluence zu dokumentieren. Dieser soll einer Direktverbindung mit einem Kundensystem zu Wartungszwecken dienen. In der restliche Zeit fand eine Einarbeitung zum Thema Sicherheit, mit Bezug auf den lighttpd Webserver, statt.
+
+=== Woche 2 - W15 (07.04.14 - 11.04.14)
+
+In der zweiten Woche wurde ein lighttpd Webserver per SSL gesichert. Dazu wurden X509 Zertifikate auf der Serverseite als auch auf der Clientseite genutzt. Weiterhin wurden die SSL Einstellungen angepasst, um bekannte Angriffe zu vermeiden.
+
+== Projektbericht
+
+== Fazit
+
+== Anhang

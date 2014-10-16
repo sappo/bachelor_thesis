@@ -1,0 +1,3 @@
+@startuml
+cppcms::service <|-- RestGateway
+@enduml
